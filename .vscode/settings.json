@@ -1,13 +1,14 @@
-{ "terminal.integrated.profiles.windows": {
-  "MSYS2 Mingw64": {
-    "path": "C:\\msys64\\usr\\bin\\bash.exe",
-    "args": ["--login", "-i"],
-    "env": {
-      "MSYSTEM": "MINGW64",
-      "CHERE_INVOKING": "1"
-    }
-  }
-},
-"terminal.integrated.defaultProfile.windows": "MSYS2 Mingw64"
+{
+  "cmake.generator": "MinGW Makefiles",
 
+  // Provide the toolchain as part of "configureSettings" so it becomes
+  // an actual CMake variable called CMAKE_TOOLCHAIN_FILE
+  "cmake.configureSettings": {
+    "CMAKE_BUILD_TYPE": "Debug",
+    "VCPKG_TARGET_TRIPLET": "x64-mingw-static",
+    "CMAKE_TOOLCHAIN_FILE": "C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/scripts/buildsystems/vcpkg.cmake"
+  },
+
+  // Optionally also prefer MinGW if you have multiple generators available
+  "cmake.preferredGenerators": ["MinGW Makefiles"]
 }
