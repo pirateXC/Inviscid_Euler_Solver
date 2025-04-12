@@ -1,8 +1,7 @@
 {
 	"InstallScripts" : 
 	[
-		"C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/cmake_install.cmake",
-		"C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-build/cmake_install.cmake"
+		"C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/cmake_install.cmake"
 	],
 	"Parallel" : false
 }
