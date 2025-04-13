@@ -22,29 +22,36 @@ int main() {
         std::cerr << "Error reading grid file.\n";
         return 1;
     }
-    plotGrid(grid);
+
+    std::cout << "x(0,0) = " << grid.x(0,0) << ", y(0,0) = " << grid.y(0,0) << "\n";
+    std::cout << "x(640,0) = " << grid.x(640,0) << ", y(640,0) = " << grid.y(640,0) << "\n";
+    std::cout << "x(0,64) = " << grid.x(0,64) << ", y(0,64) = " << grid.y(0,64) << "\n";
+
+
+
+    //plotGrid(grid);
     return 0;
 }
 
 bool readGridFile(const std::string &filename, Grid &grid) {
     std::ifstream file(filename);
     if (!file.is_open()) {
-        std::cerr << "Failed to open file: " << filename << std::endl;
+        std::cerr << "Failed to open file: " << filename << "\n";
         return false;
     }
 
-    // Read header and parse grid dimensions.
+    // Read header line.
     std::string header;
     std::getline(file, header);
     
+    // Parse grid dimensions from the header (assumes format "ZONE i=641, j=65").
     size_t pos = header.find("i=");
     if (pos != std::string::npos) {
         pos += 2;
         size_t end = header.find(",", pos);
-        std::string iVal = header.substr(pos, end - pos);
-        grid.nx = std::stoi(iVal);
+        grid.nx = std::stoi(header.substr(pos, end - pos));
     } else {
-        std::cerr << "Unable to find 'i=' in header." << std::endl;
+        std::cerr << "Unable to find 'i=' in header.\n";
         return false;
     }
     
@@ -52,48 +59,62 @@ bool readGridFile(const std::string &filename, Grid &grid) {
     if (pos != std::string::npos) {
         pos += 2;
         size_t end = header.find_first_of(" \t", pos);
-        std::string jVal = header.substr(pos, end - pos);
-        grid.ny = std::stoi(jVal);
+        grid.ny = std::stoi(header.substr(pos, end - pos));
     } else {
-        std::cerr << "Unable to find 'j=' in header." << std::endl;
+        std::cerr << "Unable to find 'j=' in header.\n";
         return false;
     }
     
     std::cout << "Parsed grid dimensions: nx = " << grid.nx << ", ny = " << grid.ny << "\n";
 
-    // Allocate Eigen matrices to hold the grid points.
-    grid.x.resize(grid.nx, grid.ny);
-    grid.y.resize(grid.nx, grid.ny);
-
-    // Loop through the file and populate the matrices.
-    for (int i = 0; i < grid.nx; i++) {
-        for (int j = 0; j < grid.ny; j++) {
-            double xVal, yVal;
-            char comma;
-            if (!(file >> xVal >> comma >> yVal)) {
-                std::cerr << "Error reading data at position [i=" << i << ", j=" << j << "].\n";
-                return false;
-            }
-            grid.x(i, j) = xVal;
-            grid.y(i, j) = yVal;
-        }
+    // Prepare vectors to hold the data.
+    std::vector<double> xvals;
+    std::vector<double> yvals;
+    xvals.reserve(grid.nx * grid.ny);
+    yvals.reserve(grid.nx * grid.ny);
+    
+    double xVal, yVal;
+    char comma;
+    while (file >> xVal >> comma >> yVal) {
+        xvals.push_back(xVal);
+        yvals.push_back(yVal);
     }
+    
+    if (static_cast<int>(xvals.size()) != grid.nx * grid.ny) {
+        std::cerr << "Data size (" << xvals.size() 
+                  << ") does not match expected grid dimensions (" 
+                  << grid.nx << " * " << grid.ny << ").\n";
+        return false;
+    }
+    
+    // Eigen::Map converts a raw array into an Eigen matrix.
+    // Eigen stores matrices in column-major order by default.
+    grid.x = Eigen::Map<const Eigen::MatrixXd>(xvals.data(), grid.nx, grid.ny);
+    grid.y = Eigen::Map<const Eigen::MatrixXd>(yvals.data(), grid.nx, grid.ny);
+    
     return true;
 }
 
 void plotGrid(const Grid &grid) {
-    // Create a Gnuplot object with the persistent flag.
-    Gnuplot gp;
-    
+    // C:\Users\jmmcl\OneDrive\Desktop\Project\C_Plus_Plus_Libraries\gnuplot\bin
+    Gnuplot gp("C:\\Users\\jmmcl\\OneDrive\\Desktop\\Project\\C_Plus_Plus_Libraries\\gnuplot\\bin\\gnuplot.exe");
+
+    // Set labels and title similar to MATLAB.
+    gp << "set xlabel 'x-axis'\n";
+    gp << "set ylabel 'y-axis'\n";
+    gp << "set title '2D FVM Grid'\n";
+    gp << "set grid\n";
+
     // --- Plot horizontal lines ---
-    // Each horizontal line corresponds to a fixed row in the grid matrices.
+    // For each row (fixed i) extract the corresponding data from x and y matrices.
     for (int i = 0; i < grid.nx; i++) {
+        // Create a vector of pairs for the horizontal line.
         std::vector<std::pair<double, double>> line;
         line.reserve(grid.ny);
         for (int j = 0; j < grid.ny; j++) {
             line.emplace_back(grid.x(i, j), grid.y(i, j));
         }
-        // For the first line use "plot", then "replot" for subsequent ones.
+        // Use "plot" for the first line then "replot" for subsequent ones.
         if (i == 0)
             gp << "plot '-' with lines lt rgb 'black' notitle\n";
         else
@@ -102,7 +123,7 @@ void plotGrid(const Grid &grid) {
     }
     
     // --- Plot vertical lines ---
-    // Each vertical line corresponds to a fixed column in the grid matrices.
+    // For each column (fixed j) extract the corresponding data from x and y matrices.
     for (int j = 0; j < grid.ny; j++) {
         std::vector<std::pair<double, double>> line;
         line.reserve(grid.nx);
@@ -112,4 +133,8 @@ void plotGrid(const Grid &grid) {
         gp << "replot '-' with lines lt rgb 'black' notitle\n";
         gp.send1d(line);
     }
+
+    // Optionally pause the window until a key is pressed.
+    std::cout << "Press Enter to exit..." << std::endl;
+    std::cin.get();
 }
