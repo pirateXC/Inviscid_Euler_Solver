@@ -95,14 +95,9 @@ Inviscid_Euler_Solver_EXTERNAL_OBJECTS =
 
 Inviscid_Euler_Solver.exe: CMakeFiles/Inviscid_Euler_Solver.dir/main.cpp.obj
 Inviscid_Euler_Solver.exe: CMakeFiles/Inviscid_Euler_Solver.dir/build.make
-Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libboost_iostreams-gcc14-mt-d-x64-1_87.a
-Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libzlibd.a
-Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libbz2d.a
 Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libfmtd.a
-Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/liblzma.a
-Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libzstd.a
-Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libboost_random-gcc14-mt-d-x64-1_87.a
-Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libboost_system-gcc14-mt-d-x64-1_87.a
+Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libmatplot.a
+Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libnodesoup.a
 Inviscid_Euler_Solver.exe: CMakeFiles/Inviscid_Euler_Solver.dir/linkLibs.rsp
 Inviscid_Euler_Solver.exe: CMakeFiles/Inviscid_Euler_Solver.dir/objects1.rsp
 Inviscid_Euler_Solver.exe: CMakeFiles/Inviscid_Euler_Solver.dir/link.txt

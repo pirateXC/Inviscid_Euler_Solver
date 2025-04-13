@@ -1,10 +1,12 @@
-#include "gnuplot-iostream.h"
+#include <matplot/matplot.h>
 #include <Eigen/Dense>
 #include <fstream>
 #include <iostream>
 #include <cstdlib>
 #include <vector>
 #include <string>
+
+using namespace matplot;
 
 // Structure definition using Eigen matrices for grid data.
 struct Grid {
@@ -23,13 +25,8 @@ int main() {
         return 1;
     }
 
-    std::cout << "x(0,0) = " << grid.x(0,0) << ", y(0,0) = " << grid.y(0,0) << "\n";
-    std::cout << "x(640,0) = " << grid.x(640,0) << ", y(640,0) = " << grid.y(640,0) << "\n";
-    std::cout << "x(0,64) = " << grid.x(0,64) << ", y(0,64) = " << grid.y(0,64) << "\n";
+    plotGrid(grid);
 
-
-
-    //plotGrid(grid);
     return 0;
 }
 
@@ -40,11 +37,11 @@ bool readGridFile(const std::string &filename, Grid &grid) {
         return false;
     }
 
-    // Read header line.
+    // Read header line (e.g., "ZONE i=641, j=65").
     std::string header;
     std::getline(file, header);
-    
-    // Parse grid dimensions from the header (assumes format "ZONE i=641, j=65").
+
+    // Parse grid dimensions from the header.
     size_t pos = header.find("i=");
     if (pos != std::string::npos) {
         pos += 2;
@@ -54,7 +51,7 @@ bool readGridFile(const std::string &filename, Grid &grid) {
         std::cerr << "Unable to find 'i=' in header.\n";
         return false;
     }
-    
+
     pos = header.find("j=");
     if (pos != std::string::npos) {
         pos += 2;
@@ -64,77 +61,76 @@ bool readGridFile(const std::string &filename, Grid &grid) {
         std::cerr << "Unable to find 'j=' in header.\n";
         return false;
     }
-    
-    std::cout << "Parsed grid dimensions: nx = " << grid.nx << ", ny = " << grid.ny << "\n";
 
-    // Prepare vectors to hold the data.
+    // Reserve space in vectors.
     std::vector<double> xvals;
     std::vector<double> yvals;
     xvals.reserve(grid.nx * grid.ny);
     yvals.reserve(grid.nx * grid.ny);
-    
+
     double xVal, yVal;
     char comma;
     while (file >> xVal >> comma >> yVal) {
         xvals.push_back(xVal);
         yvals.push_back(yVal);
     }
-    
+
     if (static_cast<int>(xvals.size()) != grid.nx * grid.ny) {
         std::cerr << "Data size (" << xvals.size() 
                   << ") does not match expected grid dimensions (" 
                   << grid.nx << " * " << grid.ny << ").\n";
         return false;
     }
-    
-    // Eigen::Map converts a raw array into an Eigen matrix.
-    // Eigen stores matrices in column-major order by default.
+
+    // Map the data into Eigen matrices (stored in column-major order by default).
     grid.x = Eigen::Map<const Eigen::MatrixXd>(xvals.data(), grid.nx, grid.ny);
     grid.y = Eigen::Map<const Eigen::MatrixXd>(yvals.data(), grid.nx, grid.ny);
-    
+
     return true;
 }
 
 void plotGrid(const Grid &grid) {
-    // C:\Users\jmmcl\OneDrive\Desktop\Project\C_Plus_Plus_Libraries\gnuplot\bin
-    Gnuplot gp("C:\\Users\\jmmcl\\OneDrive\\Desktop\\Project\\C_Plus_Plus_Libraries\\gnuplot\\bin\\gnuplot.exe");
-
-    // Set labels and title similar to MATLAB.
-    gp << "set xlabel 'x-axis'\n";
-    gp << "set ylabel 'y-axis'\n";
-    gp << "set title '2D FVM Grid'\n";
-    gp << "set grid\n";
-
-    // --- Plot horizontal lines ---
-    // For each row (fixed i) extract the corresponding data from x and y matrices.
-    for (int i = 0; i < grid.nx; i++) {
-        // Create a vector of pairs for the horizontal line.
-        std::vector<std::pair<double, double>> line;
-        line.reserve(grid.ny);
-        for (int j = 0; j < grid.ny; j++) {
-            line.emplace_back(grid.x(i, j), grid.y(i, j));
-        }
-        // Use "plot" for the first line then "replot" for subsequent ones.
-        if (i == 0)
-            gp << "plot '-' with lines lt rgb 'black' notitle\n";
-        else
-            gp << "replot '-' with lines lt rgb 'black' notitle\n";
-        gp.send1d(line);
-    }
+    // Prepare a single vector for all row lines with NaN breaks.
+    std::vector<double> X_rows, Y_rows;
+    // Reserve estimated size: (grid.nx + 1) per row.
+    X_rows.reserve((grid.nx + 1) * grid.ny);
+    Y_rows.reserve((grid.nx + 1) * grid.ny);
     
-    // --- Plot vertical lines ---
-    // For each column (fixed j) extract the corresponding data from x and y matrices.
-    for (int j = 0; j < grid.ny; j++) {
-        std::vector<std::pair<double, double>> line;
-        line.reserve(grid.nx);
-        for (int i = 0; i < grid.nx; i++) {
-            line.emplace_back(grid.x(i, j), grid.y(i, j));
+    for (int j = 0; j < grid.ny; ++j) {
+        for (int i = 0; i < grid.nx; ++i) {
+            X_rows.push_back(grid.x(i, j));
+            Y_rows.push_back(grid.y(i, j));
         }
-        gp << "replot '-' with lines lt rgb 'black' notitle\n";
-        gp.send1d(line);
+        // Insert NaN to break the line (requires <limits>).
+        X_rows.push_back(std::numeric_limits<double>::quiet_NaN());
+        Y_rows.push_back(std::numeric_limits<double>::quiet_NaN());
     }
+    // Plot all row lines at once in black.
+    auto h_rows = plot(X_rows, Y_rows, "k");
+    hold(on);  // Keep plotting subsequent lines on the same figure
 
-    // Optionally pause the window until a key is pressed.
-    std::cout << "Press Enter to exit..." << std::endl;
-    std::cin.get();
+    // Prepare a single vector for all column lines with NaN breaks.
+    std::vector<double> X_cols, Y_cols;
+    // Reserve estimated size: (grid.ny + 1) per column.
+    X_cols.reserve((grid.ny + 1) * grid.nx);
+    Y_cols.reserve((grid.ny + 1) * grid.nx);
+    
+    for (int i = 0; i < grid.nx; ++i) {
+        for (int j = 0; j < grid.ny; ++j) {
+            X_cols.push_back(grid.x(i, j));
+            Y_cols.push_back(grid.y(i, j));
+        }
+        // Insert NaN to break the line.
+        X_cols.push_back(std::numeric_limits<double>::quiet_NaN());
+        Y_cols.push_back(std::numeric_limits<double>::quiet_NaN());
+    }
+    // Plot all column lines.
+    auto h_cols = plot(X_cols, Y_cols, "k");
+
+    // Set labels, title, and axis limits (preserving the title and black lines).
+    title("Grid Mesh Plot");
+    xlabel("x/L");
+    ylabel("y/L");
+
+    show();
 }
