@@ -1,6 +1,12 @@
 [
 {
   "directory": "C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build",
+  "command": "C:\\mingw64\\bin\\g++.exe -DNOMINMAX @CMakeFiles/ComputationalGridLib.dir/includes_CXX.rsp -g -std=gnu++23 -o CMakeFiles\\ComputationalGridLib.dir\\ComputationalGrid.cpp.obj -c C:\\Users\\jmmcl\\OneDrive\\Desktop\\Project\\CFD\\Inviscid_Euler_Solver\\ComputationalGrid.cpp",
+  "file": "C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/ComputationalGrid.cpp",
+  "output": "CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.obj"
+},
+{
+  "directory": "C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build",
   "command": "C:\\mingw64\\bin\\g++.exe -DNOMINMAX @CMakeFiles/Inviscid_Euler_Solver.dir/includes_CXX.rsp -g -std=gnu++23 -o CMakeFiles\\Inviscid_Euler_Solver.dir\\main.cpp.obj -c C:\\Users\\jmmcl\\OneDrive\\Desktop\\Project\\CFD\\Inviscid_Euler_Solver\\main.cpp",
   "file": "C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/main.cpp",
   "output": "CMakeFiles/Inviscid_Euler_Solver.dir/main.cpp.obj"

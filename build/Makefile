@@ -116,6 +116,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named ComputationalGridLib
+
+# Build rule for target.
+ComputationalGridLib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 ComputationalGridLib
+.PHONY : ComputationalGridLib
+
+# fast build rule for target.
+ComputationalGridLib/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/build
+.PHONY : ComputationalGridLib/fast
+
+#=============================================================================
 # Target rules for targets named Inviscid_Euler_Solver
 
 # Build rule for target.
@@ -127,6 +140,30 @@ Inviscid_Euler_Solver: cmake_check_build_system
 Inviscid_Euler_Solver/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Inviscid_Euler_Solver.dir\build.make CMakeFiles/Inviscid_Euler_Solver.dir/build
 .PHONY : Inviscid_Euler_Solver/fast
+
+ComputationalGrid.obj: ComputationalGrid.cpp.obj
+.PHONY : ComputationalGrid.obj
+
+# target to build an object file
+ComputationalGrid.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.obj
+.PHONY : ComputationalGrid.cpp.obj
+
+ComputationalGrid.i: ComputationalGrid.cpp.i
+.PHONY : ComputationalGrid.i
+
+# target to preprocess a source file
+ComputationalGrid.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.i
+.PHONY : ComputationalGrid.cpp.i
+
+ComputationalGrid.s: ComputationalGrid.cpp.s
+.PHONY : ComputationalGrid.s
+
+# target to generate assembly for a file
+ComputationalGrid.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.s
+.PHONY : ComputationalGrid.cpp.s
 
 main.obj: main.cpp.obj
 .PHONY : main.obj
@@ -160,7 +197,11 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... ComputationalGridLib
 	@echo ... Inviscid_Euler_Solver
+	@echo ... ComputationalGrid.obj
+	@echo ... ComputationalGrid.i
+	@echo ... ComputationalGrid.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
