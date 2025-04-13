@@ -62,10 +62,12 @@ CMAKE_BINARY_DIR = C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_So
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
+all: CMakeFiles/ComputationalGridLib.dir/all
 all: CMakeFiles/Inviscid_Euler_Solver.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
+codegen: CMakeFiles/ComputationalGridLib.dir/codegen
 codegen: CMakeFiles/Inviscid_Euler_Solver.dir/codegen
 .PHONY : codegen
 
@@ -74,22 +76,55 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
+clean: CMakeFiles/ComputationalGridLib.dir/clean
 clean: CMakeFiles/Inviscid_Euler_Solver.dir/clean
 .PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/ComputationalGridLib.dir
+
+# All Build rule for target.
+CMakeFiles/ComputationalGridLib.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=1,2 "Built target ComputationalGridLib"
+.PHONY : CMakeFiles/ComputationalGridLib.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/ComputationalGridLib.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/ComputationalGridLib.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles 0
+.PHONY : CMakeFiles/ComputationalGridLib.dir/rule
+
+# Convenience name for target.
+ComputationalGridLib: CMakeFiles/ComputationalGridLib.dir/rule
+.PHONY : ComputationalGridLib
+
+# codegen rule for target.
+CMakeFiles/ComputationalGridLib.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=1,2 "Finished codegen for target ComputationalGridLib"
+.PHONY : CMakeFiles/ComputationalGridLib.dir/codegen
+
+# clean rule for target.
+CMakeFiles/ComputationalGridLib.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/clean
+.PHONY : CMakeFiles/ComputationalGridLib.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/Inviscid_Euler_Solver.dir
 
 # All Build rule for target.
-CMakeFiles/Inviscid_Euler_Solver.dir/all:
+CMakeFiles/Inviscid_Euler_Solver.dir/all: CMakeFiles/ComputationalGridLib.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Inviscid_Euler_Solver.dir\build.make CMakeFiles/Inviscid_Euler_Solver.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Inviscid_Euler_Solver.dir\build.make CMakeFiles/Inviscid_Euler_Solver.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=1,2 "Built target Inviscid_Euler_Solver"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=3,4 "Built target Inviscid_Euler_Solver"
 .PHONY : CMakeFiles/Inviscid_Euler_Solver.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Inviscid_Euler_Solver.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/Inviscid_Euler_Solver.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles 0
 .PHONY : CMakeFiles/Inviscid_Euler_Solver.dir/rule
@@ -101,7 +136,7 @@ Inviscid_Euler_Solver: CMakeFiles/Inviscid_Euler_Solver.dir/rule
 # codegen rule for target.
 CMakeFiles/Inviscid_Euler_Solver.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Inviscid_Euler_Solver.dir\build.make CMakeFiles/Inviscid_Euler_Solver.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=1,2 "Finished codegen for target Inviscid_Euler_Solver"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=3,4 "Finished codegen for target Inviscid_Euler_Solver"
 .PHONY : CMakeFiles/Inviscid_Euler_Solver.dir/codegen
 
 # clean rule for target.

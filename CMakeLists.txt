@@ -9,10 +9,19 @@ find_package(Eigen3 3.4 REQUIRED NO_MODULE)
 find_package(fmt REQUIRED)
 find_package(Matplot++ CONFIG REQUIRED)
 
-add_executable(Inviscid_Euler_Solver main.cpp)
+# Adds ComputationalGrid as a Library
+add_library(ComputationalGridLib
+    ComputationalGrid.cpp
+)
 
-target_link_libraries(Inviscid_Euler_Solver PRIVATE
+target_link_libraries(ComputationalGridLib PUBLIC
     fmt::fmt
     Eigen3::Eigen
     Matplot++::matplot
+)
+
+add_executable(Inviscid_Euler_Solver main.cpp)
+
+target_link_libraries(Inviscid_Euler_Solver PRIVATE
+    ComputationalGridLib
 )
