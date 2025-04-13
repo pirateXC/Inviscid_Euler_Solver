@@ -5,18 +5,20 @@
 #include <cstdlib>
 #include <vector>
 #include <string>
+#include <limits>
 
 using namespace matplot;
 
-// Structure definition using Eigen matrices for grid data.
+// Structure definition for grid data.
 struct Grid {
-    int nx, ny;
-    Eigen::MatrixXd x;
-    Eigen::MatrixXd y;
+    int nx, ny; // total number x and y components
+    Eigen::MatrixXd x;   // x-coordinate grid
+    Eigen::MatrixXd y;   // y-coordinate grid
 };
 
 bool readGridFile(const std::string &filename, Grid &grid);
-void plotGrid(const Grid &grid);
+void haloCell(Grid& grid);
+void plotGrid(const Grid &grid, const std::string &plotTitle);
 
 int main() {
     Grid grid;
@@ -25,7 +27,14 @@ int main() {
         return 1;
     }
 
-    plotGrid(grid);
+    // Plot original grid
+    plotGrid(grid, "2D-Mesh");
+
+    // Augment the grid with halo cells
+    haloCell(grid);
+
+    // Plot the augmented grid (with halo cells)
+    plotGrid(grid, "2D-Mesh with Halo Cells");
 
     return 0;
 }
@@ -37,7 +46,7 @@ bool readGridFile(const std::string &filename, Grid &grid) {
         return false;
     }
 
-    // Read header line (e.g., "ZONE i=641, j=65").
+    // Read header line (example: "ZONE i=641, j=65").
     std::string header;
     std::getline(file, header);
 
@@ -89,10 +98,51 @@ bool readGridFile(const std::string &filename, Grid &grid) {
     return true;
 }
 
-void plotGrid(const Grid &grid) {
-    // Prepare a single vector for all row lines with NaN breaks.
+void haloCell(Grid& grid) {
+    // Create augmented matrices with 2 extra rows and 2 extra columns.
+    Eigen::MatrixXd xAugGrid = Eigen::MatrixXd::Zero(grid.nx + 2, grid.ny + 2);
+    Eigen::MatrixXd yAugGrid = Eigen::MatrixXd::Zero(grid.nx + 2, grid.ny + 2);
+
+    // Copy the original grid into the center of the augmented grid.
+    xAugGrid.block(1, 1, grid.nx, grid.ny) = grid.x;
+    yAugGrid.block(1, 1, grid.nx, grid.ny) = grid.y;
+
+    // Horizontal boundaries: left and right sides.
+    for (int i = 0; i < grid.nx; ++i) {
+        // Left Boundary: reflect the first column.
+        xAugGrid(i + 1, 0) = 2.0 * grid.x(i, 0) - grid.x(i, 1);
+        yAugGrid(i + 1, 0) = 2.0 * grid.y(i, 0) - grid.y(i, 1);
+
+        // Right Boundary: reflect the last column.
+        // Note: grid.x has grid.ny columns (last index is grid.ny-1).
+        xAugGrid(i + 1, grid.ny + 1) = 2.0 * grid.x(i, grid.ny - 1) - grid.x(i, grid.ny - 2);
+        yAugGrid(i + 1, grid.ny + 1) = 2.0 * grid.y(i, grid.ny - 1) - grid.y(i, grid.ny - 2);
+    }
+
+    // Vertical boundaries: top and bottom sides.
+    // The augmented grid has grid.nx+2 rows (indices 0 to grid.nx+1).
+    for (int j = 0; j < grid.ny + 2; ++j) {
+        // Top Boundary: reflect the first interior rows.
+        xAugGrid(0, j) = 2.0 * xAugGrid(1, j) - xAugGrid(2, j);
+        yAugGrid(0, j) = 2.0 * yAugGrid(1, j) - yAugGrid(2, j);
+
+        // Bottom Boundary: reflect the last interior rows.
+        xAugGrid(grid.nx + 1, j) = 2.0 * xAugGrid(grid.nx, j) - xAugGrid(grid.nx - 1, j);
+        yAugGrid(grid.nx + 1, j) = 2.0 * yAugGrid(grid.nx, j) - yAugGrid(grid.nx - 1, j);
+    }
+
+    // Update the grid structure with the augmented matrices.
+    grid.x = xAugGrid;
+    grid.y = yAugGrid;
+    grid.nx += 2;
+    grid.ny += 2;
+}
+
+void plotGrid(const Grid &grid, const std::string &plotTitle) {
+    figure();
+
+    // Prepare vectors for row lines with NaN separators.
     std::vector<double> X_rows, Y_rows;
-    // Reserve estimated size: (grid.nx + 1) per row.
     X_rows.reserve((grid.nx + 1) * grid.ny);
     Y_rows.reserve((grid.nx + 1) * grid.ny);
     
@@ -101,17 +151,15 @@ void plotGrid(const Grid &grid) {
             X_rows.push_back(grid.x(i, j));
             Y_rows.push_back(grid.y(i, j));
         }
-        // Insert NaN to break the line (requires <limits>).
+        // Insert NaN to break the line.
         X_rows.push_back(std::numeric_limits<double>::quiet_NaN());
         Y_rows.push_back(std::numeric_limits<double>::quiet_NaN());
     }
-    // Plot all row lines at once in black.
-    auto h_rows = plot(X_rows, Y_rows, "k");
-    hold(on);  // Keep plotting subsequent lines on the same figure
+    plot(X_rows, Y_rows, "k");
+    hold(on);
 
-    // Prepare a single vector for all column lines with NaN breaks.
+    // Prepare vectors for column lines with NaN separators.
     std::vector<double> X_cols, Y_cols;
-    // Reserve estimated size: (grid.ny + 1) per column.
     X_cols.reserve((grid.ny + 1) * grid.nx);
     Y_cols.reserve((grid.ny + 1) * grid.nx);
     
@@ -124,11 +172,9 @@ void plotGrid(const Grid &grid) {
         X_cols.push_back(std::numeric_limits<double>::quiet_NaN());
         Y_cols.push_back(std::numeric_limits<double>::quiet_NaN());
     }
-    // Plot all column lines.
-    auto h_cols = plot(X_cols, Y_cols, "k");
+    plot(X_cols, Y_cols, "k");
 
-    // Set labels, title, and axis limits (preserving the title and black lines).
-    title("Grid Mesh Plot");
+    title(plotTitle);
     xlabel("x/L");
     ylabel("y/L");
 
