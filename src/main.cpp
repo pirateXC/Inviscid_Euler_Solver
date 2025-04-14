@@ -19,20 +19,55 @@ int main() {
 
 
 
-
-    if (!grid.readGridFile("g641x065uf.dat")) {
+    if (!grid.readGridFile("data\\g641x065uf.dat")) {
         return 1;
     }
 
     // Plot the original grid.
-    grid.plotGrid("Original Grid");
+    grid.plotGrid("2D Mesh");
 
-    // Augment the grid with halo cells and plot the result.
-    grid.haloCell();
-    grid.plotGrid("Augmented Grid (with Halo Cells)");
+    // Compute Cell Metrics
+    grid.computeCellGeometry();
+
+    grid.plotGrid("2D Mesh with Halo Cells");
 
     // Display all windows.
     matplot::show();
     
+
+
+
+    /* Psuedo Code...
+
+        temporal loop
+        for ... defined using CFL number
+
+            for .... (sweep entire mesh) construct fluxes
+
+            end
+
+            for .... (sweep entire mesh) difference fluxes
+
+            end
+
+            if .... (convergence criteria is met)
+                break loop, YAY solver worked
+            else
+                continue
+            end
+
+        end
+    
+    */
+
+
+
+
+
+
+
+
+
+
     return 0;
 }
