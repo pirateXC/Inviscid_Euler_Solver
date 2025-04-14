@@ -109,45 +109,48 @@ void ComputationalGrid::haloCell() {
 }
 
 void ComputationalGrid::computeCellGeometry() {
-    haloCell(); // ensure halo cells are added
+    // Extend the grid by adding ghost cells.
+    haloCell();
 
-    // Calculate Cell Centers
-    xCenter = x.block(0, nx - 1, 0, ny - 1) + (x.block(1, nx, 1, ny) - x.block(0, nx - 1, 0, ny - 1)) / 2;
-    yCenter = y.block(0, nx - 1, 0, ny - 1) + (y.block(1, nx, 1, ny) - y.block(0, nx - 1, 0, ny - 1)) / 2;
+    // Compute cell-centered coordinates for the grid
+    xCenter = x.block(0, 0, nx - 1, ny - 1) +
+              0.5 * (x.block(1, 1, nx - 1, ny - 1) - x.block(0, 0, nx - 1, ny - 1));
+    yCenter = y.block(0, 0, nx - 1, ny - 1) +
+              0.5 * (y.block(1, 1, nx - 1, ny - 1) - y.block(0, 0, nx - 1, ny - 1));
 
+    // Compute cell volumes using the determinant method
+    cellVolume = Eigen::MatrixXd::Zero(nx - 1, ny - 1);
 
-    // Calculate Cell Volumes
-    cellVolume = Eigen::MatrixXd::Zero(nx + 2, ny + 2);
-
-    for (int i = 0; i < nx; ++i) {
-        for (int j = 0; j < ny; ++j) {
-            cellVolume(i, j) = 0.500 * (((x(i+1, j+1) - x(i, j)) * (y(i, j+1) - y(i+1, j))) - ((y(i+1, j+1) - y(i, j)) * (x(i, j+1) - x(i+1, j))));
+    for (int i = 0; i < nx - 1; ++i) {
+        for (int j = 0; j < ny - 1; ++j) {
+            cellVolume(i, j) = 0.5 * ((x(i + 1, j + 1) - x(i, j)) * (y(i, j + 1) - y(i + 1, j)) -
+                                      (y(i + 1, j + 1) - y(i, j)) * (x(i, j + 1) - x(i + 1, j)));
         }
     }
 
-    // Calculate Face Areas in Xi direction
-    xArea_Xi = Eigen::MatrixXd::Zero(nx + 2, ny + 2);
-    yArea_Xi = Eigen::MatrixXd::Zero(nx + 2, ny + 2);
+    // Compute face areas in the ξ (xi) direction
+    xArea_Xi = Eigen::MatrixXd::Zero(nx - 2, ny - 3);
+    yArea_Xi = Eigen::MatrixXd::Zero(nx - 2, ny - 3);
 
-    for (int i = 1; i < nx + 1; ++i) {
-        for (int j = 1; j < ny + 1; ++j) {
-            xArea_Xi(i-1, j-1) = y(i+1, j+1) - y(i+1, j);
-            yArea_Xi(i-1, j-1) = x(i+1, j+1) - x(i+1, j);
+    for (int i = 1; i < nx - 1; ++i) {
+        for (int j = 1; j < ny - 2; ++j) {
+            xArea_Xi(i - 1, j - 1) = y(i + 1, j + 1) - y(i + 1, j);
+            yArea_Xi(i - 1, j - 1) = x(i + 1, j + 1) - x(i + 1, j);
         }
     }
 
-    // Calculate Face Areas in Eta direction
-    xArea_Eta = Eigen::MatrixXd::Zero(nx + 2, ny + 2);
-    yArea_Eta = Eigen::MatrixXd::Zero(nx + 2, ny + 2);
-
-    for (int i = 1; i < nx + 1; ++i) {
-        for (int j = 1; j < ny + 1; ++j) {
-            xArea_Eta(i-1, j-1) = y(i+1, j+1) - y(i, j+1);
-            yArea_Eta(i-1, j-1) = x(i+1, j+1) - x(i, j+1);
+    // Compute face areas in the η (eta) direction
+    xArea_Eta = Eigen::MatrixXd::Zero(nx - 3, ny - 1);
+    yArea_Eta = Eigen::MatrixXd::Zero(nx - 3, ny - 1);
+    
+    for (int i = 1; i < nx - 2; ++i) {
+        for (int j = 1; j < ny - 1; ++j) {
+            xArea_Eta(i - 1, j - 1) = y(i + 1, j + 1) - y(i, j + 1);
+            yArea_Eta(i - 1, j - 1) = x(i + 1, j + 1) - x(i, j + 1);
         }
     }
-
 }
+
 
 void ComputationalGrid::plotGrid(const std::string &plotTitle) {
     figure();
