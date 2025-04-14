@@ -9,9 +9,13 @@ find_package(Eigen3 3.4 REQUIRED NO_MODULE)
 find_package(fmt REQUIRED)
 find_package(Matplot++ CONFIG REQUIRED)
 
-# Adds ComputationalGrid as a Library
+# Include directories for header files
+include_directories(${PROJECT_SOURCE_DIR}/include)
+
+# Add ComputationalGridLib as a Library 
+# (Assumes that ComputationalGrid.cpp has been moved to the src/ folder)
 add_library(ComputationalGridLib
-    ComputationalGrid.cpp
+    src/ComputationalGrid.cpp
 )
 
 target_link_libraries(ComputationalGridLib PUBLIC
@@ -20,7 +24,8 @@ target_link_libraries(ComputationalGridLib PUBLIC
     Matplot++::matplot
 )
 
-add_executable(Inviscid_Euler_Solver main.cpp)
+# Create the main executable, now sourcing main.cpp from the src/ folder
+add_executable(Inviscid_Euler_Solver src/main.cpp)
 
 target_link_libraries(Inviscid_Euler_Solver PRIVATE
     ComputationalGridLib

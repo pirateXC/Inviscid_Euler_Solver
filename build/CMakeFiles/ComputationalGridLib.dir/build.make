@@ -71,29 +71,29 @@ include CMakeFiles/ComputationalGridLib.dir/flags.make
 CMakeFiles/ComputationalGridLib.dir/codegen:
 .PHONY : CMakeFiles/ComputationalGridLib.dir/codegen
 
-CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.obj: CMakeFiles/ComputationalGridLib.dir/flags.make
-CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.obj: CMakeFiles/ComputationalGridLib.dir/includes_CXX.rsp
-CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.obj: C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/ComputationalGrid.cpp
-CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.obj: CMakeFiles/ComputationalGridLib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.obj"
-	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.obj -MF CMakeFiles\ComputationalGridLib.dir\ComputationalGrid.cpp.obj.d -o CMakeFiles\ComputationalGridLib.dir\ComputationalGrid.cpp.obj -c C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\ComputationalGrid.cpp
+CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.obj: CMakeFiles/ComputationalGridLib.dir/flags.make
+CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.obj: CMakeFiles/ComputationalGridLib.dir/includes_CXX.rsp
+CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.obj: C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/src/ComputationalGrid.cpp
+CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.obj: CMakeFiles/ComputationalGridLib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.obj"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.obj -MF CMakeFiles\ComputationalGridLib.dir\src\ComputationalGrid.cpp.obj.d -o CMakeFiles\ComputationalGridLib.dir\src\ComputationalGrid.cpp.obj -c C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\src\ComputationalGrid.cpp
 
-CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.i"
-	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\ComputationalGrid.cpp > CMakeFiles\ComputationalGridLib.dir\ComputationalGrid.cpp.i
+CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.i"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\src\ComputationalGrid.cpp > CMakeFiles\ComputationalGridLib.dir\src\ComputationalGrid.cpp.i
 
-CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.s"
-	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\ComputationalGrid.cpp -o CMakeFiles\ComputationalGridLib.dir\ComputationalGrid.cpp.s
+CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.s"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\src\ComputationalGrid.cpp -o CMakeFiles\ComputationalGridLib.dir\src\ComputationalGrid.cpp.s
 
 # Object files for target ComputationalGridLib
 ComputationalGridLib_OBJECTS = \
-"CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.obj"
+"CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.obj"
 
 # External object files for target ComputationalGridLib
 ComputationalGridLib_EXTERNAL_OBJECTS =
 
-libComputationalGridLib.a: CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.obj
+libComputationalGridLib.a: CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.obj
 libComputationalGridLib.a: CMakeFiles/ComputationalGridLib.dir/build.make
 libComputationalGridLib.a: CMakeFiles/ComputationalGridLib.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libComputationalGridLib.a"

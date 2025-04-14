@@ -141,53 +141,53 @@ Inviscid_Euler_Solver/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Inviscid_Euler_Solver.dir\build.make CMakeFiles/Inviscid_Euler_Solver.dir/build
 .PHONY : Inviscid_Euler_Solver/fast
 
-ComputationalGrid.obj: ComputationalGrid.cpp.obj
-.PHONY : ComputationalGrid.obj
+src/ComputationalGrid.obj: src/ComputationalGrid.cpp.obj
+.PHONY : src/ComputationalGrid.obj
 
 # target to build an object file
-ComputationalGrid.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.obj
-.PHONY : ComputationalGrid.cpp.obj
+src/ComputationalGrid.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.obj
+.PHONY : src/ComputationalGrid.cpp.obj
 
-ComputationalGrid.i: ComputationalGrid.cpp.i
-.PHONY : ComputationalGrid.i
+src/ComputationalGrid.i: src/ComputationalGrid.cpp.i
+.PHONY : src/ComputationalGrid.i
 
 # target to preprocess a source file
-ComputationalGrid.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.i
-.PHONY : ComputationalGrid.cpp.i
+src/ComputationalGrid.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.i
+.PHONY : src/ComputationalGrid.cpp.i
 
-ComputationalGrid.s: ComputationalGrid.cpp.s
-.PHONY : ComputationalGrid.s
+src/ComputationalGrid.s: src/ComputationalGrid.cpp.s
+.PHONY : src/ComputationalGrid.s
 
 # target to generate assembly for a file
-ComputationalGrid.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.s
-.PHONY : ComputationalGrid.cpp.s
+src/ComputationalGrid.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.s
+.PHONY : src/ComputationalGrid.cpp.s
 
-main.obj: main.cpp.obj
-.PHONY : main.obj
+src/main.obj: src/main.cpp.obj
+.PHONY : src/main.obj
 
 # target to build an object file
-main.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Inviscid_Euler_Solver.dir\build.make CMakeFiles/Inviscid_Euler_Solver.dir/main.cpp.obj
-.PHONY : main.cpp.obj
+src/main.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Inviscid_Euler_Solver.dir\build.make CMakeFiles/Inviscid_Euler_Solver.dir/src/main.cpp.obj
+.PHONY : src/main.cpp.obj
 
-main.i: main.cpp.i
-.PHONY : main.i
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Inviscid_Euler_Solver.dir\build.make CMakeFiles/Inviscid_Euler_Solver.dir/main.cpp.i
-.PHONY : main.cpp.i
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Inviscid_Euler_Solver.dir\build.make CMakeFiles/Inviscid_Euler_Solver.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Inviscid_Euler_Solver.dir\build.make CMakeFiles/Inviscid_Euler_Solver.dir/main.cpp.s
-.PHONY : main.cpp.s
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Inviscid_Euler_Solver.dir\build.make CMakeFiles/Inviscid_Euler_Solver.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
 
 # Help Target
 help:
@@ -199,12 +199,12 @@ help:
 	@echo ... rebuild_cache
 	@echo ... ComputationalGridLib
 	@echo ... Inviscid_Euler_Solver
-	@echo ... ComputationalGrid.obj
-	@echo ... ComputationalGrid.i
-	@echo ... ComputationalGrid.s
-	@echo ... main.obj
-	@echo ... main.i
-	@echo ... main.s
+	@echo ... src/ComputationalGrid.obj
+	@echo ... src/ComputationalGrid.i
+	@echo ... src/ComputationalGrid.s
+	@echo ... src/main.obj
+	@echo ... src/main.i
+	@echo ... src/main.s
 .PHONY : help
 
 
