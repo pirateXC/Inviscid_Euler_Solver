@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.obj"
-  "CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.obj.d"
+  "CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.obj"
+  "CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.obj.d"
   "libComputationalGridLib.a"
   "libComputationalGridLib.pdb"
 )

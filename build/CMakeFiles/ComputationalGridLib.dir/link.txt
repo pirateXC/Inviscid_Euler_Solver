@@ -1,2 +1,2 @@
-C:\mingw64\bin\ar.exe qc libComputationalGridLib.a CMakeFiles/ComputationalGridLib.dir/ComputationalGrid.cpp.obj
+C:\mingw64\bin\ar.exe qc libComputationalGridLib.a CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.obj
 C:\mingw64\bin\ranlib.exe libComputationalGridLib.a
