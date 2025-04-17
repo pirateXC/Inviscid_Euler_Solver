@@ -1,0 +1,2 @@
+C:\mingw64\bin\ar.exe qc libGridHandlerLib.a CMakeFiles/GridHandlerLib.dir/src/GridHandler.cpp.obj
+C:\mingw64\bin\ranlib.exe libGridHandlerLib.a
