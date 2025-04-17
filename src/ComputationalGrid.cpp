@@ -108,7 +108,7 @@ void ComputationalGrid::haloCell() {
     ny += 2;
 }
 
-void ComputationalGrid::computeCellGeometry() {
+void ComputationalGrid::computeCellMetrics() {
     // Extend the grid by adding ghost cells.
     haloCell();
 
@@ -142,7 +142,7 @@ void ComputationalGrid::computeCellGeometry() {
     // Compute face areas in the η (eta) direction
     xArea_Eta = Eigen::MatrixXd::Zero(nx - 3, ny - 1);
     yArea_Eta = Eigen::MatrixXd::Zero(nx - 3, ny - 1);
-    
+
     for (int i = 1; i < nx - 2; ++i) {
         for (int j = 1; j < ny - 1; ++j) {
             xArea_Eta(i - 1, j - 1) = y(i + 1, j + 1) - y(i, j + 1);

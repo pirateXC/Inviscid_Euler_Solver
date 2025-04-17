@@ -1,39 +1,37 @@
 #include "ComputationalGrid.h"
+#include "Initialize.h"
 #include <matplot/matplot.h>
 
 using namespace matplot;
 
+
 int main() {
-    ComputationalGrid grid;
-    
     // Thermodynamic and Transport Properties
-    double R = 287.0; // [J / kg*K] gas constant
-    double Cp = 1005.0; // [J / kg*K] specific heat
-    double gamma = 1.400; // ratio of specific heats
+    const double R = 287.0; // [J / kg*K] gas constant
+    const double Cp = 1005.0; // [J / kg*K] specific heat
+    const double gamma = 1.400; // ratio of specific heats
 
     // Initial Conditions and Boundary Conditions \\
     // ------------------ Inlet ------------------ 
     double P_i = 11664; // [Pa] inlet pressure
-    double T_I = 216.7; // [K] inlet temperature
+    double T_i = 216.7; // [K] inlet temperature
     double M_i = 3.000; // inlet Mach Number
 
+    ComputationalGrid grid;
+    Initialize init(grid, R, gamma, Cp);
 
-
+    // Read in grid file
     if (!grid.readGridFile("data\\g641x065uf.dat")) {
         return 1;
     }
 
-    // Plot the original grid.
-    grid.plotGrid("2D Mesh");
-
     // Compute Cell Metrics
-    grid.computeCellGeometry();
+    grid.computeCellMetrics();
 
-    grid.plotGrid("2D Mesh with Halo Cells");
+    // Apply free stream conditions
+    init.setInitialConditions(P_i, T_i, M_i);
 
-    // Display all windows.
-    matplot::show();
-    
+
 
 
 
