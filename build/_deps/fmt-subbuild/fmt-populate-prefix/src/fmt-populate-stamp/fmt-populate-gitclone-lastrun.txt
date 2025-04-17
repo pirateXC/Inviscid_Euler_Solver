@@ -3,7 +3,7 @@
 # No other meaning or use of this file is supported.
 
 method=git
-command=C:/msys64/mingw64/bin/cmake.exe;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/tmp/fmt-populate-gitclone.cmake
+command=C:/Program Files/CMake/bin/cmake.exe;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/tmp/fmt-populate-gitclone.cmake
 source_dir=C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-src
 work_dir=C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps
 repository=https://github.com/fmtlib/fmt.git

@@ -43,10 +43,10 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = C:\msys64\mingw64\bin\cmake.exe
+CMAKE_COMMAND = "C:\Program Files\CMake\bin\cmake.exe"
 
 # The command to remove a file.
-RM = C:\msys64\mingw64\bin\cmake.exe -E rm -f
+RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -77,59 +77,59 @@ CMakeFiles/fmt-populate-complete: fmt-populate-prefix/src/fmt-populate-stamp/fmt
 CMakeFiles/fmt-populate-complete: fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-install
 CMakeFiles/fmt-populate-complete: fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-test
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-subbuild\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Completed 'fmt-populate'"
-	C:\msys64\mingw64\bin\cmake.exe -E make_directory C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/CMakeFiles
-	C:\msys64\mingw64\bin\cmake.exe -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/CMakeFiles/fmt-populate-complete
-	C:\msys64\mingw64\bin\cmake.exe -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-done
+	"C:\Program Files\CMake\bin\cmake.exe" -E make_directory C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/CMakeFiles
+	"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/CMakeFiles/fmt-populate-complete
+	"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-done
 
 fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-update:
 .PHONY : fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-update
 
 fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-build: fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-configure
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-subbuild\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "No build step for 'fmt-populate'"
-	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-build && C:\msys64\mingw64\bin\cmake.exe -E echo_append
-	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-build && C:\msys64\mingw64\bin\cmake.exe -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-build
+	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-build && "C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-build && "C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-build
 
 fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-configure: fmt-populate-prefix/tmp/fmt-populate-cfgcmd.txt
 fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-configure: fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-patch
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-subbuild\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "No configure step for 'fmt-populate'"
-	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-build && C:\msys64\mingw64\bin\cmake.exe -E echo_append
-	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-build && C:\msys64\mingw64\bin\cmake.exe -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-configure
+	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-build && "C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-build && "C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-configure
 
 fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-download: fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-gitinfo.txt
 fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-download: fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-mkdir
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-subbuild\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Performing download step (git clone) for 'fmt-populate'"
-	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps && C:\msys64\mingw64\bin\cmake.exe -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/tmp/fmt-populate-gitclone.cmake
-	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps && C:\msys64\mingw64\bin\cmake.exe -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-download
+	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps && "C:\Program Files\CMake\bin\cmake.exe" -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/tmp/fmt-populate-gitclone.cmake
+	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps && "C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-download
 
 fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-install: fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-subbuild\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "No install step for 'fmt-populate'"
-	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-build && C:\msys64\mingw64\bin\cmake.exe -E echo_append
-	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-build && C:\msys64\mingw64\bin\cmake.exe -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-install
+	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-build && "C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-build && "C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-install
 
 fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-mkdir:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-subbuild\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Creating directories for 'fmt-populate'"
-	C:\msys64\mingw64\bin\cmake.exe -Dcfgdir= -P C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/tmp/fmt-populate-mkdirs.cmake
-	C:\msys64\mingw64\bin\cmake.exe -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-mkdir
+	"C:\Program Files\CMake\bin\cmake.exe" -Dcfgdir= -P C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/tmp/fmt-populate-mkdirs.cmake
+	"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-mkdir
 
 fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-patch: fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-patch-info.txt
 fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-patch: fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-update
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-subbuild\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "No patch step for 'fmt-populate'"
-	C:\msys64\mingw64\bin\cmake.exe -E echo_append
-	C:\msys64\mingw64\bin\cmake.exe -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-patch
+	"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+	"C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-patch
 
 fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-update:
 .PHONY : fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-update
 
 fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-test: fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-install
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-subbuild\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "No test step for 'fmt-populate'"
-	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-build && C:\msys64\mingw64\bin\cmake.exe -E echo_append
-	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-build && C:\msys64\mingw64\bin\cmake.exe -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-test
+	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-build && "C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-build && "C:\Program Files\CMake\bin\cmake.exe" -E touch C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-test
 
 fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-update: fmt-populate-prefix/tmp/fmt-populate-gitupdate.cmake
 fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-update: fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-update-info.txt
 fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-update: fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-download
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-subbuild\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Performing update step for 'fmt-populate'"
-	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-src && C:\msys64\mingw64\bin\cmake.exe -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/tmp/fmt-populate-gitupdate.cmake
+	cd /d C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\_deps\fmt-src && "C:\Program Files\CMake\bin\cmake.exe" -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-subbuild/fmt-populate-prefix/tmp/fmt-populate-gitupdate.cmake
 
 CMakeFiles/fmt-populate.dir/codegen:
 .PHONY : CMakeFiles/fmt-populate.dir/codegen
