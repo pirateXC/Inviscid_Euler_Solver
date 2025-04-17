@@ -20,8 +20,7 @@ public:
     // Creates a new figure window and plots the grid (using matplot).
     void plotGrid(const std::string &windowTitle);
 
-    // --- Getter methods ---
-    // These inline getters allow access to the computed matrices for testing or inspection.
+    // getter methods
     const int &getNX() const { return nx; }
     const int &getNY() const { return ny; }
     const Eigen::MatrixXd &getX() const { return x; }

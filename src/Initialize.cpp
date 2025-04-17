@@ -27,7 +27,7 @@ void Initialize::setInitialConditions(double P0, double T0, double M0) {
     double e0 = P0 / (gamma - 1.0) + 0.5 * rho0 * (u0*u0 + v0*v0);
 
     // fill interior (skip ghost‑layer indices!)
-    int ng = 1;                    // if you used 1‑cell halo
+    int ng = 1;                    // 1‑cell halo
     int imax = rho.rows()  - ng;
     int jmax = rho.cols()  - ng;
     for (int i = ng; i < imax; ++i) {
