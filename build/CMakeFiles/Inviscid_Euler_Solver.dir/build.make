@@ -71,44 +71,40 @@ include CMakeFiles/Inviscid_Euler_Solver.dir/flags.make
 CMakeFiles/Inviscid_Euler_Solver.dir/codegen:
 .PHONY : CMakeFiles/Inviscid_Euler_Solver.dir/codegen
 
-CMakeFiles/Inviscid_Euler_Solver.dir/main.cpp.obj: CMakeFiles/Inviscid_Euler_Solver.dir/flags.make
-CMakeFiles/Inviscid_Euler_Solver.dir/main.cpp.obj: CMakeFiles/Inviscid_Euler_Solver.dir/includes_CXX.rsp
-CMakeFiles/Inviscid_Euler_Solver.dir/main.cpp.obj: C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/main.cpp
-CMakeFiles/Inviscid_Euler_Solver.dir/main.cpp.obj: CMakeFiles/Inviscid_Euler_Solver.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Inviscid_Euler_Solver.dir/main.cpp.obj"
-	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Inviscid_Euler_Solver.dir/main.cpp.obj -MF CMakeFiles\Inviscid_Euler_Solver.dir\main.cpp.obj.d -o CMakeFiles\Inviscid_Euler_Solver.dir\main.cpp.obj -c C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\main.cpp
+CMakeFiles/Inviscid_Euler_Solver.dir/src/main.cpp.obj: CMakeFiles/Inviscid_Euler_Solver.dir/flags.make
+CMakeFiles/Inviscid_Euler_Solver.dir/src/main.cpp.obj: CMakeFiles/Inviscid_Euler_Solver.dir/includes_CXX.rsp
+CMakeFiles/Inviscid_Euler_Solver.dir/src/main.cpp.obj: C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/src/main.cpp
+CMakeFiles/Inviscid_Euler_Solver.dir/src/main.cpp.obj: CMakeFiles/Inviscid_Euler_Solver.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Inviscid_Euler_Solver.dir/src/main.cpp.obj"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Inviscid_Euler_Solver.dir/src/main.cpp.obj -MF CMakeFiles\Inviscid_Euler_Solver.dir\src\main.cpp.obj.d -o CMakeFiles\Inviscid_Euler_Solver.dir\src\main.cpp.obj -c C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\src\main.cpp
 
-CMakeFiles/Inviscid_Euler_Solver.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Inviscid_Euler_Solver.dir/main.cpp.i"
-	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\main.cpp > CMakeFiles\Inviscid_Euler_Solver.dir\main.cpp.i
+CMakeFiles/Inviscid_Euler_Solver.dir/src/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Inviscid_Euler_Solver.dir/src/main.cpp.i"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\src\main.cpp > CMakeFiles\Inviscid_Euler_Solver.dir\src\main.cpp.i
 
-CMakeFiles/Inviscid_Euler_Solver.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Inviscid_Euler_Solver.dir/main.cpp.s"
-	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\main.cpp -o CMakeFiles\Inviscid_Euler_Solver.dir\main.cpp.s
+CMakeFiles/Inviscid_Euler_Solver.dir/src/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Inviscid_Euler_Solver.dir/src/main.cpp.s"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\src\main.cpp -o CMakeFiles\Inviscid_Euler_Solver.dir\src\main.cpp.s
 
 # Object files for target Inviscid_Euler_Solver
 Inviscid_Euler_Solver_OBJECTS = \
-"CMakeFiles/Inviscid_Euler_Solver.dir/main.cpp.obj"
+"CMakeFiles/Inviscid_Euler_Solver.dir/src/main.cpp.obj"
 
 # External object files for target Inviscid_Euler_Solver
 Inviscid_Euler_Solver_EXTERNAL_OBJECTS =
 
-Inviscid_Euler_Solver.exe: CMakeFiles/Inviscid_Euler_Solver.dir/main.cpp.obj
+Inviscid_Euler_Solver.exe: CMakeFiles/Inviscid_Euler_Solver.dir/src/main.cpp.obj
 Inviscid_Euler_Solver.exe: CMakeFiles/Inviscid_Euler_Solver.dir/build.make
-Inviscid_Euler_Solver.exe: _deps/fmt-build/libfmt.a
-Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libboost_iostreams-gcc14-mt-d-x64-1_87.a
-Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/lib/libzlib.a
-Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/lib/libbz2.a
-Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/lib/liblzma.a
-Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libzstd.a
-Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libboost_random-gcc14-mt-d-x64-1_87.a
-Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libboost_system-gcc14-mt-d-x64-1_87.a
+Inviscid_Euler_Solver.exe: libComputationalGridLib.a
+Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libfmtd.a
+Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libmatplot.a
+Inviscid_Euler_Solver.exe: C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libnodesoup.a
 Inviscid_Euler_Solver.exe: CMakeFiles/Inviscid_Euler_Solver.dir/linkLibs.rsp
 Inviscid_Euler_Solver.exe: CMakeFiles/Inviscid_Euler_Solver.dir/objects1.rsp
 Inviscid_Euler_Solver.exe: CMakeFiles/Inviscid_Euler_Solver.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable Inviscid_Euler_Solver.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Inviscid_Euler_Solver.dir\link.txt --verbose=$(VERBOSE)
-	C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/Inviscid_Euler_Solver.exe -installedDir C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/bin -OutVariable out
+	C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/Inviscid_Euler_Solver.exe -installedDir C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/bin -OutVariable out
 
 # Rule to build all files generated by this target.
 CMakeFiles/Inviscid_Euler_Solver.dir/build: Inviscid_Euler_Solver.exe

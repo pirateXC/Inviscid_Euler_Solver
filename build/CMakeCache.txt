@@ -14,38 +14,28 @@
 # EXTERNAL cache entries
 ########################
 
-//Path to a file.
-BZIP2_INCLUDE_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/include
-
-//Path to a library.
-BZIP2_LIBRARY_DEBUG:FILEPATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libbz2d.a
-
-//Path to a library.
-BZIP2_LIBRARY_RELEASE:FILEPATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/lib/libbz2.a
+//Path to a program.
+CMAKE_ADDR2LINE:FILEPATH=C:/mingw64/bin/addr2line.exe
 
 //Path to a program.
-CMAKE_ADDR2LINE:FILEPATH=C:/msys64/mingw64/bin/addr2line.exe
+CMAKE_AR:FILEPATH=C:/mingw64/bin/ar.exe
 
-//Path to a program.
-CMAKE_AR:FILEPATH=C:/msys64/mingw64/bin/ar.exe
-
-//Choose the type of build, options are: None Debug Release RelWithDebInfo
-// MinSizeRel ...
-CMAKE_BUILD_TYPE:STRING=
+//No help, variable specified on the command line.
+CMAKE_BUILD_TYPE:STRING=Debug
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
 
-//CXX compiler
-CMAKE_CXX_COMPILER:FILEPATH=C:/msys64/mingw64/bin/c++.exe
+//No help, variable specified on the command line.
+CMAKE_CXX_COMPILER:FILEPATH=C:/mingw64/bin/g++.exe
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_CXX_COMPILER_AR:FILEPATH=C:/msys64/mingw64/bin/gcc-ar.exe
+CMAKE_CXX_COMPILER_AR:FILEPATH=C:/mingw64/bin/gcc-ar.exe
 
 //A wrapper around 'ranlib' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_CXX_COMPILER_RANLIB:FILEPATH=C:/msys64/mingw64/bin/gcc-ranlib.exe
+CMAKE_CXX_COMPILER_RANLIB:FILEPATH=C:/mingw64/bin/gcc-ranlib.exe
 
 //Flags used by the CXX compiler during all build types.
 CMAKE_CXX_FLAGS:STRING=
@@ -65,8 +55,11 @@ CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 //Libraries linked by default with all C++ applications.
 CMAKE_CXX_STANDARD_LIBRARIES:STRING=-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
 
+//No help, variable specified on the command line.
+CMAKE_C_COMPILER:FILEPATH=C:/mingw64/bin/gcc.exe
+
 //Path to a program.
-CMAKE_DLLTOOL:FILEPATH=C:/msys64/mingw64/bin/dlltool.exe
+CMAKE_DLLTOOL:FILEPATH=C:/mingw64/bin/dlltool.exe
 
 //Flags used by the linker during all build types.
 CMAKE_EXE_LINKER_FLAGS:STRING=
@@ -83,68 +76,23 @@ CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=
 //Flags used by the linker during RELWITHDEBINFO builds.
 CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
+//No help, variable specified on the command line.
+CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE
+
 //Value Computed by CMake.
 CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/CMakeFiles/pkgRedirects
 
 //Convert GNU import libraries to MS format (requires Visual Studio)
 CMAKE_GNUtoMS:BOOL=OFF
 
-//User executables (bin)
-CMAKE_INSTALL_BINDIR:PATH=bin
-
-//Read-only architecture-independent data (DATAROOTDIR)
-CMAKE_INSTALL_DATADIR:PATH=
-
-//Read-only architecture-independent data root (share)
-CMAKE_INSTALL_DATAROOTDIR:PATH=share
-
-//Documentation root (DATAROOTDIR/doc/PROJECT_NAME)
-CMAKE_INSTALL_DOCDIR:PATH=
-
-//C header files (include)
-CMAKE_INSTALL_INCLUDEDIR:PATH=include
-
-//Info documentation (DATAROOTDIR/info)
-CMAKE_INSTALL_INFODIR:PATH=
-
-//Object code libraries (lib)
-CMAKE_INSTALL_LIBDIR:PATH=lib
-
-//Program executables (libexec)
-CMAKE_INSTALL_LIBEXECDIR:PATH=libexec
-
-//Locale-dependent data (DATAROOTDIR/locale)
-CMAKE_INSTALL_LOCALEDIR:PATH=
-
-//Modifiable single-machine data (var)
-CMAKE_INSTALL_LOCALSTATEDIR:PATH=var
-
-//Man documentation (DATAROOTDIR/man)
-CMAKE_INSTALL_MANDIR:PATH=
-
-//C header files for non-gcc (/usr/include)
-CMAKE_INSTALL_OLDINCLUDEDIR:PATH=/usr/include
-
 //Install path prefix, prepended onto install directories.
 CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/Inviscid_Euler_Solver
 
-//Run-time variable data (LOCALSTATEDIR/run)
-CMAKE_INSTALL_RUNSTATEDIR:PATH=
-
-//System admin executables (sbin)
-CMAKE_INSTALL_SBINDIR:PATH=sbin
-
-//Modifiable architecture-independent data (com)
-CMAKE_INSTALL_SHAREDSTATEDIR:PATH=com
-
-//Read-only single-machine data (etc)
-CMAKE_INSTALL_SYSCONFDIR:PATH=etc
+//Path to a program.
+CMAKE_LINKER:FILEPATH=C:/mingw64/bin/ld.exe
 
 //Path to a program.
-CMAKE_LINKER:FILEPATH=C:/msys64/mingw64/bin/ld.exe
-
-//Path to a program.
-CMAKE_MAKE_PROGRAM:FILEPATH=C:/msys64/mingw64/bin/mingw32-make.exe
+CMAKE_MAKE_PROGRAM:FILEPATH=C:/mingw64/bin/mingw32-make.exe
 
 //Flags used by the linker during the creation of modules during
 // all build types.
@@ -167,13 +115,13 @@ CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=
 CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //Path to a program.
-CMAKE_NM:FILEPATH=C:/msys64/mingw64/bin/nm.exe
+CMAKE_NM:FILEPATH=C:/mingw64/bin/nm.exe
 
 //Path to a program.
-CMAKE_OBJCOPY:FILEPATH=C:/msys64/mingw64/bin/objcopy.exe
+CMAKE_OBJCOPY:FILEPATH=C:/mingw64/bin/objcopy.exe
 
 //Path to a program.
-CMAKE_OBJDUMP:FILEPATH=C:/msys64/mingw64/bin/objdump.exe
+CMAKE_OBJDUMP:FILEPATH=C:/mingw64/bin/objdump.exe
 
 //Value Computed by CMake
 CMAKE_PROJECT_DESCRIPTION:STATIC=
@@ -185,10 +133,10 @@ CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 CMAKE_PROJECT_NAME:STATIC=Inviscid_Euler_Solver
 
 //Path to a program.
-CMAKE_RANLIB:FILEPATH=C:/msys64/mingw64/bin/ranlib.exe
+CMAKE_RANLIB:FILEPATH=C:/mingw64/bin/ranlib.exe
 
 //RC compiler
-CMAKE_RC_COMPILER:FILEPATH=C:/msys64/mingw64/bin/windres.exe
+CMAKE_RC_COMPILER:FILEPATH=C:/mingw64/bin/windres.exe
 
 //Flags for Windows Resource Compiler during all build types.
 CMAKE_RC_FLAGS:STRING=
@@ -206,7 +154,7 @@ CMAKE_RC_FLAGS_RELEASE:STRING=
 CMAKE_RC_FLAGS_RELWITHDEBINFO:STRING=
 
 //Path to a program.
-CMAKE_READELF:FILEPATH=C:/msys64/mingw64/bin/readelf.exe
+CMAKE_READELF:FILEPATH=C:/mingw64/bin/readelf.exe
 
 //Flags used by the linker during the creation of shared libraries
 // during all build types.
@@ -256,13 +204,13 @@ CMAKE_STATIC_LINKER_FLAGS_RELEASE:STRING=
 CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //Path to a program.
-CMAKE_STRIP:FILEPATH=C:/msys64/mingw64/bin/strip.exe
+CMAKE_STRIP:FILEPATH=C:/mingw64/bin/strip.exe
 
 //Path to a program.
 CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 
-//The CMake toolchain file
-CMAKE_TOOLCHAIN_FILE:FILEPATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/scripts/buildsystems/vcpkg.cmake
+//No help, variable specified on the command line.
+CMAKE_TOOLCHAIN_FILE:STRING=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/scripts/buildsystems/vcpkg.cmake
 
 //If this value is on, makefiles will be generated without the
 // .SILENT directive, and all commands will be echoed to the console
@@ -270,93 +218,8 @@ CMAKE_TOOLCHAIN_FILE:FILEPATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plu
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
-//Directory under which to collect all populated content
-FETCHCONTENT_BASE_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps
-
-//Disables all attempts to download or update content and assumes
-// source dirs already exist
-FETCHCONTENT_FULLY_DISCONNECTED:BOOL=OFF
-
-//Enables QUIET option for all content population
-FETCHCONTENT_QUIET:BOOL=ON
-
-//When not empty, overrides where to find pre-populated content
-// for fmt
-FETCHCONTENT_SOURCE_DIR_FMT:PATH=
-
-//Enables UPDATE_DISCONNECTED behavior for all content population
-FETCHCONTENT_UPDATES_DISCONNECTED:BOOL=OFF
-
-//Enables UPDATE_DISCONNECTED behavior just for population of fmt
-FETCHCONTENT_UPDATES_DISCONNECTED_FMT:BOOL=OFF
-
-//Value Computed by CMake
-FMT_BINARY_DIR:STATIC=C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-build
-
-//Installation directory for cmake files, a relative path that
-// will be joined with C:/Program Files (x86)/Inviscid_Euler_Solver
-// or an absolute path.
-FMT_CMAKE_DIR:STRING=lib/cmake/fmt
-
-//Generate the cuda-test target.
-FMT_CUDA_TEST:BOOL=OFF
-
-//Debug library postfix.
-FMT_DEBUG_POSTFIX:STRING=d
-
-//Generate the doc target.
-FMT_DOC:BOOL=OFF
-
-//Generate the fuzz target.
-FMT_FUZZ:BOOL=OFF
-
-//Installation directory for include files, a relative path that
-// will be joined with C:/Program Files (x86)/Inviscid_Euler_Solver
-// or an absolute path.
-FMT_INC_DIR:STRING=include
-
-//Generate the install target.
-FMT_INSTALL:BOOL=ON
-
-//Value Computed by CMake
-FMT_IS_TOP_LEVEL:STATIC=OFF
-
-//Installation directory for libraries, a relative path that will
-// be joined to C:/Program Files (x86)/Inviscid_Euler_Solver or
-// an absolute path.
-FMT_LIB_DIR:STRING=lib
-
-//Build a module instead of a traditional library.
-FMT_MODULE:BOOL=OFF
-
-//Include OS-specific APIs.
-FMT_OS:BOOL=ON
-
-//Enable extra warnings and expensive tests.
-FMT_PEDANTIC:BOOL=OFF
-
-//Installation directory for pkgconfig (.pc) files, a relative
-// path that will be joined with C:/Program Files (x86)/Inviscid_Euler_Solver
-// or an absolute path.
-FMT_PKGCONFIG_DIR:STRING=lib/pkgconfig
-
-//Value Computed by CMake
-FMT_SOURCE_DIR:STATIC=C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build/_deps/fmt-src
-
-//Expose headers with marking them as system.
-FMT_SYSTEM_HEADERS:BOOL=OFF
-
-//Generate the test target.
-FMT_TEST:BOOL=OFF
-
-//Enable Unicode support.
-FMT_UNICODE:BOOL=ON
-
-//Halt the compilation with an error on compiler warnings.
-FMT_WERROR:BOOL=OFF
-
-//Git command line client
-GIT_EXECUTABLE:FILEPATH=C:/Program Files/Git/cmd/git.exe
+//The directory containing a CMake configuration file for Eigen3.
+Eigen3_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/eigen3
 
 //Value Computed by CMake
 Inviscid_Euler_Solver_BINARY_DIR:STATIC=C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build
@@ -367,14 +230,8 @@ Inviscid_Euler_Solver_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 Inviscid_Euler_Solver_SOURCE_DIR:STATIC=C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver
 
-//Path to a file.
-LIBLZMA_INCLUDE_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/include
-
-//Path to a library.
-LIBLZMA_LIBRARY_DEBUG:FILEPATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/liblzma.a
-
-//Path to a library.
-LIBLZMA_LIBRARY_RELEASE:FILEPATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/lib/liblzma.a
+//The directory containing a CMake configuration file for Matplot++.
+Matplot++_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/matplot++
 
 //Automatically copy dependencies into the output directory for
 // executables.
@@ -415,15 +272,6 @@ X_VCPKG_APPLOCAL_DEPS_INSTALL:BOOL=OFF
 // serialization.
 X_VCPKG_APPLOCAL_DEPS_SERIALIZED:BOOL=OFF
 
-//Path to a file.
-ZLIB_INCLUDE_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/include
-
-//Path to a library.
-ZLIB_LIBRARY_DEBUG:FILEPATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/debug/lib/libzlibd.a
-
-//Path to a library.
-ZLIB_LIBRARY_RELEASE:FILEPATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/lib/libzlib.a
-
 //Path to a program.
 Z_VCPKG_BUILTIN_POWERSHELL_PATH:FILEPATH=C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe
 
@@ -434,142 +282,17 @@ Z_VCPKG_PWSH_PATH:FILEPATH=Z_VCPKG_PWSH_PATH-NOTFOUND
 // triplet
 _VCPKG_INSTALLED_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed
 
-//The directory containing a CMake configuration file for boost_array.
-boost_array_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_array
+//The directory containing a CMake configuration file for fmt.
+fmt_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/fmt
 
-//The directory containing a CMake configuration file for boost_assert.
-boost_assert_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_assert
-
-//The directory containing a CMake configuration file for boost_bind.
-boost_bind_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_bind
-
-//The directory containing a CMake configuration file for boost_concept_check.
-boost_concept_check_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_concept_check
-
-//The directory containing a CMake configuration file for boost_config.
-boost_config_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_config
-
-//The directory containing a CMake configuration file for boost_container_hash.
-boost_container_hash_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_container_hash
-
-//The directory containing a CMake configuration file for boost_conversion.
-boost_conversion_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_conversion
-
-//The directory containing a CMake configuration file for boost_core.
-boost_core_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_core
-
-//The directory containing a CMake configuration file for boost_describe.
-boost_describe_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_describe
-
-//The directory containing a CMake configuration file for boost_detail.
-boost_detail_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_detail
-
-//The directory containing a CMake configuration file for boost_dynamic_bitset.
-boost_dynamic_bitset_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_dynamic_bitset
-
-//The directory containing a CMake configuration file for boost_function.
-boost_function_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_function
-
-//The directory containing a CMake configuration file for boost_function_types.
-boost_function_types_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_function_types
-
-//The directory containing a CMake configuration file for boost_functional.
-boost_functional_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_functional
-
-//The directory containing a CMake configuration file for boost_fusion.
-boost_fusion_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_fusion
-
-//The directory containing a CMake configuration file for boost_headers.
-boost_headers_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_headers
-
-//The directory containing a CMake configuration file for boost_integer.
-boost_integer_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_integer
-
-//The directory containing a CMake configuration file for boost_io.
-boost_io_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_io
-
-//The directory containing a CMake configuration file for boost_iostreams.
-boost_iostreams_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_iostreams
-
-//The directory containing a CMake configuration file for boost_iterator.
-boost_iterator_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_iterator
-
-//The directory containing a CMake configuration file for boost_move.
-boost_move_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_move
-
-//The directory containing a CMake configuration file for boost_mp11.
-boost_mp11_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_mp11
-
-//The directory containing a CMake configuration file for boost_mpl.
-boost_mpl_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_mpl
-
-//The directory containing a CMake configuration file for boost_numeric_conversion.
-boost_numeric_conversion_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_numeric_conversion
-
-//The directory containing a CMake configuration file for boost_optional.
-boost_optional_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_optional
-
-//The directory containing a CMake configuration file for boost_predef.
-boost_predef_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_predef
-
-//The directory containing a CMake configuration file for boost_preprocessor.
-boost_preprocessor_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_preprocessor
-
-//The directory containing a CMake configuration file for boost_random.
-boost_random_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_random
-
-//The directory containing a CMake configuration file for boost_range.
-boost_range_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_range
-
-//The directory containing a CMake configuration file for boost_regex.
-boost_regex_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_regex
-
-//The directory containing a CMake configuration file for boost_smart_ptr.
-boost_smart_ptr_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_smart_ptr
-
-//The directory containing a CMake configuration file for boost_static_assert.
-boost_static_assert_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_static_assert
-
-//The directory containing a CMake configuration file for boost_system.
-boost_system_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_system
-
-//The directory containing a CMake configuration file for boost_throw_exception.
-boost_throw_exception_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_throw_exception
-
-//The directory containing a CMake configuration file for boost_tuple.
-boost_tuple_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_tuple
-
-//The directory containing a CMake configuration file for boost_type_traits.
-boost_type_traits_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_type_traits
-
-//The directory containing a CMake configuration file for boost_typeof.
-boost_typeof_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_typeof
-
-//The directory containing a CMake configuration file for boost_utility.
-boost_utility_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_utility
-
-//The directory containing a CMake configuration file for boost_variant2.
-boost_variant2_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_variant2
-
-//The directory containing a CMake configuration file for boost_winapi.
-boost_winapi_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/boost_winapi
-
-//The directory containing a CMake configuration file for zstd.
-zstd_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/zstd
+//The directory containing a CMake configuration file for nodesoup.
+nodesoup_DIR:PATH=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/share/nodesoup
 
 
 ########################
 # INTERNAL cache entries
 ########################
 
-//ADVANCED property for variable: BZIP2_INCLUDE_DIR
-BZIP2_INCLUDE_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BZIP2_LIBRARY_DEBUG
-BZIP2_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BZIP2_LIBRARY_RELEASE
-BZIP2_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-//Have symbol BZ2_bzCompressInit
-BZIP2_NEED_PREFIX:INTERNAL=1
 //ADVANCED property for variable: CMAKE_ADDR2LINE
 CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
@@ -634,43 +357,9 @@ CMAKE_GENERATOR_INSTANCE:INTERNAL=
 CMAKE_GENERATOR_PLATFORM:INTERNAL=
 //Name of generator toolset.
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
-//Test CMAKE_HAVE_LIBC_PTHREAD
-CMAKE_HAVE_LIBC_PTHREAD:INTERNAL=1
 //Source directory with the top level CMakeLists.txt file for this
 // project
 CMAKE_HOME_DIRECTORY:INTERNAL=C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver
-//ADVANCED property for variable: CMAKE_INSTALL_BINDIR
-CMAKE_INSTALL_BINDIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_INSTALL_DATADIR
-CMAKE_INSTALL_DATADIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_INSTALL_DATAROOTDIR
-CMAKE_INSTALL_DATAROOTDIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_INSTALL_DOCDIR
-CMAKE_INSTALL_DOCDIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_INSTALL_INCLUDEDIR
-CMAKE_INSTALL_INCLUDEDIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_INSTALL_INFODIR
-CMAKE_INSTALL_INFODIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_INSTALL_LIBDIR
-CMAKE_INSTALL_LIBDIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_INSTALL_LIBEXECDIR
-CMAKE_INSTALL_LIBEXECDIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_INSTALL_LOCALEDIR
-CMAKE_INSTALL_LOCALEDIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_INSTALL_LOCALSTATEDIR
-CMAKE_INSTALL_LOCALSTATEDIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_INSTALL_MANDIR
-CMAKE_INSTALL_MANDIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_INSTALL_OLDINCLUDEDIR
-CMAKE_INSTALL_OLDINCLUDEDIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_INSTALL_RUNSTATEDIR
-CMAKE_INSTALL_RUNSTATEDIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_INSTALL_SBINDIR
-CMAKE_INSTALL_SBINDIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_INSTALL_SHAREDSTATEDIR
-CMAKE_INSTALL_SHAREDSTATEDIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_INSTALL_SYSCONFDIR
-CMAKE_INSTALL_SYSCONFDIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_LINKER
 CMAKE_LINKER-ADVANCED:INTERNAL=1
 //Name of CMakeLists files to read
@@ -690,7 +379,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=2
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -748,25 +437,6 @@ CMAKE_TAPI-ADVANCED:INTERNAL=1
 CMAKE_TOOLCHAIN_FILE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
-//Details about finding BZip2
-FIND_PACKAGE_MESSAGE_DETAILS_BZip2:INTERNAL=[C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/lib/libbz2.a][C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/include][v1.0.8()]
-//Details about finding LibLZMA
-FIND_PACKAGE_MESSAGE_DETAILS_LibLZMA:INTERNAL=[C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/lib/liblzma.a][C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/include][1][1][1][v5.8.1()]
-//Details about finding Threads
-FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
-//Details about finding ZLIB
-FIND_PACKAGE_MESSAGE_DETAILS_ZLIB:INTERNAL=[C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/lib/libzlib.a][C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/include][ ][v1.3.1()]
-//ADVANCED property for variable: GIT_EXECUTABLE
-GIT_EXECUTABLE-ADVANCED:INTERNAL=1
-LIBLZMA_HAS_AUTO_DECODER:INTERNAL=1
-LIBLZMA_HAS_EASY_ENCODER:INTERNAL=1
-LIBLZMA_HAS_LZMA_PRESET:INTERNAL=1
-//ADVANCED property for variable: LIBLZMA_INCLUDE_DIR
-LIBLZMA_INCLUDE_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: LIBLZMA_LIBRARY_DEBUG
-LIBLZMA_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: LIBLZMA_LIBRARY_RELEASE
-LIBLZMA_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //Install the dependencies listed in your manifest:
 //\n    If this is off, you will have to manually install your dependencies.
 //\n    See https://github.com/microsoft/vcpkg/tree/master/docs/specifications/manifests.md
@@ -775,18 +445,10 @@ LIBLZMA_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 VCPKG_MANIFEST_INSTALL:INTERNAL=OFF
 //ADVANCED property for variable: VCPKG_VERBOSE
 VCPKG_VERBOSE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: ZLIB_INCLUDE_DIR
-ZLIB_INCLUDE_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: ZLIB_LIBRARY_DEBUG
-ZLIB_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: ZLIB_LIBRARY_RELEASE
-ZLIB_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //Making sure VCPKG_MANIFEST_MODE doesn't change
 Z_VCPKG_CHECK_MANIFEST_MODE:INTERNAL=OFF
 //The path to the PowerShell implementation to use.
 Z_VCPKG_POWERSHELL_PATH:INTERNAL=C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe
 //Vcpkg root directory
 Z_VCPKG_ROOT_DIR:INTERNAL=C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master
-//CMAKE_INSTALL_PREFIX during last run
-_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/Inviscid_Euler_Solver
 
