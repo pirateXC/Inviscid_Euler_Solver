@@ -1,2 +1,0 @@
-C:\mingw64\bin\ar.exe qc libInitializeLib.a CMakeFiles/InitializeLib.dir/src/Initialize.cpp.obj
-C:\mingw64\bin\ranlib.exe libInitializeLib.a
