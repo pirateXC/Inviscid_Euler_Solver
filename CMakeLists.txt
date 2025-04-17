@@ -13,7 +13,6 @@ find_package(Matplot++ CONFIG REQUIRED)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 # Add ComputationalGridLib as a Library 
-# (Assumes that ComputationalGrid.cpp has been moved to the src/ folder)
 add_library(ComputationalGridLib
     src/ComputationalGrid.cpp
 )
