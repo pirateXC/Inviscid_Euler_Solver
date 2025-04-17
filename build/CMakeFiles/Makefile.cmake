@@ -7,54 +7,13 @@ set(CMAKE_DEPENDS_GENERATOR "MinGW Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-<<<<<<< HEAD
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeCXXInformation.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake"
-=======
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeCXXInformation.cmake"
->>>>>>> 83585258bde0abaac0a570fb8841c7e913fba46e
   "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeCommonLanguageInclude.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeDependentOption.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeFindDependencyMacro.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeGenericSystem.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeInitializeConfigs.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeLanguageInformation.cmake"
-<<<<<<< HEAD
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakePackageConfigHelpers.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeParseArguments.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakePushCheckState.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeRCInformation.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeSystemSpecificInformation.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeSystemSpecificInitialize.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/CheckCXXCompilerFlag.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/CheckCXXSourceCompiles.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/CheckIncludeFileCXX.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/CheckLibraryExists.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/CheckSymbolExists.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/Compiler/GNU-CXX.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/Compiler/GNU.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/ExternalProject/shared_internal_commands.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/FetchContent.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/FetchContent/CMakeLists.cmake.in"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/FindBZip2.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/FindGit.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/FindLibLZMA.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/FindPackageHandleStandardArgs.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/FindPackageMessage.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/FindThreads.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/FindZLIB.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/GNUInstallDirs.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/Internal/CMakeCXXLinkerInformation.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/Internal/CMakeCommonLinkerInformation.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/Internal/CheckCompilerFlag.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/Internal/CheckFlagCommonConfig.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/Internal/CheckSourceCompiles.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/Linker/GNU-CXX.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/Linker/GNU.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/Platform/Linker/GNU.cmake"
-=======
   "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeRCInformation.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeSystemSpecificInformation.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeSystemSpecificInitialize.cmake"
@@ -65,7 +24,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Internal/CMakeCommonLinkerInformation.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Platform/Linker/GNU.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Platform/Linker/Windows-CXX.cmake"
->>>>>>> 83585258bde0abaac0a570fb8841c7e913fba46e
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Platform/Linker/Windows-GNU-CXX.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Platform/Linker/Windows-GNU.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Platform/Windows-GNU-CXX-ABI.cmake"
@@ -75,11 +33,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Platform/Windows-windres.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Platform/Windows.cmake"
   "C:/Program Files/CMake/share/cmake-4.0/Modules/Platform/WindowsPaths.cmake"
-<<<<<<< HEAD
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/SelectLibraryConfigurations.cmake"
-  "C:/Program Files/CMake/share/cmake-4.0/Modules/WriteBasicConfigVersionFile.cmake"
-=======
->>>>>>> 83585258bde0abaac0a570fb8841c7e913fba46e
   "C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/CMakeLists.txt"
   "CMakeFiles/4.0.0/CMakeCXXCompiler.cmake"
   "CMakeFiles/4.0.0/CMakeRCCompiler.cmake"
@@ -111,15 +64,12 @@ set(CMAKE_MAKEFILE_OUTPUTS
 
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
-<<<<<<< HEAD
-  "_deps/fmt-subbuild/CMakeLists.txt"
-=======
->>>>>>> 83585258bde0abaac0a570fb8841c7e913fba46e
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/ComputationalGridLib.dir/DependInfo.cmake"
+  "CMakeFiles/GridHandlerLib.dir/DependInfo.cmake"
+  "CMakeFiles/InitializeLib.dir/DependInfo.cmake"
   "CMakeFiles/Inviscid_Euler_Solver.dir/DependInfo.cmake"
   )

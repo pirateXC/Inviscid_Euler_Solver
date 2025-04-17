@@ -2,11 +2,11 @@
 #define INITIALIZE_H
 
 #include <Eigen/Dense>
-#include "ComputationalGrid.h"
+#include "GridHandler.h"
 
 class Initialize {
 public:
-    Initialize(ComputationalGrid &grid,
+    Initialize(GridHandler &grid,
                double R,
                double gamma,
                double Cp);
@@ -31,7 +31,7 @@ public:
     const Eigen::MatrixXd& getEnergy()const { return    E;  }
 
 private:
-    ComputationalGrid &grid;
+    GridHandler &grid;
     double R;         // gas constant
     double gamma;     // ratio of heats
     double Cp;        // [J / kg*K] specific heat

@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-Initialize::Initialize(ComputationalGrid &grid_,
+Initialize::Initialize(GridHandler &grid_,
                        double R_,
                        double gamma_,
                        double Cp_)

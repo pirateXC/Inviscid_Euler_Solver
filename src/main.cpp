@@ -1,4 +1,4 @@
-#include "ComputationalGrid.h"
+#include "GridHandler.h"
 #include "Initialize.h"
 #include <matplot/matplot.h>
 
@@ -17,7 +17,7 @@ int main() {
     double T_i = 216.7; // [K] inlet temperature
     double M_i = 3.000; // inlet Mach Number
 
-    ComputationalGrid grid;
+    GridHandler grid;
     Initialize init(grid, R, gamma, Cp);
 
     // Read in grid file

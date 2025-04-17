@@ -84,54 +84,6 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
 
-<<<<<<< HEAD
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"fmt-core\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-.PHONY : list_install_components/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	"C:\Program Files\CMake\bin\cmake.exe" -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	"C:\Program Files\CMake\bin\cmake.exe" -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	"C:\Program Files\CMake\bin\cmake.exe" -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	"C:\Program Files\CMake\bin\cmake.exe" -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	"C:\Program Files\CMake\bin\cmake.exe" -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	"C:\Program Files\CMake\bin\cmake.exe" -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
-=======
->>>>>>> 83585258bde0abaac0a570fb8841c7e913fba46e
 # The main all target
 all: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\\CMakeFiles\progress.marks
@@ -164,17 +116,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named ComputationalGridLib
+# Target rules for targets named GridHandlerLib
 
 # Build rule for target.
-ComputationalGridLib: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 ComputationalGridLib
-.PHONY : ComputationalGridLib
+GridHandlerLib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 GridHandlerLib
+.PHONY : GridHandlerLib
 
 # fast build rule for target.
-ComputationalGridLib/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/build
-.PHONY : ComputationalGridLib/fast
+GridHandlerLib/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\GridHandlerLib.dir\build.make CMakeFiles/GridHandlerLib.dir/build
+.PHONY : GridHandlerLib/fast
+
+#=============================================================================
+# Target rules for targets named InitializeLib
+
+# Build rule for target.
+InitializeLib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 InitializeLib
+.PHONY : InitializeLib
+
+# fast build rule for target.
+InitializeLib/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\InitializeLib.dir\build.make CMakeFiles/InitializeLib.dir/build
+.PHONY : InitializeLib/fast
 
 #=============================================================================
 # Target rules for targets named Inviscid_Euler_Solver
@@ -189,29 +154,53 @@ Inviscid_Euler_Solver/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Inviscid_Euler_Solver.dir\build.make CMakeFiles/Inviscid_Euler_Solver.dir/build
 .PHONY : Inviscid_Euler_Solver/fast
 
-src/ComputationalGrid.obj: src/ComputationalGrid.cpp.obj
-.PHONY : src/ComputationalGrid.obj
+src/GridHandler.obj: src/GridHandler.cpp.obj
+.PHONY : src/GridHandler.obj
 
 # target to build an object file
-src/ComputationalGrid.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.obj
-.PHONY : src/ComputationalGrid.cpp.obj
+src/GridHandler.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\GridHandlerLib.dir\build.make CMakeFiles/GridHandlerLib.dir/src/GridHandler.cpp.obj
+.PHONY : src/GridHandler.cpp.obj
 
-src/ComputationalGrid.i: src/ComputationalGrid.cpp.i
-.PHONY : src/ComputationalGrid.i
+src/GridHandler.i: src/GridHandler.cpp.i
+.PHONY : src/GridHandler.i
 
 # target to preprocess a source file
-src/ComputationalGrid.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.i
-.PHONY : src/ComputationalGrid.cpp.i
+src/GridHandler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\GridHandlerLib.dir\build.make CMakeFiles/GridHandlerLib.dir/src/GridHandler.cpp.i
+.PHONY : src/GridHandler.cpp.i
 
-src/ComputationalGrid.s: src/ComputationalGrid.cpp.s
-.PHONY : src/ComputationalGrid.s
+src/GridHandler.s: src/GridHandler.cpp.s
+.PHONY : src/GridHandler.s
 
 # target to generate assembly for a file
-src/ComputationalGrid.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\ComputationalGridLib.dir\build.make CMakeFiles/ComputationalGridLib.dir/src/ComputationalGrid.cpp.s
-.PHONY : src/ComputationalGrid.cpp.s
+src/GridHandler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\GridHandlerLib.dir\build.make CMakeFiles/GridHandlerLib.dir/src/GridHandler.cpp.s
+.PHONY : src/GridHandler.cpp.s
+
+src/Initialize.obj: src/Initialize.cpp.obj
+.PHONY : src/Initialize.obj
+
+# target to build an object file
+src/Initialize.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\InitializeLib.dir\build.make CMakeFiles/InitializeLib.dir/src/Initialize.cpp.obj
+.PHONY : src/Initialize.cpp.obj
+
+src/Initialize.i: src/Initialize.cpp.i
+.PHONY : src/Initialize.i
+
+# target to preprocess a source file
+src/Initialize.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\InitializeLib.dir\build.make CMakeFiles/InitializeLib.dir/src/Initialize.cpp.i
+.PHONY : src/Initialize.cpp.i
+
+src/Initialize.s: src/Initialize.cpp.s
+.PHONY : src/Initialize.s
+
+# target to generate assembly for a file
+src/Initialize.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\InitializeLib.dir\build.make CMakeFiles/InitializeLib.dir/src/Initialize.cpp.s
+.PHONY : src/Initialize.cpp.s
 
 src/main.obj: src/main.cpp.obj
 .PHONY : src/main.obj
@@ -245,11 +234,15 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... ComputationalGridLib
+	@echo ... GridHandlerLib
+	@echo ... InitializeLib
 	@echo ... Inviscid_Euler_Solver
-	@echo ... src/ComputationalGrid.obj
-	@echo ... src/ComputationalGrid.i
-	@echo ... src/ComputationalGrid.s
+	@echo ... src/GridHandler.obj
+	@echo ... src/GridHandler.i
+	@echo ... src/GridHandler.s
+	@echo ... src/Initialize.obj
+	@echo ... src/Initialize.i
+	@echo ... src/Initialize.s
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s
