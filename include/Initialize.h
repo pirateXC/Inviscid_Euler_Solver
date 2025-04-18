@@ -19,16 +19,29 @@ public:
     // impose BCs on the halo (ghost) cells
     void applyBoundaryConditions();
 
-    // individual BC helpers (called by applyBoundaryConditions)
-    void setInletConditions();
-    void setOutletConditions();
-    void setWallConditions();
+    // switch from primatives (P, u, v, T) to state vector Q
+    void packToQ(
+        const Eigen::MatrixXd &P,
+        const Eigen::MatrixXd &u,
+        const Eigen::MatrixXd &v,
+        const Eigen::MatrixXd &T
+    );
+
+    // primative fields from Q
+    Eigen::MatrixXd computePressure() const; // pressure
+    Eigen::MatrixXd computeU_Velo() const; // u-component velocity
+    Eigen::MatrixXd computeV_Velo() const; // v-component velocity
+    Eigen::MatrixXd computeTemp() const; // temperature
 
     // getter methods
-    const Eigen::MatrixXd& getRho()   const { return  rho; }
-    const Eigen::MatrixXd& getRhoU()  const { return  rhoU; }
-    const Eigen::MatrixXd& getRhoV()  const { return  rhoV; }
-    const Eigen::MatrixXd& getEnergy()const { return    E;  }
+    const std::array<Eigen::MatrixXd,4>& getQ() const { return Q; }
+    const Eigen::MatrixXd& getRho()    const { return Q[RHO]; }
+    const Eigen::MatrixXd& getRhoU()   const { return Q[RHO_U]; }
+    const Eigen::MatrixXd& getRhoV()   const { return Q[RHO_V]; }
+    const Eigen::MatrixXd& getEnergy() const { return Q[ENERGY]; }
+
+        // index enum for Q components
+        enum Conserved { RHO = 0, RHO_U = 1, RHO_V = 2, ENERGY = 3 };
 
 private:
     GridHandler &grid;
@@ -36,8 +49,12 @@ private:
     double gamma;     // ratio of heats
     double Cp;        // [J / kg*K] specific heat
 
-    Eigen::MatrixXd rho, rhoU, rhoV, E; // conserved variables, sized to grid with ghosts
-    Eigen::MatrixXd Q; // flux vector
+    // individual BC helpers (called by applyBoundaryConditions)
+    void setInletConditions();
+    void setOutletConditions();
+    void setWallConditions();
+
+    std::array<Eigen::MatrixXd, 4> Q; // state vector, [rho, rho*u, rho*v, rho*E]
 };
 
 #endif  // INITIALIZE_H
