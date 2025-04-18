@@ -18,6 +18,19 @@ Initialize::Initialize(GridHandler &grid_,
     }
 }
 
+void Initialize::packToQ(const Eigen::MatrixXd &P,
+    const Eigen::MatrixXd &u,
+    const Eigen::MatrixXd &v,
+    const Eigen::MatrixXd &T) {
+Eigen::MatrixXd rho = (P.array() / T.array()) / R;
+Q[RHO]   = rho;
+Q[RHO_U]  = rho.array() * u.array();
+Q[RHO_V]  = rho.array() * v.array();
+Q[ENERGY]= (P.array() / (gamma-1.0)) +
+0.5 * rho.array() * (u.array().square() + v.array().square());
+}
+
+
 void Initialize::setInitialConditions(double P0, double T0, double M0) {
     // compute freestream from P0, T0, M0
     double a0 = std::sqrt(gamma * R * T0);
@@ -72,7 +85,6 @@ void Initialize::setOutletConditions() {
         Q[RHO_U](ni-1,j) = Q[RHO_U](ni-2,j);
         Q[RHO_V](ni-1,j) = Q[RHO_V](ni-2,j);
         Q[ENERGY](ni-1,j) = Q[ENERGY](ni-2,j);
-
     }
 }
 
@@ -86,7 +98,7 @@ void Initialize::setWallConditions() {
         // bottom wall: j=0 -> j=1, flip normal velocity (rhoV)
         Q[RHO](i,0) = Q[RHO](i,1);
         Q[RHO_U](i,0) = Q[RHO_U](i,1);
-        Q[RHO_V](i,0) = Q[RHO_V](i,1);
+        Q[RHO_V](i,0) = -Q[RHO_V](i,1);
         Q[ENERGY](i,0) = Q[ENERGY](i,1);
 
         // top wall
@@ -95,7 +107,7 @@ void Initialize::setWallConditions() {
         Q[RHO_V](i,nj-1) = -Q[RHO_V](i,nj-2);
         Q[ENERGY](i,nj-1) = Q[ENERGY](i,nj-2);
     }
-    }
+}
 
 Eigen::MatrixXd Initialize::computePressure() const {
     const auto &rho = Q[RHO].array();
@@ -107,13 +119,14 @@ Eigen::MatrixXd Initialize::computePressure() const {
 }
 
 Eigen::MatrixXd Initialize::computeTemp() const {
-
+    Eigen::MatrixXd P = computePressure();
+    return (P.array() / Q[RHO].array() / R).matrix();
 }
 
 Eigen::MatrixXd Initialize::computeU_Velo() const {
-
+    return (Q[RHO_V].array() / Q[RHO].array()).matrix();
 }
 
 Eigen::MatrixXd Initialize::computeV_Velo() const {
-    
+    return (Q[RHO_U].array() / Q[RHO].array()).matrix();
 }
