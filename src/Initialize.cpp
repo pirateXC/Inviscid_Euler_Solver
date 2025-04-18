@@ -1,4 +1,5 @@
 #include "Initialize.h"
+#include <Eigen/Dense>
 #include <cmath>
 #include <iostream>
 
@@ -12,11 +13,23 @@ Initialize::Initialize(GridHandler &grid_,
     const int &ni = grid.getNX();
     const int &nj = grid.getNY();
 
-    rho  = Eigen::MatrixXd::Zero(ni, nj);
-    rhoU = Eigen::MatrixXd::Zero(ni, nj);
-    rhoV = Eigen::MatrixXd::Zero(ni, nj);
-    E    = Eigen::MatrixXd::Zero(ni, nj);
+    for (auto &mat : Q) {
+        mat.setZero(ni, nj);
+    }
 }
+
+void Initialize::packToQ(const Eigen::MatrixXd &P,
+    const Eigen::MatrixXd &u,
+    const Eigen::MatrixXd &v,
+    const Eigen::MatrixXd &T) {
+Eigen::MatrixXd rho = (P.array() / T.array()) / R;
+Q[RHO]   = rho;
+Q[RHO_U]  = rho.array() * u.array();
+Q[RHO_V]  = rho.array() * v.array();
+Q[ENERGY]= (P.array() / (gamma-1.0)) +
+0.5 * rho.array() * (u.array().square() + v.array().square());
+}
+
 
 void Initialize::setInitialConditions(double P0, double T0, double M0) {
     // compute freestream from P0, T0, M0
@@ -26,18 +39,23 @@ void Initialize::setInitialConditions(double P0, double T0, double M0) {
     double rho0 = P0 / (R * T0);
     double e0 = P0 / (gamma - 1.0) + 0.5 * rho0 * (u0*u0 + v0*v0);
 
-    // fill interior (skip ghost‑layer indices!)
-    int ng = 1;                    // 1‑cell halo
-    int imax = rho.rows()  - ng;
-    int jmax = rho.cols()  - ng;
-    for (int i = ng; i < imax; ++i) {
-        for (int j = ng; j < jmax; ++j) {
-            rho(i,j)  = rho0;
-            rhoU(i,j) = rho0 * u0;
-            rhoV(i,j) = rho0 * v0;
-            E(i,j)    = e0;
-        }
-    }
+    int ni = grid.getNX();
+    int nj = grid.getNY();
+
+    // Allocate full-size fields, initialize to zero
+    Eigen::MatrixXd P = Eigen::MatrixXd::Zero(ni, nj);
+    Eigen::MatrixXd u = Eigen::MatrixXd::Zero(ni, nj);
+    Eigen::MatrixXd v = Eigen::MatrixXd::Zero(ni, nj);
+    Eigen::MatrixXd T = Eigen::MatrixXd::Zero(ni, nj);
+
+    // Fill only interior cells
+    P.block(1, 1, ni-2, nj-2).setConstant(P0);
+    u.block(1, 1, ni-2, nj-2).setConstant(u0);
+    v.block(1, 1, ni-2, nj-2).setConstant(v0);
+    T.block(1, 1, ni-2, nj-2).setConstant(T0);
+
+    // populate state vector
+    packToQ(P, u, v, T);
 }
 
 void Initialize::applyBoundaryConditions() {
@@ -48,44 +66,67 @@ void Initialize::applyBoundaryConditions() {
 
 void Initialize::setInletConditions() {
     // supersonic inflow: prescribe all freestream -> copy into i=0 ghosts
-    int jmax = rho.cols();
-    for (int j = 0; j < jmax; ++j) {
-        rho(0,j)  = rho(1,j);
-        rhoU(0,j) = rhoU(1,j);
-        rhoV(0,j) = rhoV(1,j);
-        E(0,j)    = E(1,j);
+    int nj = grid.getNY();
+
+    for (int j = 0; j < nj; ++j) {
+        Q[RHO](0,j) = Q[RHO](1,j); 
+        Q[RHO_U](0,j) = Q[RHO_U](1,j);
+        Q[RHO_V](0,j) = Q[RHO_V](1,j);
+        Q[ENERGY](0,j) = Q[ENERGY](1,j);
     }
 }
 
 void Initialize::setOutletConditions() {
     // supersonic outflow: zero‐gradient -> copy last interior into ghost
-    int imax = rho.rows();
-    int jmax = rho.cols();
-    for (int j = 0; j < jmax; ++j) {
-        rho(imax-1,j)  = rho(imax-2,j);
-        rhoU(imax-1,j) = rhoU(imax-2,j);
-        rhoV(imax-1,j) = rhoV(imax-2,j);
-        E(imax-1,j)    = E(imax-2,j);
+    int ni = grid.getNX();
+    int nj = grid.getNY();
+    for (int j = 0; j < nj; ++j) {
+        Q[RHO](ni-1,j) = Q[RHO](ni-2,j);
+        Q[RHO_U](ni-1,j) = Q[RHO_U](ni-2,j);
+        Q[RHO_V](ni-1,j) = Q[RHO_V](ni-2,j);
+        Q[ENERGY](ni-1,j) = Q[ENERGY](ni-2,j);
     }
 }
 
 void Initialize::setWallConditions() {
     // inviscid slip wall on top/bottom: reflect normal momentum
-    int imax = rho.rows();
-    int jmax = rho.cols();
+    int ni = grid.getNX();
+    int nj = grid.getNY();
 
     // bottom (j=0) and top (j=jmax-1)
-    for (int i = 0; i < imax; ++i) {
+    for (int i = 0; i < ni; ++i) {
         // bottom wall: j=0 -> j=1, flip normal velocity (rhoV)
-        rho(i,0)   = rho(i,1);
-        rhoU(i,0)  = rhoU(i,1);
-        rhoV(i,0)  = -rhoV(i,1);
-        E(i,0)     = E(i,1);
+        Q[RHO](i,0) = Q[RHO](i,1);
+        Q[RHO_U](i,0) = Q[RHO_U](i,1);
+        Q[RHO_V](i,0) = -Q[RHO_V](i,1);
+        Q[ENERGY](i,0) = Q[ENERGY](i,1);
 
         // top wall
-        rho(i,jmax-1)  = rho(i,jmax-2);
-        rhoU(i,jmax-1) = rhoU(i,jmax-2);
-        rhoV(i,jmax-1) = -rhoV(i,jmax-2);
-        E(i,jmax-1)    = E(i,jmax-2);
+        Q[RHO](i,nj-1) = Q[RHO](i,nj-2);
+        Q[RHO_U](i,nj-1) = Q[RHO_U](i,nj-2);
+        Q[RHO_V](i,nj-1) = -Q[RHO_V](i,nj-2);
+        Q[ENERGY](i,nj-1) = Q[ENERGY](i,nj-2);
     }
+}
+
+Eigen::MatrixXd Initialize::computePressure() const {
+    const auto &rho = Q[RHO].array();
+    const auto &rho_u = Q[RHO_U].array();
+    const auto &rho_v = Q[RHO_V].array();
+    const auto &energy = Q[ENERGY].array();
+
+    return ((gamma - 1.0)*(rho * energy - 0.5*rho*( (rho_u/rho).square() + (rho_v/rho).square() ))).matrix();
+}
+
+Eigen::MatrixXd Initialize::computeTemp() const {
+    Eigen::MatrixXd P = computePressure();
+    return (P.array() / Q[RHO].array() / R).matrix();
+}
+
+Eigen::MatrixXd Initialize::computeU_Velo() const {
+    return (Q[RHO_V].array() / Q[RHO].array()).matrix();
+}
+
+Eigen::MatrixXd Initialize::computeV_Velo() const {
+    return (Q[RHO_U].array() / Q[RHO].array()).matrix();
 }
