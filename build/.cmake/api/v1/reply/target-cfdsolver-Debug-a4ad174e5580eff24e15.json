@@ -3,7 +3,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "libInitializeLib.a"
+			"path" : "libcfdsolver.a"
 		}
 	],
 	"backtrace" : 2,
@@ -29,7 +29,7 @@
 			{
 				"command" : 1,
 				"file" : 1,
-				"line" : 21,
+				"line" : 15,
 				"parent" : 0
 			},
 			{
@@ -41,7 +41,7 @@
 			{
 				"command" : 2,
 				"file" : 1,
-				"line" : 31,
+				"line" : 20,
 				"parent" : 0
 			},
 			{
@@ -77,12 +77,12 @@
 				{
 					"backtrace" : 3,
 					"isSystem" : true,
-					"path" : "C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/include"
+					"path" : "C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/include/eigen3"
 				},
 				{
 					"backtrace" : 3,
 					"isSystem" : true,
-					"path" : "C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/include/eigen3"
+					"path" : "C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/include"
 				}
 			],
 			"language" : "CXX",
@@ -97,13 +97,14 @@
 			},
 			"sourceIndexes" : 
 			[
-				0
+				0,
+				1
 			]
 		}
 	],
-	"id" : "InitializeLib::@6890427a1f51a3e7e1df",
-	"name" : "InitializeLib",
-	"nameOnDisk" : "libInitializeLib.a",
+	"id" : "cfdsolver::@6890427a1f51a3e7e1df",
+	"name" : "cfdsolver",
+	"nameOnDisk" : "libcfdsolver.a",
 	"paths" : 
 	{
 		"build" : ".",
@@ -115,12 +116,19 @@
 			"name" : "Source Files",
 			"sourceIndexes" : 
 			[
-				0
+				0,
+				1
 			]
 		}
 	],
 	"sources" : 
 	[
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "src/GridHandler.cpp",
+			"sourceGroupIndex" : 0
+		},
 		{
 			"backtrace" : 2,
 			"compileGroupIndex" : 0,

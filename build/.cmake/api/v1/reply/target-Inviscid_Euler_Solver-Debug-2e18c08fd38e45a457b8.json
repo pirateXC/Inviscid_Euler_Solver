@@ -37,7 +37,7 @@
 			{
 				"command" : 1,
 				"file" : 1,
-				"line" : 39,
+				"line" : 28,
 				"parent" : 0
 			},
 			{
@@ -49,13 +49,13 @@
 			{
 				"command" : 2,
 				"file" : 1,
-				"line" : 41,
+				"line" : 31,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 1,
-				"line" : 25,
+				"line" : 20,
 				"parent" : 0
 			},
 			{
@@ -129,12 +129,12 @@
 				{
 					"backtrace" : 3,
 					"isSystem" : true,
-					"path" : "C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/include"
+					"path" : "C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/include/eigen3"
 				},
 				{
 					"backtrace" : 3,
 					"isSystem" : true,
-					"path" : "C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/include/eigen3"
+					"path" : "C:/Users/jmmcl/OneDrive/Desktop/Project/C_Plus_Plus_Libraries/vcpkg-master/installed/x64-mingw-static/include"
 				}
 			],
 			"language" : "CXX",
@@ -157,11 +157,7 @@
 	[
 		{
 			"backtrace" : 3,
-			"id" : "GridHandlerLib::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "InitializeLib::@6890427a1f51a3e7e1df"
+			"id" : "cfdsolver::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "Inviscid_Euler_Solver::@6890427a1f51a3e7e1df",
@@ -175,12 +171,7 @@
 			},
 			{
 				"backtrace" : 3,
-				"fragment" : "libGridHandlerLib.a",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 3,
-				"fragment" : "libInitializeLib.a",
+				"fragment" : "libcfdsolver.a",
 				"role" : "libraries"
 			},
 			{

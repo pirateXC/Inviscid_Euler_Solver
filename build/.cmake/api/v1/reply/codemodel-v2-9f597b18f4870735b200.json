@@ -16,8 +16,7 @@
 					"targetIndexes" : 
 					[
 						0,
-						1,
-						2
+						1
 					]
 				}
 			],
@@ -33,8 +32,7 @@
 					"targetIndexes" : 
 					[
 						0,
-						1,
-						2
+						1
 					]
 				}
 			],
@@ -42,23 +40,16 @@
 			[
 				{
 					"directoryIndex" : 0,
-					"id" : "GridHandlerLib::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-GridHandlerLib-Debug-1c3d1b42cdd475d1130b.json",
-					"name" : "GridHandlerLib",
-					"projectIndex" : 0
-				},
-				{
-					"directoryIndex" : 0,
-					"id" : "InitializeLib::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-InitializeLib-Debug-d1c6151330a14ac0300e.json",
-					"name" : "InitializeLib",
-					"projectIndex" : 0
-				},
-				{
-					"directoryIndex" : 0,
 					"id" : "Inviscid_Euler_Solver::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Inviscid_Euler_Solver-Debug-89aaa283ead99697d30a.json",
+					"jsonFile" : "target-Inviscid_Euler_Solver-Debug-2e18c08fd38e45a457b8.json",
 					"name" : "Inviscid_Euler_Solver",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "cfdsolver::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-cfdsolver-Debug-a4ad174e5580eff24e15.json",
+					"name" : "cfdsolver",
 					"projectIndex" : 0
 				}
 			]
