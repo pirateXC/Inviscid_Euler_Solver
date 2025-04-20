@@ -25,15 +25,13 @@ void Initialize::setInitialConditions(double P0, double T0, double M0) {
     flux.getVelo_U().block(1, 1, ni-2, nj-2).setConstant(u0);
     flux.getVelo_V().block(1, 1, ni-2, nj-2).setConstant(v0);
     flux.getTemp().block(1, 1, ni-2, nj-2).setConstant(T0);
-
-    applyBoundaryConditions();
-    flux.packToQ(R, gamma);
 }
 
 void Initialize::applyBoundaryConditions() {
     setInletConditions();
     setOutletConditions();
     setWallConditions();
+    flux.packToQ(R, gamma);
 }
 
 void Initialize::setInletConditions() {

@@ -102,10 +102,8 @@ void GridHandler::computeCellMetrics() {
     haloCell();
 
     // compute cell-centered coordinates for the grid
-    xCenter = x.block(0, 0, nx - 1, ny - 1) +
-              0.5 * (x.block(1, 1, nx - 1, ny - 1) - x.block(0, 0, nx - 1, ny - 1));
-    yCenter = y.block(0, 0, nx - 1, ny - 1) +
-              0.5 * (y.block(1, 1, nx - 1, ny - 1) - y.block(0, 0, nx - 1, ny - 1));
+    xCenter = x.block(0, 0, nx - 1, ny - 1) + 0.5 * (x.block(1, 1, nx - 1, ny - 1) - x.block(0, 0, nx - 1, ny - 1));
+    yCenter = y.block(0, 0, nx - 1, ny - 1) + 0.5 * (y.block(1, 1, nx - 1, ny - 1) - y.block(0, 0, nx - 1, ny - 1));
 
     // compute cell volumes using the determinant method
     cellVolume = Eigen::MatrixXd::Zero(nx - 1, ny - 1);
@@ -129,10 +127,8 @@ void GridHandler::computeCellMetrics() {
     xArea_Eta = Eigen::MatrixXd::Zero(nx - 3, ny - 1);
     yArea_Eta = Eigen::MatrixXd::Zero(nx - 3, ny - 1);
 
-    xArea_Eta = y.block(2, 2, nx - 3, ny - 1)
-              - y.block(1, 2, nx - 3, ny - 1);
-    yArea_Eta = x.block(2, 2, nx - 3, ny - 1)
-              - x.block(1, 2, nx - 3, ny - 1);
+    xArea_Eta = y.block(2, 2, nx - 3, ny - 1) - y.block(1, 2, nx - 3, ny - 1);
+    yArea_Eta = x.block(2, 2, nx - 3, ny - 1) - x.block(1, 2, nx - 3, ny - 1);
 
     // compute unit normals in xi-direction
     xUnitNorm_Xi =  xArea_Xi.array() / ((xArea_Xi.array().square() + yArea_Xi.array().square()).sqrt());

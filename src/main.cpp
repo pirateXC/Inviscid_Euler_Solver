@@ -30,6 +30,9 @@ int main() {
     // apply ICs
     init.setInitialConditions(P_i, T_i, M_i);
 
+    // apply BCs
+    init.applyBoundaryConditions();
+
     // …rest of solver…
 
     return 0;

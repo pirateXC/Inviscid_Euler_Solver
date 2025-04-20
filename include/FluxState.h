@@ -17,13 +17,14 @@ public:
         }
 
         // initialize primatives
-        P   = Eigen::MatrixXd::Zero(ni, nj);
-        T   = Eigen::MatrixXd::Zero(ni, nj);
-        u   = Eigen::MatrixXd::Zero(ni, nj);
-        v   = Eigen::MatrixXd::Zero(ni, nj);
+        P = Eigen::MatrixXd::Zero(ni, nj); // pressure
+        T = Eigen::MatrixXd::Zero(ni, nj); // temperature
+        u = Eigen::MatrixXd::Zero(ni, nj); // u-velocity
+        v = Eigen::MatrixXd::Zero(ni, nj); // v-velocity
 
     }
 
+    // packs primatives into state vector
     void packToQ(double R, double gamma)
     {
         Eigen::ArrayXXd rho   = (P.array() / T.array()) / R;
@@ -46,6 +47,7 @@ public:
         v = (Q[RHO_V].array() / Q[RHO].array()).matrix();
     }
 
+    // calculates pressure primative
     Eigen::MatrixXd computePressure(double R, double gamma) const {
         auto rho   = Q[RHO].array();
         auto rho_u = Q[RHO_U].array();
@@ -58,14 +60,17 @@ public:
                .matrix();
     }
 
+    // calculates temperature primative
     Eigen::MatrixXd computeTemp(double R, double gamma) const {
         return (computePressure(R, gamma).array() / Q[RHO].array() / R).matrix();
     }
 
+    // calculates u-velocity primative
     Eigen::MatrixXd computeVeloU() const {
         return (Q[RHO_U].array() / Q[RHO].array()).matrix();
     }
 
+    // calculates v-velocity primative
     Eigen::MatrixXd computeVeloV() const {
         return (Q[RHO_V].array() / Q[RHO].array()).matrix();
     }
