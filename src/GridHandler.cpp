@@ -70,85 +70,77 @@ bool GridHandler::readGridFile(const std::string &filename) {
 }
 
 void GridHandler::haloCell() {
-    // Create augmented matrices with 2 extra rows and 2 extra columns.
-    Eigen::MatrixXd xAugGrid = Eigen::MatrixXd::Zero(nx + 2, ny + 2);
-    Eigen::MatrixXd yAugGrid = Eigen::MatrixXd::Zero(nx + 2, ny + 2);
+    // build augmented grids
+    Eigen::MatrixXd xAug = Eigen::MatrixXd::Zero(nx+2, ny+2);
+    Eigen::MatrixXd yAug = Eigen::MatrixXd::Zero(nx+2, ny+2);
+    xAug.block(1,1,nx,ny) = x;
+    yAug.block(1,1,nx,ny) = y;
 
-    // Copy the original grid into the center of the augmented grid.
-    xAugGrid.block(1, 1, nx, ny) = x;
-    yAugGrid.block(1, 1, nx, ny) = y;
+    // left ghost‐column: rows 1..nx, col 0
+    xAug.block(1, 0, nx, 1) = 2*x.col(0)   - x.col(1);
+    yAug.block(1, 0, nx, 1) = 2*y.col(0)   - y.col(1);
 
-    // Horizontal boundaries: left and right sides.
-    for (int i = 0; i < nx; ++i) {
-        // Left Boundary: reflect the first column.
-        xAugGrid(i + 1, 0) = 2.0 * x(i, 0) - x(i, 1);
-        yAugGrid(i + 1, 0) = 2.0 * y(i, 0) - y(i, 1);
+    // right ghost‐column: rows 1..nx, col ny+1
+    xAug.block(1, ny+1, nx, 1) = 2*x.col(ny-1) - x.col(ny-2);
+    yAug.block(1, ny+1, nx, 1) = 2*y.col(ny-1) - y.col(ny-2);
 
-        // Right Boundary: reflect the last column.
-        // Note: valid original column indices are 0 to (ny-1).
-        xAugGrid(i + 1, ny + 1) = 2.0 * x(i, ny - 1) - x(i, ny - 2);
-        yAugGrid(i + 1, ny + 1) = 2.0 * y(i, ny - 1) - y(i, ny - 2);
-    }
+    // top ghost‐row: row 0, cols 0..ny+1
+    xAug.row(0)    = 2*xAug.row(1)   - xAug.row(2);
+    yAug.row(0)    = 2*yAug.row(1)   - yAug.row(2);
 
-    // Vertical boundaries: top and bottom sides.
-    for (int j = 0; j < ny + 2; ++j) {
-        // Top Boundary: reflect the first interior rows.
-        xAugGrid(0, j) = 2.0 * xAugGrid(1, j) - xAugGrid(2, j);
-        yAugGrid(0, j) = 2.0 * yAugGrid(1, j) - yAugGrid(2, j);
+    // bottom ghost‐row: row nx+1, cols 0..ny+1
+    xAug.row(nx+1) = 2*xAug.row(nx)  - xAug.row(nx-1);
+    yAug.row(nx+1) = 2*yAug.row(nx)  - yAug.row(nx-1);
 
-        // Bottom Boundary: reflect the last interior rows.
-        xAugGrid(nx + 1, j) = 2.0 * xAugGrid(nx, j) - xAugGrid(nx - 1, j);
-        yAugGrid(nx + 1, j) = 2.0 * yAugGrid(nx, j) - yAugGrid(nx - 1, j);
-    }
-
-    // Update member variables with the augmented grid.
-    x = xAugGrid;
-    y = yAugGrid;
-    nx += 2;
-    ny += 2;
+    x = std::move(xAug);
+    y = std::move(yAug);
+    nx += 2;  ny += 2;
 }
 
 void GridHandler::computeCellMetrics() {
-    // Extend the grid by adding ghost cells.
+    // extend the grid by adding ghost cells
     haloCell();
 
-    // Compute cell-centered coordinates for the grid
+    // compute cell-centered coordinates for the grid
     xCenter = x.block(0, 0, nx - 1, ny - 1) +
               0.5 * (x.block(1, 1, nx - 1, ny - 1) - x.block(0, 0, nx - 1, ny - 1));
     yCenter = y.block(0, 0, nx - 1, ny - 1) +
               0.5 * (y.block(1, 1, nx - 1, ny - 1) - y.block(0, 0, nx - 1, ny - 1));
 
-    // Compute cell volumes using the determinant method
+    // compute cell volumes using the determinant method
     cellVolume = Eigen::MatrixXd::Zero(nx - 1, ny - 1);
 
-    for (int i = 0; i < nx - 1; ++i) {
-        for (int j = 0; j < ny - 1; ++j) {
-            cellVolume(i, j) = 0.5 * ((x(i + 1, j + 1) - x(i, j)) * (y(i, j + 1) - y(i + 1, j)) -
-                                      (y(i + 1, j + 1) - y(i, j)) * (x(i, j + 1) - x(i + 1, j)));
-        }
-    }
+    auto A = (x.block(1, 1, nx - 1, ny - 1) - x.block(0, 0, nx - 1, ny - 1)).array();
+    auto B = (y.block(0, 1, nx - 1, ny - 1) - y.block(1, 0, nx - 1, ny - 1)).array();
+    auto C = (y.block(1, 1, nx - 1, ny - 1) - y.block(0, 0, nx - 1, ny - 1)).array();
+    auto D = (x.block(0, 1, nx - 1, ny - 1) - x.block(1, 0, nx - 1, ny - 1)).array();
+    cellVolume = (0.5 * (A * B - C * D)).matrix();
 
-    // Compute face areas in the ξ (xi) direction
+    // compute face areas in the xi-direction
     xArea_Xi = Eigen::MatrixXd::Zero(nx - 2, ny - 3);
     yArea_Xi = Eigen::MatrixXd::Zero(nx - 2, ny - 3);
 
-    for (int i = 1; i < nx - 1; ++i) {
-        for (int j = 1; j < ny - 2; ++j) {
-            xArea_Xi(i - 1, j - 1) = y(i + 1, j + 1) - y(i + 1, j);
-            yArea_Xi(i - 1, j - 1) = x(i + 1, j + 1) - x(i + 1, j);
-        }
-    }
+    xArea_Xi =  y.block(2, 2, nx - 2, ny - 3)
+              - y.block(2, 1, nx - 2, ny - 3);
+    yArea_Xi =  x.block(2, 2, nx - 2, ny - 3)
+              - x.block(2, 1, nx - 2, ny - 3);
 
-    // Compute face areas in the η (eta) direction
+    // compute face areas in the eta-direction
     xArea_Eta = Eigen::MatrixXd::Zero(nx - 3, ny - 1);
     yArea_Eta = Eigen::MatrixXd::Zero(nx - 3, ny - 1);
 
-    for (int i = 1; i < nx - 2; ++i) {
-        for (int j = 1; j < ny - 1; ++j) {
-            xArea_Eta(i - 1, j - 1) = y(i + 1, j + 1) - y(i, j + 1);
-            yArea_Eta(i - 1, j - 1) = x(i + 1, j + 1) - x(i, j + 1);
-        }
-    }
+    xArea_Eta = y.block(2, 2, nx - 3, ny - 1)
+              - y.block(1, 2, nx - 3, ny - 1);
+    yArea_Eta = x.block(2, 2, nx - 3, ny - 1)
+              - x.block(1, 2, nx - 3, ny - 1);
+
+    // compute unit normals in xi-direction
+    xUnitNorm_Xi =  xArea_Xi.array() / ((xArea_Xi.array().square() + yArea_Xi.array().square()).sqrt());
+    yUnitNorm_Xi = -yArea_Xi.array() / ((xArea_Xi.array().square() + yArea_Xi.array().square()).sqrt());
+
+      // compute unit normals in eta-direction
+    xUnitNorm_Eta =  xArea_Eta.array() / ((xArea_Eta.array().square() + yArea_Eta.array().square() ).sqrt());
+    yUnitNorm_Eta = -yArea_Eta.array() / ((xArea_Eta.array().square() + yArea_Eta.array().square() ).sqrt());
 }
 
 

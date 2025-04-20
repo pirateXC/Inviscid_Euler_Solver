@@ -32,6 +32,10 @@ public:
     const Eigen::MatrixXd &getYAreaXi() const { return yArea_Xi; }
     const Eigen::MatrixXd &getXAreaEta() const { return xArea_Eta; }
     const Eigen::MatrixXd &getYAreaEta() const { return yArea_Eta; }
+    const Eigen::MatrixXd &getXUnitNormXi() const { return xUnitNorm_Xi; }
+    const Eigen::MatrixXd &getYUnitNormXi() const { return yUnitNorm_Xi; }
+    const Eigen::MatrixXd &getXUnitNormEta() const { return xUnitNorm_Eta; }
+    const Eigen::MatrixXd &getYUnitNormEta() const { return yUnitNorm_Eta; }
 
 private:
     int nx, ny; // total grid points for i and j component
@@ -44,6 +48,10 @@ private:
     Eigen::MatrixXd yArea_Eta; // face areas for j-component in eta direction
     Eigen::MatrixXd xArea_Xi;  // face areas for i-component in xi direction
     Eigen::MatrixXd yArea_Xi; // face areas for j-component in xi direction
+    Eigen::MatrixXd xUnitNorm_Eta; // unit for for i-component in eta direction
+    Eigen::MatrixXd yUnitNorm_Eta; // unit for for j-component in eta direction
+    Eigen::MatrixXd xUnitNorm_Xi; // unit for for i-component in xi direction
+    Eigen::MatrixXd yUnitNorm_Xi; // unit for for i-component in xi direction
 };
 
 #endif  // COMPUTATIONALGRID_H
