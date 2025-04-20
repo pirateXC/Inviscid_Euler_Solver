@@ -116,30 +116,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named GridHandlerLib
+# Target rules for targets named cfdsolver
 
 # Build rule for target.
-GridHandlerLib: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 GridHandlerLib
-.PHONY : GridHandlerLib
+cfdsolver: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 cfdsolver
+.PHONY : cfdsolver
 
 # fast build rule for target.
-GridHandlerLib/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\GridHandlerLib.dir\build.make CMakeFiles/GridHandlerLib.dir/build
-.PHONY : GridHandlerLib/fast
-
-#=============================================================================
-# Target rules for targets named InitializeLib
-
-# Build rule for target.
-InitializeLib: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 InitializeLib
-.PHONY : InitializeLib
-
-# fast build rule for target.
-InitializeLib/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\InitializeLib.dir\build.make CMakeFiles/InitializeLib.dir/build
-.PHONY : InitializeLib/fast
+cfdsolver/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cfdsolver.dir\build.make CMakeFiles/cfdsolver.dir/build
+.PHONY : cfdsolver/fast
 
 #=============================================================================
 # Target rules for targets named Inviscid_Euler_Solver
@@ -159,7 +146,7 @@ src/GridHandler.obj: src/GridHandler.cpp.obj
 
 # target to build an object file
 src/GridHandler.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\GridHandlerLib.dir\build.make CMakeFiles/GridHandlerLib.dir/src/GridHandler.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cfdsolver.dir\build.make CMakeFiles/cfdsolver.dir/src/GridHandler.cpp.obj
 .PHONY : src/GridHandler.cpp.obj
 
 src/GridHandler.i: src/GridHandler.cpp.i
@@ -167,7 +154,7 @@ src/GridHandler.i: src/GridHandler.cpp.i
 
 # target to preprocess a source file
 src/GridHandler.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\GridHandlerLib.dir\build.make CMakeFiles/GridHandlerLib.dir/src/GridHandler.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cfdsolver.dir\build.make CMakeFiles/cfdsolver.dir/src/GridHandler.cpp.i
 .PHONY : src/GridHandler.cpp.i
 
 src/GridHandler.s: src/GridHandler.cpp.s
@@ -175,7 +162,7 @@ src/GridHandler.s: src/GridHandler.cpp.s
 
 # target to generate assembly for a file
 src/GridHandler.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\GridHandlerLib.dir\build.make CMakeFiles/GridHandlerLib.dir/src/GridHandler.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cfdsolver.dir\build.make CMakeFiles/cfdsolver.dir/src/GridHandler.cpp.s
 .PHONY : src/GridHandler.cpp.s
 
 src/Initialize.obj: src/Initialize.cpp.obj
@@ -183,7 +170,7 @@ src/Initialize.obj: src/Initialize.cpp.obj
 
 # target to build an object file
 src/Initialize.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\InitializeLib.dir\build.make CMakeFiles/InitializeLib.dir/src/Initialize.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cfdsolver.dir\build.make CMakeFiles/cfdsolver.dir/src/Initialize.cpp.obj
 .PHONY : src/Initialize.cpp.obj
 
 src/Initialize.i: src/Initialize.cpp.i
@@ -191,7 +178,7 @@ src/Initialize.i: src/Initialize.cpp.i
 
 # target to preprocess a source file
 src/Initialize.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\InitializeLib.dir\build.make CMakeFiles/InitializeLib.dir/src/Initialize.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cfdsolver.dir\build.make CMakeFiles/cfdsolver.dir/src/Initialize.cpp.i
 .PHONY : src/Initialize.cpp.i
 
 src/Initialize.s: src/Initialize.cpp.s
@@ -199,7 +186,7 @@ src/Initialize.s: src/Initialize.cpp.s
 
 # target to generate assembly for a file
 src/Initialize.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\InitializeLib.dir\build.make CMakeFiles/InitializeLib.dir/src/Initialize.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cfdsolver.dir\build.make CMakeFiles/cfdsolver.dir/src/Initialize.cpp.s
 .PHONY : src/Initialize.cpp.s
 
 src/main.obj: src/main.cpp.obj
@@ -234,9 +221,8 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... GridHandlerLib
-	@echo ... InitializeLib
 	@echo ... Inviscid_Euler_Solver
+	@echo ... cfdsolver
 	@echo ... src/GridHandler.obj
 	@echo ... src/GridHandler.i
 	@echo ... src/GridHandler.s
