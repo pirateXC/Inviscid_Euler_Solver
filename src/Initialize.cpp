@@ -21,18 +21,13 @@ void Initialize::setInitialConditions(double P0, double T0, double M0) {
     int ni = grid.getNX();
     int nj = grid.getNY();
 
-    Eigen::MatrixXd P = Eigen::MatrixXd::Zero(ni, nj);
-    Eigen::MatrixXd u = Eigen::MatrixXd::Zero(ni, nj);
-    Eigen::MatrixXd v = Eigen::MatrixXd::Zero(ni, nj);
-    Eigen::MatrixXd T = Eigen::MatrixXd::Zero(ni, nj);
+    flux.getPressure().block(1, 1, ni-2, nj-2).setConstant(P0);
+    flux.getVelo_U().block(1, 1, ni-2, nj-2).setConstant(u0);
+    flux.getVelo_V().block(1, 1, ni-2, nj-2).setConstant(v0);
+    flux.getTemp().block(1, 1, ni-2, nj-2).setConstant(T0);
 
-    P.block(1, 1, ni-2, nj-2).setConstant(P0);
-    u.block(1, 1, ni-2, nj-2).setConstant(u0);
-    v.block(1, 1, ni-2, nj-2).setConstant(v0);
-    T.block(1, 1, ni-2, nj-2).setConstant(T0);
-
-    flux.packToQ(P, u, v, T, R, gamma);
     applyBoundaryConditions();
+    flux.packToQ(R, gamma);
 }
 
 void Initialize::applyBoundaryConditions() {
@@ -43,45 +38,71 @@ void Initialize::applyBoundaryConditions() {
 
 void Initialize::setInletConditions() {
     int nj = grid.getNY();
-    auto &Q = flux.getQ();
+    auto& P = flux.getPressure();
+    auto& T = flux.getTemp();
+    auto& U = flux.getVelo_U();
+    auto& V = flux.getVelo_V();
 
-    for (int j = 0; j < nj; ++j) {
-        Q[FluxState::RHO]   (0, j) = Q[FluxState::RHO]   (1, j);
-        Q[FluxState::RHO_U] (0, j) = Q[FluxState::RHO_U] (1, j);
-        Q[FluxState::RHO_V] (0, j) = Q[FluxState::RHO_V] (1, j);
-        Q[FluxState::ENERGY](0, j) = Q[FluxState::ENERGY](1, j);
+    for(int j=0; j< nj; ++j) {
+        P(0,j) = P(1,j);
+        T(0,j) = T(1,j);
+        U(0,j) = U(1,j);
+        V(0,j) = V(1,j);
     }
 }
 
 void Initialize::setOutletConditions() {
     int ni = grid.getNX();
     int nj = grid.getNY();
-    auto &Q = flux.getQ();
+    auto& P = flux.getPressure();
+    auto& T = flux.getTemp();
+    auto& U = flux.getVelo_U();
+    auto& V = flux.getVelo_V();
 
-    for (int j = 0; j < nj; ++j) {
-        Q[FluxState::RHO]   (ni-1, j) = Q[FluxState::RHO]   (ni-2, j);
-        Q[FluxState::RHO_U] (ni-1, j) = Q[FluxState::RHO_U] (ni-2, j);
-        Q[FluxState::RHO_V] (ni-1, j) = Q[FluxState::RHO_V] (ni-2, j);
-        Q[FluxState::ENERGY](ni-1, j) = Q[FluxState::ENERGY](ni-2, j);
+    for(int j=0; j< nj; ++j) {
+        P(ni-1,j) = P(ni-2,j);
+        T(ni-1,j) = T(ni-2,j);
+        U(ni-1,j) = U(ni-2,j);
+        V(ni-1,j) = V(ni-2,j);
     }
 }
 
 void Initialize::setWallConditions() {
     int ni = grid.getNX();
     int nj = grid.getNY();
-    auto &Q = flux.getQ();
+    auto& nx_e = grid.getXUnitNormEta();
+    auto& ny_e = grid.getYUnitNormEta();
+    auto& P    = flux.getPressure();
+    auto& T    = flux.getTemp();
+    auto& U    = flux.getVelo_U();
+    auto& V    = flux.getVelo_V();
 
-    for (int i = 0; i < ni; ++i) {
-        // top wall
-        Q[FluxState::RHO]   (i, 0)    = Q[FluxState::RHO]   (i, 1);
-        Q[FluxState::RHO_U] (i, 0)    = Q[FluxState::RHO_U] (i, 1);
-        Q[FluxState::RHO_V] (i, 0)    = -Q[FluxState::RHO_V] (i, 1);
-        Q[FluxState::ENERGY](i, 0)    = Q[FluxState::ENERGY](i, 1);
+    // slip condition, inviscid flow
+    for(int i=1; i<ni-1; ++i) {
+        // bottom wall (j=0), interior at j=1
+        {
+            double nx = nx_e(i,0);
+            double ny = ny_e(i,0);
+            double u1 = U(i,1);
+            double v1 = V(i,1);
 
-        // bottom wall
-        Q[FluxState::RHO]   (i, nj-1) = Q[FluxState::RHO]   (i, nj-2);
-        Q[FluxState::RHO_U] (i, nj-1) = Q[FluxState::RHO_U] (i, nj-2);
-        Q[FluxState::RHO_V] (i, nj-1) = -Q[FluxState::RHO_V] (i, nj-2);
-        Q[FluxState::ENERGY](i, nj-1)= Q[FluxState::ENERGY](i, nj-2);
+            U(i,0) =  (1 - 2*nx*nx)*u1 - 2*nx*ny*v1;
+            V(i,0) = -2*nx*ny*u1 + (1 - 2*ny*ny)*v1;
+            P(i,0) = P(i,1);
+            T(i,0) = T(i,1);
+        }
+
+        // top wall (j=nj-1), use normals at j=nj-2, interior at j=nj-2
+        {
+            double nx = nx_e(i,nj-2);
+            double ny = ny_e(i,nj-2);
+            double u1 = U(i,nj-2);
+            double v1 = V(i, nj-2);
+
+            U(i,nj-1) =  (1 - 2*nx*nx)*u1 - 2*nx*ny*v1;
+            V(i,nj-1) = -2*nx*ny*u1 + (1 - 2*ny*ny)*v1;
+            P(i,nj-1) = P(i,nj-2);
+            T(i,nj-1) = T(i,nj-2);
+        }
     }
 }

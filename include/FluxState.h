@@ -73,10 +73,10 @@ public:
     // getters
     std::array<Eigen::MatrixXd,4>& getQ() { return Q; }
     const std::array<Eigen::MatrixXd,4>& getQ() const { return Q; }
-    Eigen::MatrixXd& pressure() { return P; }
-    Eigen::MatrixXd& temperature() { return T; }
-    Eigen::MatrixXd& velocityU() { return u; }
-    Eigen::MatrixXd& velocityV() { return v; }
+    Eigen::MatrixXd& getPressure() { return P; }
+    Eigen::MatrixXd& getTemp() { return T; }
+    Eigen::MatrixXd& getVelo_U() { return u; }
+    Eigen::MatrixXd& getVelo_V() { return v; }
 
 private:
     int ni; // num of i-components (including halo cells)
