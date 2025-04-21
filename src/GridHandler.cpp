@@ -139,7 +139,6 @@ void GridHandler::computeCellMetrics() {
     yUnitNorm_Eta = -yArea_Eta.array() / ((xArea_Eta.array().square() + yArea_Eta.array().square() ).sqrt());
 }
 
-
 void GridHandler::plotGrid(const std::string &plotTitle) {
     figure();
 

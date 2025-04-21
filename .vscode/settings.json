@@ -103,6 +103,16 @@
     "memory_resource": "cpp",
     "string_view": "cpp",
     "text_encoding": "cpp",
-    "cinttypes": "cpp"
+    "cinttypes": "cpp",
+    "any": "cpp",
+    "bitset": "cpp",
+    "cfenv": "cpp",
+    "codecvt": "cpp",
+    "expected": "cpp",
+    "filesystem": "cpp",
+    "ranges": "cpp",
+    "stack": "cpp",
+    "strstream": "cpp",
+    "typeindex": "cpp"
   }
 }
