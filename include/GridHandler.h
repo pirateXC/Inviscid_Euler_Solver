@@ -14,7 +14,7 @@ public:
     // Augments the grid by adding halo cells on all four boundaries.
     void haloCell();
 
-    // Calculates the cell center and volume for each cell and calculates the face areas in the xi and eta directions.
+    // calculates the cell center and volume for each cell and calculates the face areas in the xi and eta directions.
     void computeCellMetrics();
 
     // Creates a new figure window and plots the grid (using matplot).
