@@ -139,6 +139,36 @@ void GridHandler::computeCellMetrics() {
     yUnitNorm_Eta = -yArea_Eta.array() / ((xArea_Eta.array().square() + yArea_Eta.array().square() ).sqrt());
 }
 
+void GridHandler::buildFaceMasks() {
+    xiPlusMask  = Eigen::ArrayXXi::Ones(nx - 1, ny);     // Face between i and i+1
+    xiMinusMask = Eigen::ArrayXXi::Ones(nx - 1, ny);     // Face between i and i-1
+    etaPlusMask = Eigen::ArrayXXi::Ones(nx, ny - 1);     // Face between j and j+1
+    etaMinusMask= Eigen::ArrayXXi::Ones(nx, ny - 1);     // Face between j and j-1
+
+    for (int i = 0; i < nx - 1; ++i) {
+        for (int j = 0; j < ny; ++j) {
+            // Wall face in xi+
+            if (i == 0 || i+1 == nx - 1)
+                xiPlusMask(i,j) = 0;
+
+            // Wall face in xi-
+            if (i == 1 || i == nx - 2)
+                xiMinusMask(i,j) = 0;
+        }
+    }
+
+    for (int i = 0; i < nx; ++i) {
+        for (int j = 0; j < ny - 1; ++j) {
+            // Wall face in eta+
+            if (j == 0 || j+1 == ny - 1)
+                etaPlusMask(i,j) = 0;
+
+            // Wall face in eta-
+            if (j == 1 || j == ny - 2)
+                etaMinusMask(i,j) = 0;
+        }
+    }
+}
 
 void GridHandler::plotGrid(const std::string &plotTitle) {
     figure();

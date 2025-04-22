@@ -2,10 +2,10 @@
 #include <cmath>
 
 Initialize::Initialize(GridHandler &grid_,
-                       FluxState       &flux_,
-                       double           R_,
-                       double           gamma_,
-                       double           Cp_)
+                       FluxState &flux_,
+                       double R_,
+                       double gamma_,
+                       double Cp_)
   : grid(grid_)
   , flux(flux_)
   , R(R_)
@@ -38,14 +38,14 @@ void Initialize::setInletConditions() {
     int nj = grid.getNY();
     auto& P = flux.getPressure();
     auto& T = flux.getTemp();
-    auto& U = flux.getVelo_U();
-    auto& V = flux.getVelo_V();
+    auto& u = flux.getVelo_U();
+    auto& v = flux.getVelo_V();
 
-    for(int j=0; j< nj; ++j) {
+    for(int j = 0; j < nj; ++j) {
         P(0,j) = P(1,j);
         T(0,j) = T(1,j);
-        U(0,j) = U(1,j);
-        V(0,j) = V(1,j);
+        u(0,j) = u(1,j);
+        v(0,j) = v(1,j);
     }
 }
 
@@ -54,14 +54,14 @@ void Initialize::setOutletConditions() {
     int nj = grid.getNY();
     auto& P = flux.getPressure();
     auto& T = flux.getTemp();
-    auto& U = flux.getVelo_U();
-    auto& V = flux.getVelo_V();
+    auto& u = flux.getVelo_U();
+    auto& v = flux.getVelo_V();
 
-    for(int j=0; j< nj; ++j) {
+    for(int j = 0; j < nj; ++j) {
         P(ni-1,j) = P(ni-2,j);
         T(ni-1,j) = T(ni-2,j);
-        U(ni-1,j) = U(ni-2,j);
-        V(ni-1,j) = V(ni-2,j);
+        u(ni-1,j) = u(ni-2,j);
+        v(ni-1,j) = v(ni-2,j);
     }
 }
 
@@ -70,22 +70,22 @@ void Initialize::setWallConditions() {
     int nj = grid.getNY();
     auto& nx_e = grid.getXUnitNormEta();
     auto& ny_e = grid.getYUnitNormEta();
-    auto& P    = flux.getPressure();
-    auto& T    = flux.getTemp();
-    auto& U    = flux.getVelo_U();
-    auto& V    = flux.getVelo_V();
+    auto& P = flux.getPressure();
+    auto& T = flux.getTemp();
+    auto& u = flux.getVelo_U();
+    auto& v = flux.getVelo_V();
 
     // slip condition, inviscid flow
-    for(int i=1; i<ni-1; ++i) {
+    for(int i = 1; i < ni - 1; ++i) {
         // bottom wall (j=0), interior at j=1
         {
             double nx = nx_e(i,0);
             double ny = ny_e(i,0);
-            double u1 = U(i,1);
-            double v1 = V(i,1);
+            double u1 = u(i,1);
+            double v1 = v(i,1);
 
-            U(i,0) =  (1 - 2*nx*nx)*u1 - 2*nx*ny*v1;
-            V(i,0) = -2*nx*ny*u1 + (1 - 2*ny*ny)*v1;
+            u(i,0) = (1 - 2*nx*nx)*u1 - 2*nx*ny*v1;
+            v(i,0) = -2*nx*ny*u1 + (1 - 2*ny*ny)*v1;
             P(i,0) = P(i,1);
             T(i,0) = T(i,1);
         }
@@ -94,13 +94,49 @@ void Initialize::setWallConditions() {
         {
             double nx = nx_e(i,nj-2);
             double ny = ny_e(i,nj-2);
-            double u1 = U(i,nj-2);
-            double v1 = V(i, nj-2);
+            double u1 = u(i,nj-2);
+            double v1 = v(i, nj-2);
 
-            U(i,nj-1) =  (1 - 2*nx*nx)*u1 - 2*nx*ny*v1;
-            V(i,nj-1) = -2*nx*ny*u1 + (1 - 2*ny*ny)*v1;
+            u(i,nj-1) = (1 - 2*nx*nx)*u1 - 2*nx*ny*v1;
+            v(i,nj-1) = -2*nx*ny*u1 + (1 - 2*ny*ny)*v1;
             P(i,nj-1) = P(i,nj-2);
             T(i,nj-1) = T(i,nj-2);
         }
     }
+}
+
+void Initialize::computeTimeStep(double CFL) {
+    int ni = grid.getNX();
+    int nj = grid.getNY();
+    const auto& u = flux.getVelo_U();        // size: (ni × nj)
+    const auto& v = flux.getVelo_V();
+    const auto& nx_xi = grid.getXUnitNormXi();   // size: (ni-2 × nj-3)
+    const auto& ny_xi = grid.getYUnitNormXi();
+    const auto& nx_eta = grid.getXUnitNormEta();  // size: (ni-3 × nj-2)
+    const auto& ny_eta = grid.getYUnitNormEta();
+    const auto& T = flux.getTemp();
+
+    // convective velocities
+    Eigen::ArrayXXd U_xi = 
+       u.block(1,1, ni-2, nj-3).array() * nx_xi.array()
+     + v.block(1,1, ni-2, nj-3).array() * ny_xi.array();
+
+    Eigen::ArrayXXd U_eta = 
+    u.block(1,1, ni-3, nj-2).array() * nx_eta.array()
+     + v.block(1,1, ni-3, nj-2).array() * ny_eta.array();
+     
+     // acoustic speed    
+     Eigen::ArrayXXd c_xi = (gamma * R * T.block(1,1,ni-2,nj-3).array()).sqrt();
+     Eigen::ArrayXXd c_eta = (gamma * R * T.block(1,1,ni-3,nj-2).array()).sqrt();
+
+    // spectral radii
+    Eigen::ArrayXXd spectralRadii_Xi  = U_xi.abs() + c_xi;
+    Eigen::ArrayXXd spectralRadii_Eta = U_eta.abs() + c_eta;
+
+    // directional local dt min
+    double dt_xi_min  = spectralRadii_Xi.inverse().minCoeff();
+    double dt_eta_min = spectralRadii_Eta.inverse().minCoeff();
+
+    // global dt
+    dt = CFL * std::min(dt_xi_min, dt_eta_min);
 }

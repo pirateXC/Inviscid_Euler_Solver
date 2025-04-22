@@ -14,7 +14,9 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 
 add_library(cfdsolver
     src/GridHandler.cpp
-    src/Initialize.cpp)
+    src/Initialize.cpp
+    src/StegerWarming.cpp
+    src/PostProcess.cpp)
 
 # link in external libs
 target_link_libraries(cfdsolver

@@ -14,11 +14,13 @@ public:
     // Augments the grid by adding halo cells on all four boundaries.
     void haloCell();
 
-    // Calculates the cell center and volume for each cell and calculates the face areas in the xi and eta directions.
+    // calculates the cell center and volume for each cell and calculates the face areas in the xi and eta directions.
     void computeCellMetrics();
 
     // Creates a new figure window and plots the grid (using matplot).
     void plotGrid(const std::string &windowTitle);
+
+    void buildFaceMasks();
 
     // getter methods
     const int &getNX() const { return nx; }
@@ -36,6 +38,10 @@ public:
     const Eigen::MatrixXd &getYUnitNormXi() const { return yUnitNorm_Xi; }
     const Eigen::MatrixXd &getXUnitNormEta() const { return xUnitNorm_Eta; }
     const Eigen::MatrixXd &getYUnitNormEta() const { return yUnitNorm_Eta; }
+    const Eigen::ArrayXXi& getXiPlusMask()  const { return xiPlusMask; }
+    const Eigen::ArrayXXi& getXiMinusMask() const { return xiMinusMask; }
+    const Eigen::ArrayXXi& getEtaPlusMask() const { return etaPlusMask; }
+    const Eigen::ArrayXXi& getEtaMinusMask()const { return etaMinusMask; }
 
 private:
     int nx, ny; // total grid points for i and j component
@@ -52,6 +58,10 @@ private:
     Eigen::MatrixXd yUnitNorm_Eta; // unit for for j-component in eta direction
     Eigen::MatrixXd xUnitNorm_Xi; // unit for for i-component in xi direction
     Eigen::MatrixXd yUnitNorm_Xi; // unit for for i-component in xi direction
+    Eigen::ArrayXXi xiPlusMask;
+    Eigen::ArrayXXi xiMinusMask;
+    Eigen::ArrayXXi etaPlusMask;
+    Eigen::ArrayXXi etaMinusMask;
 };
 
 #endif  // COMPUTATIONALGRID_H

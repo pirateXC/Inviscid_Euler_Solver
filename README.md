@@ -91,3 +91,4 @@ These norms quantify how close the numerical solution is to convergence.
 2. Anderson, J. D. *Modern Compressible Flow: With Historical Perspective*, 3rd ed.
 3. Hirsch, C. *Numerical Computation of Internal and External Flows*, Vol. 2.
 4. Lecture slides and class materials from AE 6042 (Spring 2025).
+5. D. A. Anderson, J. C. Tannehill, R. H. Pletcher, R. Munipalli, and V. Shankar, Computational Fluid Mechanics and Heat Transfer, 4th ed., CRC Press, Boca Raton, FL (2021).

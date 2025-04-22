@@ -189,6 +189,54 @@ src/Initialize.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cfdsolver.dir\build.make CMakeFiles/cfdsolver.dir/src/Initialize.cpp.s
 .PHONY : src/Initialize.cpp.s
 
+src/PostProcess.obj: src/PostProcess.cpp.obj
+.PHONY : src/PostProcess.obj
+
+# target to build an object file
+src/PostProcess.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cfdsolver.dir\build.make CMakeFiles/cfdsolver.dir/src/PostProcess.cpp.obj
+.PHONY : src/PostProcess.cpp.obj
+
+src/PostProcess.i: src/PostProcess.cpp.i
+.PHONY : src/PostProcess.i
+
+# target to preprocess a source file
+src/PostProcess.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cfdsolver.dir\build.make CMakeFiles/cfdsolver.dir/src/PostProcess.cpp.i
+.PHONY : src/PostProcess.cpp.i
+
+src/PostProcess.s: src/PostProcess.cpp.s
+.PHONY : src/PostProcess.s
+
+# target to generate assembly for a file
+src/PostProcess.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cfdsolver.dir\build.make CMakeFiles/cfdsolver.dir/src/PostProcess.cpp.s
+.PHONY : src/PostProcess.cpp.s
+
+src/StegerWarming.obj: src/StegerWarming.cpp.obj
+.PHONY : src/StegerWarming.obj
+
+# target to build an object file
+src/StegerWarming.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cfdsolver.dir\build.make CMakeFiles/cfdsolver.dir/src/StegerWarming.cpp.obj
+.PHONY : src/StegerWarming.cpp.obj
+
+src/StegerWarming.i: src/StegerWarming.cpp.i
+.PHONY : src/StegerWarming.i
+
+# target to preprocess a source file
+src/StegerWarming.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cfdsolver.dir\build.make CMakeFiles/cfdsolver.dir/src/StegerWarming.cpp.i
+.PHONY : src/StegerWarming.cpp.i
+
+src/StegerWarming.s: src/StegerWarming.cpp.s
+.PHONY : src/StegerWarming.s
+
+# target to generate assembly for a file
+src/StegerWarming.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cfdsolver.dir\build.make CMakeFiles/cfdsolver.dir/src/StegerWarming.cpp.s
+.PHONY : src/StegerWarming.cpp.s
+
 src/main.obj: src/main.cpp.obj
 .PHONY : src/main.obj
 
@@ -229,6 +277,12 @@ help:
 	@echo ... src/Initialize.obj
 	@echo ... src/Initialize.i
 	@echo ... src/Initialize.s
+	@echo ... src/PostProcess.obj
+	@echo ... src/PostProcess.i
+	@echo ... src/PostProcess.s
+	@echo ... src/StegerWarming.obj
+	@echo ... src/StegerWarming.i
+	@echo ... src/StegerWarming.s
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s

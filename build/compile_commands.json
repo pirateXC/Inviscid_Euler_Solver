@@ -13,6 +13,18 @@
 },
 {
   "directory": "C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build",
+  "command": "C:\\mingw64\\bin\\g++.exe -DNOMINMAX @CMakeFiles/cfdsolver.dir/includes_CXX.rsp -g -std=gnu++23 -o CMakeFiles\\cfdsolver.dir\\src\\StegerWarming.cpp.obj -c C:\\Users\\jmmcl\\OneDrive\\Desktop\\Project\\CFD\\Inviscid_Euler_Solver\\src\\StegerWarming.cpp",
+  "file": "C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/src/StegerWarming.cpp",
+  "output": "CMakeFiles/cfdsolver.dir/src/StegerWarming.cpp.obj"
+},
+{
+  "directory": "C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build",
+  "command": "C:\\mingw64\\bin\\g++.exe -DNOMINMAX @CMakeFiles/cfdsolver.dir/includes_CXX.rsp -g -std=gnu++23 -o CMakeFiles\\cfdsolver.dir\\src\\PostProcess.cpp.obj -c C:\\Users\\jmmcl\\OneDrive\\Desktop\\Project\\CFD\\Inviscid_Euler_Solver\\src\\PostProcess.cpp",
+  "file": "C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/src/PostProcess.cpp",
+  "output": "CMakeFiles/cfdsolver.dir/src/PostProcess.cpp.obj"
+},
+{
+  "directory": "C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/build",
   "command": "C:\\mingw64\\bin\\g++.exe -DNOMINMAX @CMakeFiles/Inviscid_Euler_Solver.dir/includes_CXX.rsp -g -std=gnu++23 -o CMakeFiles\\Inviscid_Euler_Solver.dir\\src\\main.cpp.obj -c C:\\Users\\jmmcl\\OneDrive\\Desktop\\Project\\CFD\\Inviscid_Euler_Solver\\src\\main.cpp",
   "file": "C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/src/main.cpp",
   "output": "CMakeFiles/Inviscid_Euler_Solver.dir/src/main.cpp.obj"
