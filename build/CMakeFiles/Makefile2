@@ -87,12 +87,12 @@ clean: CMakeFiles/Inviscid_Euler_Solver.dir/clean
 CMakeFiles/cfdsolver.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cfdsolver.dir\build.make CMakeFiles/cfdsolver.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cfdsolver.dir\build.make CMakeFiles/cfdsolver.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=3,4,5 "Built target cfdsolver"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=3,4,5,6,7 "Built target cfdsolver"
 .PHONY : CMakeFiles/cfdsolver.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/cfdsolver.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/cfdsolver.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles 0
 .PHONY : CMakeFiles/cfdsolver.dir/rule
@@ -104,7 +104,7 @@ cfdsolver: CMakeFiles/cfdsolver.dir/rule
 # codegen rule for target.
 CMakeFiles/cfdsolver.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cfdsolver.dir\build.make CMakeFiles/cfdsolver.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=3,4,5 "Finished codegen for target cfdsolver"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=3,4,5,6,7 "Finished codegen for target cfdsolver"
 .PHONY : CMakeFiles/cfdsolver.dir/codegen
 
 # clean rule for target.
@@ -124,7 +124,7 @@ CMakeFiles/Inviscid_Euler_Solver.dir/all: CMakeFiles/cfdsolver.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Inviscid_Euler_Solver.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles 7
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/Inviscid_Euler_Solver.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles 0
 .PHONY : CMakeFiles/Inviscid_Euler_Solver.dir/rule

@@ -101,19 +101,53 @@ CMakeFiles/cfdsolver.dir/src/Initialize.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cfdsolver.dir/src/Initialize.cpp.s"
 	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\src\Initialize.cpp -o CMakeFiles\cfdsolver.dir\src\Initialize.cpp.s
 
+CMakeFiles/cfdsolver.dir/src/StegerWarming.cpp.obj: CMakeFiles/cfdsolver.dir/flags.make
+CMakeFiles/cfdsolver.dir/src/StegerWarming.cpp.obj: CMakeFiles/cfdsolver.dir/includes_CXX.rsp
+CMakeFiles/cfdsolver.dir/src/StegerWarming.cpp.obj: C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/src/StegerWarming.cpp
+CMakeFiles/cfdsolver.dir/src/StegerWarming.cpp.obj: CMakeFiles/cfdsolver.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/cfdsolver.dir/src/StegerWarming.cpp.obj"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cfdsolver.dir/src/StegerWarming.cpp.obj -MF CMakeFiles\cfdsolver.dir\src\StegerWarming.cpp.obj.d -o CMakeFiles\cfdsolver.dir\src\StegerWarming.cpp.obj -c C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\src\StegerWarming.cpp
+
+CMakeFiles/cfdsolver.dir/src/StegerWarming.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cfdsolver.dir/src/StegerWarming.cpp.i"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\src\StegerWarming.cpp > CMakeFiles\cfdsolver.dir\src\StegerWarming.cpp.i
+
+CMakeFiles/cfdsolver.dir/src/StegerWarming.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cfdsolver.dir/src/StegerWarming.cpp.s"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\src\StegerWarming.cpp -o CMakeFiles\cfdsolver.dir\src\StegerWarming.cpp.s
+
+CMakeFiles/cfdsolver.dir/src/PostProcess.cpp.obj: CMakeFiles/cfdsolver.dir/flags.make
+CMakeFiles/cfdsolver.dir/src/PostProcess.cpp.obj: CMakeFiles/cfdsolver.dir/includes_CXX.rsp
+CMakeFiles/cfdsolver.dir/src/PostProcess.cpp.obj: C:/Users/jmmcl/OneDrive/Desktop/Project/CFD/Inviscid_Euler_Solver/src/PostProcess.cpp
+CMakeFiles/cfdsolver.dir/src/PostProcess.cpp.obj: CMakeFiles/cfdsolver.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/cfdsolver.dir/src/PostProcess.cpp.obj"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cfdsolver.dir/src/PostProcess.cpp.obj -MF CMakeFiles\cfdsolver.dir\src\PostProcess.cpp.obj.d -o CMakeFiles\cfdsolver.dir\src\PostProcess.cpp.obj -c C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\src\PostProcess.cpp
+
+CMakeFiles/cfdsolver.dir/src/PostProcess.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cfdsolver.dir/src/PostProcess.cpp.i"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\src\PostProcess.cpp > CMakeFiles\cfdsolver.dir\src\PostProcess.cpp.i
+
+CMakeFiles/cfdsolver.dir/src/PostProcess.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cfdsolver.dir/src/PostProcess.cpp.s"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\src\PostProcess.cpp -o CMakeFiles\cfdsolver.dir\src\PostProcess.cpp.s
+
 # Object files for target cfdsolver
 cfdsolver_OBJECTS = \
 "CMakeFiles/cfdsolver.dir/src/GridHandler.cpp.obj" \
-"CMakeFiles/cfdsolver.dir/src/Initialize.cpp.obj"
+"CMakeFiles/cfdsolver.dir/src/Initialize.cpp.obj" \
+"CMakeFiles/cfdsolver.dir/src/StegerWarming.cpp.obj" \
+"CMakeFiles/cfdsolver.dir/src/PostProcess.cpp.obj"
 
 # External object files for target cfdsolver
 cfdsolver_EXTERNAL_OBJECTS =
 
 libcfdsolver.a: CMakeFiles/cfdsolver.dir/src/GridHandler.cpp.obj
 libcfdsolver.a: CMakeFiles/cfdsolver.dir/src/Initialize.cpp.obj
+libcfdsolver.a: CMakeFiles/cfdsolver.dir/src/StegerWarming.cpp.obj
+libcfdsolver.a: CMakeFiles/cfdsolver.dir/src/PostProcess.cpp.obj
 libcfdsolver.a: CMakeFiles/cfdsolver.dir/build.make
 libcfdsolver.a: CMakeFiles/cfdsolver.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library libcfdsolver.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\jmmcl\OneDrive\Desktop\Project\CFD\Inviscid_Euler_Solver\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX static library libcfdsolver.a"
 	$(CMAKE_COMMAND) -P CMakeFiles\cfdsolver.dir\cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\cfdsolver.dir\link.txt --verbose=$(VERBOSE)
 

@@ -1,6 +1,8 @@
 #include "GridHandler.h"
 #include "FluxState.h"
 #include "Initialize.h"
+#include "PostProcess.h"
+
 #include <matplot/matplot.h>
 using namespace matplot;
 
