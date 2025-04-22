@@ -41,7 +41,7 @@ void Initialize::setInletConditions() {
     auto& u = flux.getVelo_U();
     auto& v = flux.getVelo_V();
 
-    for(int j=0; j< nj; ++j) {
+    for(int j = 0; j < nj; ++j) {
         P(0,j) = P(1,j);
         T(0,j) = T(1,j);
         u(0,j) = u(1,j);
@@ -57,7 +57,7 @@ void Initialize::setOutletConditions() {
     auto& u = flux.getVelo_U();
     auto& v = flux.getVelo_V();
 
-    for(int j=0; j< nj; ++j) {
+    for(int j = 0; j < nj; ++j) {
         P(ni-1,j) = P(ni-2,j);
         T(ni-1,j) = T(ni-2,j);
         u(ni-1,j) = u(ni-2,j);
@@ -76,7 +76,7 @@ void Initialize::setWallConditions() {
     auto& v = flux.getVelo_V();
 
     // slip condition, inviscid flow
-    for(int i=1; i<ni-1; ++i) {
+    for(int i = 1; i < ni - 1; ++i) {
         // bottom wall (j=0), interior at j=1
         {
             double nx = nx_e(i,0);
@@ -105,7 +105,6 @@ void Initialize::setWallConditions() {
     }
 }
 
-
 void Initialize::computeTimeStep(double CFL) {
     int ni = grid.getNX();
     int nj = grid.getNY();
@@ -122,8 +121,8 @@ void Initialize::computeTimeStep(double CFL) {
        u.block(1,1, ni-2, nj-3).array() * nx_xi.array()
      + v.block(1,1, ni-2, nj-3).array() * ny_xi.array();
 
-    Eigen::ArrayXXd U_et = 
-       u.block(1,1, ni-3, nj-2).array() * nx_eta.array()
+    Eigen::ArrayXXd U_eta = 
+    u.block(1,1, ni-3, nj-2).array() * nx_eta.array()
      + v.block(1,1, ni-3, nj-2).array() * ny_eta.array();
      
      // acoustic speed    
@@ -131,16 +130,12 @@ void Initialize::computeTimeStep(double CFL) {
      Eigen::ArrayXXd c_eta = (gamma * R * T.block(1,1,ni-3,nj-2).array()).sqrt();
 
     // spectral radii
-    Eigen::ArrayXXd spectralRadii_Xi  = U_xi.array().abs() + c_xi;
-    Eigen::ArrayXXd spectralRadii_Eta = U_et.array().abs() + c_eta;
-
-    // directional local dt
-    Eigen::ArrayXXd dt_xi = spectralRadii_Xi.inverse();
-    Eigen::ArrayXXd dt_eta = spectralRadii_Eta.inverse();
+    Eigen::ArrayXXd spectralRadii_Xi  = U_xi.abs() + c_xi;
+    Eigen::ArrayXXd spectralRadii_Eta = U_eta.abs() + c_eta;
 
     // directional local dt min
-    double dt_xi_min  = dt_xi .minCoeff();
-    double dt_eta_min = dt_eta.minCoeff();
+    double dt_xi_min  = spectralRadii_Xi.inverse().minCoeff();
+    double dt_eta_min = spectralRadii_Eta.inverse().minCoeff();
 
     // global dt
     dt = CFL * std::min(dt_xi_min, dt_eta_min);
