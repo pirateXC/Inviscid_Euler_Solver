@@ -1,81 +1,33 @@
 #ifndef FLUXSTATE_H
 #define FLUXSTATE_H
-
 #include <Eigen/Dense>
 #include <array>
 
 class FluxState {
 public:
-    enum Conserved { RHO = 0, RHO_U = 1, RHO_V = 2, ENERGY = 3 };
-
-    FluxState(int ni_, int nj_)
-      : ni(ni_), nj(nj_)
-    {
-        // initialize state vector
-        for (auto &mat : Q) {
-            mat.setZero(ni, nj);
-        }
-
-        // initialize primatives
-        P = Eigen::MatrixXd::Zero(ni, nj); // pressure
-        T = Eigen::MatrixXd::Zero(ni, nj); // temperature
-        u = Eigen::MatrixXd::Zero(ni, nj); // u-velocity
-        v = Eigen::MatrixXd::Zero(ni, nj); // v-velocity
-
+    enum Conserved{RHO,RHO_U,RHO_V,ENERGY};
+    FluxState(int ni,int nj):ni(ni),nj(nj){for(auto &m:Q)m.setZero(ni,nj);P.setZero(ni,nj);T.setZero(ni,nj);u.setZero(ni,nj);v.setZero(ni,nj);}    
+    void packToQ(double R,double gamma){
+        auto Tm=T.array().max(1e-6), Pm=P.array().max(1e-6);
+        auto rho=Pm/Tm/R;
+        auto rho_u=rho*u.array(), rho_v=rho*v.array();
+        auto e=(Pm/(gamma-1.))+0.5*rho*(u.array().square()+v.array().square());
+        Q[RHO]=rho.matrix(); Q[RHO_U]=rho_u.matrix(); Q[RHO_V]=rho_v.matrix(); Q[ENERGY]=e.matrix();
     }
-
-    // packs primatives into state vector
-    void packToQ(double R, double gamma)
-    {
-        Eigen::ArrayXXd rho   = (P.array() / T.array()) / R;
-        Eigen::ArrayXXd rho_u = rho * u.array();
-        Eigen::ArrayXXd rho_v = rho * v.array();
-        Eigen::ArrayXXd energy = (P.array()/(gamma - 1.0))
-                              + 0.5 * rho * (u.array().square() + v.array().square());
-
-        Q[RHO].block(1, 1, ni-2, nj-2) = rho.matrix().block(1, 1, ni-2, nj-2);
-        Q[RHO_U].block(1, 1, ni-2, nj-2) = rho_u.matrix().block(1, 1, ni-2, nj-2);
-        Q[RHO_V].block(1, 1, ni-2, nj-2) = rho_v.matrix().block(1, 1, ni-2, nj-2);
-        Q[ENERGY].block(1, 1, ni-2, nj-2) = energy.matrix().block(1, 1, ni-2, nj-2);
+    void unpackFromQ(double R,double gamma){
+        auto rho_arr=Q[RHO].array().max(1e-8);
+        P=computePressure(R,gamma).array().max(1e-6).matrix();
+        T=computeTemp(R,gamma).array().max(1e-6).matrix();
+        u=(Q[RHO_U].array()/rho_arr).matrix();
+        v=(Q[RHO_V].array()/rho_arr).matrix();
     }
-
-    // unpack state vector to primitive fields after update
-    void unpackFromQ(double R, double gamma) {
-        P = computePressure(R, gamma);
-        T = computeTemp(R, gamma);
-        u = (Q[RHO_U].array() / Q[RHO].array()).matrix();
-        v = (Q[RHO_V].array() / Q[RHO].array()).matrix();
+    Eigen::MatrixXd computePressure(double R,double g)const{
+        auto r=Q[RHO].array(), ru=Q[RHO_U].array(), rv=Q[RHO_V].array(), E=Q[ENERGY].array();
+        return ((g-1)*(r*E-0.5*r*((ru/r).square()+(rv/r).square()))).matrix();
     }
-
-    // calculates pressure primative
-    Eigen::MatrixXd computePressure(double R, double gamma) const {
-        auto rho   = Q[RHO].array();
-        auto rho_u = Q[RHO_U].array();
-        auto rho_v = Q[RHO_V].array();
-        auto energy= Q[ENERGY].array();
-
-        return ((gamma - 1.0) *
-                (rho * energy
-                 - 0.5 * rho * ((rho_u/rho).square() + (rho_v/rho).square())))
-               .matrix();
+    Eigen::MatrixXd computeTemp(double R,double g)const{
+        return (computePressure(R,g).array()/Q[RHO].array()/R).matrix();
     }
-
-    // calculates temperature primative
-    Eigen::MatrixXd computeTemp(double R, double gamma) const {
-        return (computePressure(R, gamma).array() / Q[RHO].array() / R).matrix();
-    }
-
-    // calculates u-velocity primative
-    Eigen::MatrixXd computeVeloU() const {
-        return (Q[RHO_U].array() / Q[RHO].array()).matrix();
-    }
-
-    // calculates v-velocity primative
-    Eigen::MatrixXd computeVeloV() const {
-        return (Q[RHO_V].array() / Q[RHO].array()).matrix();
-    }
-
-    // getters
     std::array<Eigen::MatrixXd,4>& getQ() { return Q; }
     const std::array<Eigen::MatrixXd,4>& getQ() const { return Q; }
     Eigen::MatrixXd& getPressure() { return P; }
@@ -84,10 +36,9 @@ public:
     Eigen::MatrixXd& getVelo_V() { return v; }
 
 private:
-    int ni; // num of i-components (including halo cells)
-    int nj; // num of j-components (including halo cells)
-    Eigen::MatrixXd P, T, u, v; // primatives pressure, temp, u-velo, v-velo
-    std::array<Eigen::MatrixXd,4> Q;  // [rho, rho*u, rho*v, rho*E]
+        int ni; // num of i-components (including halo cells)
+        int nj; // num of j-components (including halo cells)
+        Eigen::MatrixXd P, T, u, v; // primatives pressure, temp, u-velo, v-velo
+        std::array<Eigen::MatrixXd,4> Q;
 };
-
-#endif // FLUXSTATE_H
+#endif

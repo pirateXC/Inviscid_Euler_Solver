@@ -126,9 +126,9 @@ Eigen::Vector4d computeDissipLeft(
 
     // shear‐mode in rotated frame
     r4 << 0.0,
-          t.x(),
-          t.y(),
-          0.0;
+        t.x(),
+        t.y(),
+        Qv.u * t.x() + Qv.v * t.y();
 
     return r1*w(0) + r2*w(1) + r3*w(2) + r4*w(3);
 }
@@ -218,9 +218,9 @@ Eigen::Vector4d computeDissipRight(
 
     // shear‐mode in rotated frame
     r4 << 0.0,
-          t.x(),
-          t.y(),
-          0.0;
+        t.x(),
+        t.y(),
+        Qv.u * t.x() + Qv.v * t.y();;
 
     return r1*w(0) + r2*w(1) + r3*w(2) + r4*w(3);
 }
@@ -241,7 +241,7 @@ Eigen::Vector4d computeFaceFlux(
     Eigen::Vector4d AQR = computeDissipRight(QR, gamma, normal);
 
     // Symmetric flux split
-    return 0.5 * (FL + FR) - 0.5 * mask * (AQR - AQL);
+    return 0.5 * (FL + FR) - 0.5 * mask * (AQL + AQR);
 }
 
 } // namespace StegerWarming

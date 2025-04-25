@@ -1,3 +1,4 @@
+// GridHandler.cpp
 #include "GridHandler.h"
 #include <matplot/matplot.h>
 #include <fstream>
@@ -21,190 +22,188 @@ bool GridHandler::readGridFile(const std::string &filename) {
     std::string header;
     std::getline(file, header);
 
-    // Parse grid dimensions from the header.
+    // Parse dimensions
     size_t pos = header.find("i=");
-    if (pos != std::string::npos) {
-        pos += 2;
-        size_t end = header.find(",", pos);
-        nx = std::stoi(header.substr(pos, end - pos));
-    } else {
+    if (pos == std::string::npos) {
         std::cerr << "Unable to find 'i=' in header.\n";
         return false;
     }
+    pos += 2;
+    size_t end = header.find(",", pos);
+    nx = std::stoi(header.substr(pos, end - pos));
 
     pos = header.find("j=");
-    if (pos != std::string::npos) {
-        pos += 2;
-        size_t end = header.find_first_of(" \t", pos);
-        ny = std::stoi(header.substr(pos, end - pos));
-    } else {
+    if (pos == std::string::npos) {
         std::cerr << "Unable to find 'j=' in header.\n";
         return false;
     }
+    pos += 2;
+    end = header.find_first_of(" \t", pos);
+    ny = std::stoi(header.substr(pos, end - pos));
 
-    // Reserve space in vectors.
-    std::vector<double> xvals;
-    std::vector<double> yvals;
+    // Read x,y pairs
+    std::vector<double> xvals, yvals;
     xvals.reserve(nx * ny);
     yvals.reserve(nx * ny);
 
-    double xVal, yVal;
+    double xv, yv;
     char comma;
-    while (file >> xVal >> comma >> yVal) {
-        xvals.push_back(xVal);
-        yvals.push_back(yVal);
+    while (file >> xv >> comma >> yv) {
+        xvals.push_back(xv);
+        yvals.push_back(yv);
     }
-
     if (static_cast<int>(xvals.size()) != nx * ny) {
-        std::cerr << "Data size (" << xvals.size() 
-                  << ") does not match expected grid dimensions (" 
-                  << nx << " * " << ny << ").\n";
+        std::cerr << "Data size mismatch: got " << xvals.size()
+                  << " but expected " << (nx * ny) << "\n";
         return false;
     }
 
-    // Map the data into Eigen matrices (data stored in column-major order).
+    // Map into Eigen (column‐major)
     x = Eigen::Map<const Eigen::MatrixXd>(xvals.data(), nx, ny);
     y = Eigen::Map<const Eigen::MatrixXd>(yvals.data(), nx, ny);
-
     return true;
 }
 
 void GridHandler::haloCell() {
-    // build augmented grids
     Eigen::MatrixXd xAug = Eigen::MatrixXd::Zero(nx+2, ny+2);
     Eigen::MatrixXd yAug = Eigen::MatrixXd::Zero(nx+2, ny+2);
+
     xAug.block(1,1,nx,ny) = x;
     yAug.block(1,1,nx,ny) = y;
 
-    // left ghost‐column: rows 1..nx, col 0
-    xAug.block(1, 0, nx, 1) = 2*x.col(0)   - x.col(1);
-    yAug.block(1, 0, nx, 1) = 2*y.col(0)   - y.col(1);
+    // left/right ghosts (reflect)
+    xAug.block(1, 0,    nx, 1) =  2*x.col(0)   - x.col(1);
+    yAug.block(1, 0,    nx, 1) =  2*y.col(0)   - y.col(1);
+    xAug.block(1, ny+1, nx, 1) =  2*x.col(ny-1)- x.col(ny-2);
+    yAug.block(1, ny+1, nx, 1) =  2*y.col(ny-1)- y.col(ny-2);
 
-    // right ghost‐column: rows 1..nx, col ny+1
-    xAug.block(1, ny+1, nx, 1) = 2*x.col(ny-1) - x.col(ny-2);
-    yAug.block(1, ny+1, nx, 1) = 2*y.col(ny-1) - y.col(ny-2);
-
-    // top ghost‐row: row 0, cols 0..ny+1
+    // top/bottom ghosts
     xAug.row(0)    = 2*xAug.row(1)   - xAug.row(2);
     yAug.row(0)    = 2*yAug.row(1)   - yAug.row(2);
-
-    // bottom ghost‐row: row nx+1, cols 0..ny+1
     xAug.row(nx+1) = 2*xAug.row(nx)  - xAug.row(nx-1);
     yAug.row(nx+1) = 2*yAug.row(nx)  - yAug.row(nx-1);
 
     x = std::move(xAug);
     y = std::move(yAug);
-    nx += 2;  ny += 2;
+    nx += 2;
+    ny += 2;
 }
 
 void GridHandler::computeCellMetrics() {
-    // extend the grid by adding ghost cells
+    // 1) build ghosts
     haloCell();
 
-    // compute cell-centered coordinates for the grid
-    xCenter = x.block(0, 0, nx - 1, ny - 1) + 0.5 * (x.block(1, 1, nx - 1, ny - 1) - x.block(0, 0, nx - 1, ny - 1));
-    yCenter = y.block(0, 0, nx - 1, ny - 1) + 0.5 * (y.block(1, 1, nx - 1, ny - 1) - y.block(0, 0, nx - 1, ny - 1));
+    // 2) cell centers
+    xCenter = x.block(0,0,nx-1,ny-1)
+            + 0.5*(x.block(1,1,nx-1,ny-1) - x.block(0,0,nx-1,ny-1));
+    yCenter = y.block(0,0,nx-1,ny-1)
+            + 0.5*(y.block(1,1,nx-1,ny-1) - y.block(0,0,nx-1,ny-1));
 
-    // compute cell volumes using the determinant method
-    cellVolume = Eigen::MatrixXd::Zero(nx - 1, ny - 1);
+    // 3) cell volumes (areas)
+    {
+        auto A = (x.block(1,1,nx-1,ny-1) - x.block(0,0,nx-1,ny-1)).array();
+        auto B = (y.block(0,1,nx-1,ny-1) - y.block(1,0,nx-1,ny-1)).array();
+        auto C = (y.block(1,1,nx-1,ny-1) - y.block(0,0,nx-1,ny-1)).array();
+        auto D = (x.block(0,1,nx-1,ny-1) - x.block(1,0,nx-1,ny-1)).array();
+        cellVolume = (0.5*(A*B - C*D)).matrix();
+    }
 
-    auto A = (x.block(1, 1, nx - 1, ny - 1) - x.block(0, 0, nx - 1, ny - 1)).array();
-    auto B = (y.block(0, 1, nx - 1, ny - 1) - y.block(1, 0, nx - 1, ny - 1)).array();
-    auto C = (y.block(1, 1, nx - 1, ny - 1) - y.block(0, 0, nx - 1, ny - 1)).array();
-    auto D = (x.block(0, 1, nx - 1, ny - 1) - x.block(1, 0, nx - 1, ny - 1)).array();
-    cellVolume = (0.5 * (A * B - C * D)).matrix();
+    // 4) ξ‑face areas: interior faces only
+    {
+        // compute all xi-face segments (difference in j)
+        int R = nx - 1;
+        int C = ny - 1;
+        auto dyXi = y.block(1,1,R,C) - y.block(1,0,R,C);  // size (R x C)
+        auto dxXi = x.block(1,1,R,C) - x.block(1,0,R,C);
+        // extract interior faces (exclude boundary ghosts)
+        xArea_Xi = dyXi.block(1, 0, R-1, C-1);
+        yArea_Xi = dxXi.block(1, 0, R-1, C-1);
+    }
 
-    // compute face areas in the xi-direction
-    xArea_Xi = Eigen::MatrixXd::Zero(nx - 2, ny - 3);
-    yArea_Xi = Eigen::MatrixXd::Zero(nx - 2, ny - 3);
+    
+    // 5) η‑face areas: interior faces only
+    {
+        // compute all eta-face segments (difference in i)
+        int R = nx - 1;
+        int C = ny - 1;
+        auto dyEt = y.block(1,1,R,C) - y.block(0,1,R,C);
+        auto dxEt = x.block(1,1,R,C) - x.block(0,1,R,C);
+        // extract interior faces
+        xArea_Eta = dyEt.block(0, 1, R-1, C-1);
+        yArea_Eta = dxEt.block(0, 1, R-1, C-1);
+    }
 
-    xArea_Xi =  y.block(2, 2, nx - 2, ny - 3)
-              - y.block(2, 1, nx - 2, ny - 3);
-    yArea_Xi =  x.block(2, 2, nx - 2, ny - 3)
-              - x.block(2, 1, nx - 2, ny - 3);
+    // 6) unit normals
+    {
+        auto xi_mag = (xArea_Xi.array().square() + yArea_Xi.array().square()).sqrt();
+        xUnitNorm_Xi =  xArea_Xi.array() / xi_mag;
+        yUnitNorm_Xi = -yArea_Xi.array() / xi_mag;
 
-    // compute face areas in the eta-direction
-    xArea_Eta = Eigen::MatrixXd::Zero(nx - 3, ny - 1);
-    yArea_Eta = Eigen::MatrixXd::Zero(nx - 3, ny - 1);
+        // ── DEBUG CHECK: any NaNs in xi_mag? ──
+        if ((xi_mag.array().isNaN()).any()) {
+            std::cerr << "*** computeCellMetrics: NaN detected in xi_mag ***\n";
+        } else {
+            std::cerr << "computeCellMetrics: xi_mag OK (no NaNs)\n";
+        }
 
-    xArea_Eta = y.block(2, 2, nx - 3, ny - 1) - y.block(1, 2, nx - 3, ny - 1);
-    yArea_Eta = x.block(2, 2, nx - 3, ny - 1) - x.block(1, 2, nx - 3, ny - 1);
+        auto eta_mag = (xArea_Eta.array().square() + yArea_Eta.array().square()).sqrt();
+        xUnitNorm_Eta =  xArea_Eta.array() / eta_mag;
+        yUnitNorm_Eta = -yArea_Eta.array() / eta_mag;
 
-    // compute unit normals in xi-direction
-    xUnitNorm_Xi =  xArea_Xi.array() / ((xArea_Xi.array().square() + yArea_Xi.array().square()).sqrt());
-    yUnitNorm_Xi = -yArea_Xi.array() / ((xArea_Xi.array().square() + yArea_Xi.array().square()).sqrt());
-
-      // compute unit normals in eta-direction
-    xUnitNorm_Eta =  xArea_Eta.array() / ((xArea_Eta.array().square() + yArea_Eta.array().square() ).sqrt());
-    yUnitNorm_Eta = -yArea_Eta.array() / ((xArea_Eta.array().square() + yArea_Eta.array().square() ).sqrt());
+        // ── DEBUG CHECK: any NaNs in eta_mag? ──
+        if ((eta_mag.array().isNaN()).any()) {
+            std::cerr << "*** computeCellMetrics: NaN detected in eta_mag ***\n";
+        } else {
+            std::cerr << "computeCellMetrics: eta_mag OK (no NaNs)\n";
+        }
+    }
 }
 
 void GridHandler::buildFaceMasks() {
-    xiPlusMask  = Eigen::ArrayXXi::Ones(nx - 1, ny);     // Face between i and i+1
-    xiMinusMask = Eigen::ArrayXXi::Ones(nx - 1, ny);     // Face between i and i-1
-    etaPlusMask = Eigen::ArrayXXi::Ones(nx, ny - 1);     // Face between j and j+1
-    etaMinusMask= Eigen::ArrayXXi::Ones(nx, ny - 1);     // Face between j and j-1
+    xiPlusMask  = Eigen::ArrayXXi::Ones(nx-1, ny);
+    xiMinusMask = Eigen::ArrayXXi::Ones(nx-1, ny);
+    etaPlusMask = Eigen::ArrayXXi::Ones(nx, ny-1);
+    etaMinusMask= Eigen::ArrayXXi::Ones(nx, ny-1);
 
-    for (int i = 0; i < nx - 1; ++i) {
+    for (int i = 0; i < nx-1; ++i) {
         for (int j = 0; j < ny; ++j) {
-            // Wall face in xi+
-            if (i == 0 || i+1 == nx - 1)
-                xiPlusMask(i,j) = 0;
-
-            // Wall face in xi-
-            if (i == 1 || i == nx - 2)
-                xiMinusMask(i,j) = 0;
+            if (i == 0 || i+1 == nx-1)    xiPlusMask(i,j)  = 0;
+            if (i == 1 || i   == nx-2)    xiMinusMask(i,j) = 0;
         }
     }
-
     for (int i = 0; i < nx; ++i) {
-        for (int j = 0; j < ny - 1; ++j) {
-            // Wall face in eta+
-            if (j == 0 || j+1 == ny - 1)
-                etaPlusMask(i,j) = 0;
-
-            // Wall face in eta-
-            if (j == 1 || j == ny - 2)
-                etaMinusMask(i,j) = 0;
+        for (int j = 0; j < ny-1; ++j) {
+            if (j == 0 || j+1 == ny-1)    etaPlusMask(i,j)  = 0;
+            if (j == 1 || j   == ny-2)    etaMinusMask(i,j) = 0;
         }
     }
 }
 
 void GridHandler::plotGrid(const std::string &plotTitle) {
     figure();
+    std::vector<double> Xr, Yr, Xc, Yc;
+    Xr.reserve((nx+1)*ny); Yr.reserve((nx+1)*ny);
+    Xc.reserve((ny+1)*nx); Yc.reserve((ny+1)*nx);
 
-    // Prepare vectors for row lines with NaN separators.
-    std::vector<double> X_rows, Y_rows;
-    X_rows.reserve((nx + 1) * ny);
-    Y_rows.reserve((nx + 1) * ny);
-    
-    for (int j = 0; j < ny; ++j) {
-        for (int i = 0; i < nx; ++i) {
-            X_rows.push_back(x(i, j));
-            Y_rows.push_back(y(i, j));
+    // rows
+    for (int j=0; j<ny; ++j) {
+        for (int i=0; i<nx; ++i) {
+            Xr.push_back(x(i,j));
+            Yr.push_back(y(i,j));
         }
-        // Insert NaN to break the line.
-        X_rows.push_back(std::numeric_limits<double>::quiet_NaN());
-        Y_rows.push_back(std::numeric_limits<double>::quiet_NaN());
+        Xr.push_back(NAN); Yr.push_back(NAN);
     }
-    plot(X_rows, Y_rows, "k");
-    hold(on);
+    plot(Xr,Yr,"k"); hold(on);
 
-    // Prepare vectors for column lines with NaN separators.
-    std::vector<double> X_cols, Y_cols;
-    X_cols.reserve((ny + 1) * nx);
-    Y_cols.reserve((ny + 1) * nx);
-    
-    for (int i = 0; i < nx; ++i) {
-        for (int j = 0; j < ny; ++j) {
-            X_cols.push_back(x(i, j));
-            Y_cols.push_back(y(i, j));
+    // columns
+    for (int i=0; i<nx; ++i) {
+        for (int j=0; j<ny; ++j) {
+            Xc.push_back(x(i,j));
+            Yc.push_back(y(i,j));
         }
-        // Insert NaN to break the line.
-        X_cols.push_back(std::numeric_limits<double>::quiet_NaN());
-        Y_cols.push_back(std::numeric_limits<double>::quiet_NaN());
+        Xc.push_back(NAN); Yc.push_back(NAN);
     }
-    plot(X_cols, Y_cols, "k");
+    plot(Xc,Yc,"k");
 
     title(plotTitle);
     xlabel("x/L");

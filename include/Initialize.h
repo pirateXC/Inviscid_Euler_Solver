@@ -7,10 +7,10 @@
 
 class Initialize {
 public:
-    Initialize(GridHandler &grid, FluxState &flux, double R, double gamma, double Cp);
+    Initialize(GridHandler &grid, FluxState &flux, double R, double gamma, double Cp, double P_inf, double T_inf, double M_f);
 
     // sets the initial conditions based on free-stream quantities
-    void setInitialConditions(double P0, double T0, double M0);
+    void setInitialConditions();
 
     // applies the inlet, outlet, and wall BCs
     void applyBoundaryConditions();
@@ -25,6 +25,8 @@ private:
     GridHandler &grid;
     FluxState &flux;
     double R, gamma, Cp;
+    double P_inf, T_inf, M_inf;
+    double u_inf, v_inf;
 
     double dt; // timestep
     void setInletConditions();
