@@ -38,11 +38,9 @@ public:
     const Eigen::MatrixXd &getYUnitNormXi() const { return yUnitNorm_Xi; }
     const Eigen::MatrixXd &getXUnitNormEta() const { return xUnitNorm_Eta; }
     const Eigen::MatrixXd &getYUnitNormEta() const { return yUnitNorm_Eta; }
-    const Eigen::ArrayXXi& getXiPlusMask()  const { return xiPlusMask; }
-    const Eigen::ArrayXXi& getXiMinusMask() const { return xiMinusMask; }
-    const Eigen::ArrayXXi& getEtaPlusMask() const { return etaPlusMask; }
-    const Eigen::ArrayXXi& getEtaMinusMask()const { return etaMinusMask; }
-
+    const Eigen::ArrayXXi& getXiMask()  const { return xiMask; }
+    const Eigen::ArrayXXi& getEtaMask() const { return etaMask; }
+    
 private:
     int nx, ny; // total grid points for i and j component
     Eigen::MatrixXd x; // grid nodes in i-component
@@ -58,10 +56,8 @@ private:
     Eigen::MatrixXd yUnitNorm_Eta; // unit for for j-component in eta direction
     Eigen::MatrixXd xUnitNorm_Xi; // unit for for i-component in xi direction
     Eigen::MatrixXd yUnitNorm_Xi; // unit for for i-component in xi direction
-    Eigen::ArrayXXi xiPlusMask;
-    Eigen::ArrayXXi xiMinusMask;
-    Eigen::ArrayXXi etaPlusMask;
-    Eigen::ArrayXXi etaMinusMask;
+    Eigen::ArrayXXi xiMask;   // (ni-1 × nj) xi-face mask
+    Eigen::ArrayXXi etaMask;  // (ni × nj-1) eta-face mask
 };
 
 #endif  // COMPUTATIONALGRID_H

@@ -90,16 +90,16 @@ void GridHandler::haloCell() {
 }
 
 void GridHandler::computeCellMetrics() {
-    // 1) build ghosts
+    // build ghosts
     haloCell();
 
-    // 2) cell centers
+    // cell centers
     xCenter = x.block(0,0,nx-1,ny-1)
             + 0.5*(x.block(1,1,nx-1,ny-1) - x.block(0,0,nx-1,ny-1));
     yCenter = y.block(0,0,nx-1,ny-1)
             + 0.5*(y.block(1,1,nx-1,ny-1) - y.block(0,0,nx-1,ny-1));
 
-    // 3) cell volumes (areas)
+    // cell volumes (areas)
     {
         auto A = (x.block(1,1,nx-1,ny-1) - x.block(0,0,nx-1,ny-1)).array();
         auto B = (y.block(0,1,nx-1,ny-1) - y.block(1,0,nx-1,ny-1)).array();
@@ -108,7 +108,7 @@ void GridHandler::computeCellMetrics() {
         cellVolume = (0.5*(A*B - C*D)).matrix();
     }
 
-    // 4) ξ‑face areas: interior faces only
+    // xi‑face areas: interior faces only
     {
         // compute all xi-face segments (difference in j)
         int R = nx - 1;
@@ -119,9 +119,9 @@ void GridHandler::computeCellMetrics() {
         xArea_Xi = dyXi.block(1, 0, R-1, C-1);
         yArea_Xi = dxXi.block(1, 0, R-1, C-1);
     }
-
+    std::cout << "xi-face rows: " << xArea_Xi.rows() << " cols: " << xArea_Xi.cols() << "\n";
     
-    // 5) η‑face areas: interior faces only
+    // eta‑face areas: interior faces only
     {
         // compute all eta-face segments (difference in i)
         int R = nx - 1;
@@ -133,7 +133,8 @@ void GridHandler::computeCellMetrics() {
         yArea_Eta = dxEt.block(0, 1, R-1, C-1);
     }
 
-    // 6) unit normals
+    std::cout << "eta-face rows: " << xArea_Eta.rows() << " cols: " << xArea_Eta.cols() << "\n";
+    // unit normals
     {
         auto xi_mag = (xArea_Xi.array().square() + yArea_Xi.array().square()).sqrt();
         xUnitNorm_Xi =  xArea_Xi.array() / xi_mag;
@@ -160,23 +161,24 @@ void GridHandler::computeCellMetrics() {
 }
 
 void GridHandler::buildFaceMasks() {
-    xiPlusMask  = Eigen::ArrayXXi::Ones(nx-1, ny);
-    xiMinusMask = Eigen::ArrayXXi::Ones(nx-1, ny);
-    etaPlusMask = Eigen::ArrayXXi::Ones(nx, ny-1);
-    etaMinusMask= Eigen::ArrayXXi::Ones(nx, ny-1);
+    // face‐array dims
+    int M_xi   = xArea_Xi.rows();   // ni-1
+    int N_xi   = xArea_Xi.cols();   // nj
+    int M_eta  = xArea_Eta.rows();  // ni
+    int N_eta  = xArea_Eta.cols();  // nj-1
 
-    for (int i = 0; i < nx-1; ++i) {
-        for (int j = 0; j < ny; ++j) {
-            if (i == 0 || i+1 == nx-1)    xiPlusMask(i,j)  = 0;
-            if (i == 1 || i   == nx-2)    xiMinusMask(i,j) = 0;
-        }
-    }
-    for (int i = 0; i < nx; ++i) {
-        for (int j = 0; j < ny-1; ++j) {
-            if (j == 0 || j+1 == ny-1)    etaPlusMask(i,j)  = 0;
-            if (j == 1 || j   == ny-2)    etaMinusMask(i,j) = 0;
-        }
-    }
+    // start with all faces “on”
+    xiMask  = Eigen::ArrayXXi::Ones(M_xi,  N_xi);
+    etaMask = Eigen::ArrayXXi::Ones(M_eta, N_eta);
+
+    // —— ZERO OUT “TRUE BOUNDARY” FACES —— 
+    // xi-faces: i=0 is WEST inlet (halo→first_real), i=M_xi-1 is EAST outlet
+    xiMask.row(0).setZero();      // west boundary
+    xiMask.row(M_xi-1).setZero();   // east boundary
+
+    // eta-faces: j=0 is SOUTH wall (halo→first_real), j=N_eta-1 is NORTH wall
+    etaMask.col(  0).setZero();     // south boundary
+    etaMask.col(N_eta-1).setZero(); // north boundary
 }
 
 void GridHandler::plotGrid(const std::string &plotTitle) {
