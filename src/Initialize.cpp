@@ -62,18 +62,18 @@ void Initialize::setInletConditions() {
     auto& v = flux.getVelo_V();
 
     for(int j = 0; j < nj_c; ++j) {
-        /*
+        
         P(0,j) = P_inf;
         T(0,j) = T_inf;
         u(0,j) = u_inf;
         v(0,j) = v_inf;
-        */
+        /*
        
        P(0,j) = P(1,j);
        T(0,j) = T(1,j);
        u(0,j) = u(1,j);
        v(0,j) = v(1,j);
-       
+      */ 
     }
 }
 
@@ -134,25 +134,23 @@ void Initialize::setWallConditions() {
 
 void Initialize::copyGhostColsToQ()
 {
-    const int ni_c = grid.getNX() - 1;   // last interior column + 1
-    const int nj_c = grid.getNY() - 1;   // last interior row    + 1
-
     auto& Q = flux.getQ();
     auto& P = flux.getPressure();
     auto& T = flux.getTemp();
     auto& u = flux.getVelo_U();
     auto& v = flux.getVelo_V();
 
+    int nI = Q[0].rows();   // Q’s actual row count
+    int nJ = Q[0].cols();   // Q’s actual col count
+
     auto copyCol = [&](int iCol)
     {
-        /*  j runs 0 … nj_c  (≤ , not <) so the
-            *bottom* and *top* ghost rows are covered         */
-        for (int j = 0; j < nj_c; ++j) {
-            const double rho  = P(iCol,j) / (R * T(iCol,j));
-            const double rhou = rho * u(iCol,j);
-            const double rhov = rho * v(iCol,j);
-            const double rhoE = P(iCol,j)/(gamma-1.0)
-                              + 0.5*rho*(u(iCol,j)*u(iCol,j) + v(iCol,j)*v(iCol,j));
+        for (int j = 0; j < nJ; ++j) {
+            double rho  = P(iCol,j) / (R * T(iCol,j));
+            double rhou = rho * u(iCol,j);
+            double rhov = rho * v(iCol,j);
+            double rhoE = P(iCol,j)/(gamma-1.0)
+                        + 0.5*rho*(u(iCol,j)*u(iCol,j) + v(iCol,j)*v(iCol,j));
 
             Q[0](iCol,j) = rho;
             Q[1](iCol,j) = rhou;
@@ -161,47 +159,57 @@ void Initialize::copyGhostColsToQ()
         }
     };
 
-    copyCol(0);          // inlet ghost column
-    copyCol(ni_c-1);     // outlet ghost column
+    copyCol(0);       // inlet ghost
+    copyCol(nI-1);    // outlet ghost
 }
 
+
 void Initialize::computeTimeStep(double CFL) {
+    // grab all the metrics  
     const auto& vol   = grid.getCellVolume();   // (ni-1)×(nj-1)
     const auto& Sx_i  = grid.getXAreaXi();      // (ni-1)×nj 
-    const auto& Sy_i  = grid.getYAreaXi();
-    const auto& Sx_e  = grid.getXAreaEta();     //  ni ×(nj-1)
-    const auto& Sy_e  = grid.getYAreaEta();
-    const auto& Umat  = flux.getVelo_U();       //  ni × nj
-    const auto& Vmat  = flux.getVelo_V();
-    const auto& Tmat  = flux.getTemp();
+    const auto& Sy_i  = grid.getYAreaXi();      // (ni-1)×nj
+    const auto& Sx_e  = grid.getXAreaEta();     // ni×(nj-1)
+    const auto& Sy_e  = grid.getYAreaEta();     // ni×(nj-1)
+    const auto& Umat  = flux.getVelo_U();       // ni×nj
+    const auto& Vmat  = flux.getVelo_V();       // ni×nj
+    const auto& Tmat  = flux.getTemp();         // ni×nj
 
-    int ni = vol.rows(), nj = vol.cols();
+    int ni = vol.rows();
+    int nj = vol.cols();
     double dt_min = std::numeric_limits<double>::infinity();
 
-    for (int i = 0; i <= ni-3; ++i) {
-        for (int j = 0; j <= nj-3; ++j) {
-            int ii = i+1, jj = j+1;
-            double Vi = vol(i, j);
+    // Loop over cell-centers (skip halos)
+    for (int i = 0; i < ni-1; ++i) {
+        for (int j = 0; j < nj-1; ++j) {
+            // map to flux indices
+            int ic = i+1, jc = j+1;
+            double Vcell = vol(i,j);
 
-            // xi‐face
-            double sxW = Sx_i(i,j), syW = Sy_i(i,j);
-            double AfW = std::hypot(sxW, syW);
-            double unW = (sxW*Umat(ii-1,jj) + syW*Vmat(ii-1,jj)) / AfW;
-            double cW  = std::sqrt(gamma * R * Tmat(ii,jj));
-            double term_xi = (std::abs(unW) + cW) * AfW / Vi;
+            // local speed of sound at cell center
+            double c = std::sqrt(gamma * R * Tmat(ic,jc));
 
-            // eta‐face
-            double sxS = Sx_e(i,j), syS = Sy_e(i,j);
-            double AfS = std::hypot(sxS, syS);
-            double unS = (sxS*Umat(ii,jj-1) + syS*Vmat(ii,jj-1)) / AfS;
-            double term_eta = (std::abs(unS) + cW) * AfS / Vi;
+            // Xi-face contribution (west face of cell)
+            double sx_i = Sx_i(i,j), sy_i = Sy_i(i,j);
+            double A_i  = std::hypot(sx_i, sy_i);
+            double U_n_i = (sx_i*Umat(ic,jc) + sy_i*Vmat(ic,jc)) / A_i;
+            // exactly: term_xi = (|U_n|+c)*sqrt((Sx/V)^2+(Sy/V)^2)
+            double term_xi = (std::abs(U_n_i) + c) * std::sqrt((sx_i/Vcell)*(sx_i/Vcell) + (sy_i/Vcell)*(sy_i/Vcell));
 
-            // <<< change: sum, not max >>>
-            double dt_local = CFL / (term_xi + term_eta);
+            // Eta-face contribution (south face of cell)
+            double sx_e = Sx_e(ic,j-1), sy_e = Sy_e(ic,j-1);
+            double A_e  = std::hypot(sx_e, sy_e);
+            double U_n_e = (sx_e*Umat(ic,jc) + sy_e*Vmat(ic,jc)) / A_e;
+            double term_eta = (std::abs(U_n_e) + c) * std::sqrt((sx_e/Vcell)*(sx_e/Vcell) + (sy_e/Vcell)*(sy_e/Vcell));
+
+            // MATLAB version uses max(term_xi, term_eta) in denominator
+            double dt_local = CFL / std::max(term_xi, term_eta);
+
             dt_min = std::min(dt_min, dt_local);
         }
     }
 
     dt = dt_min;
 }
+
 

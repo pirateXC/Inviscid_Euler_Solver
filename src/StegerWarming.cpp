@@ -46,7 +46,7 @@ Eigen::Vector4d computeDissipLeft(
     double gamma,
     const Eigen::Vector2d &normal)
 {
-    double eps = 0.04; // accounts for sonic points, may have to alter
+    double eps = 0.2; // accounts for sonic points, may have to alter
 
     Prim Qv = unpackQ(QL, gamma);
     Eigen::Vector2d t(-normal.y(), + normal.x());
@@ -136,7 +136,7 @@ Eigen::Vector4d computeDissipRight(
     double gamma,
     const Eigen::Vector2d &normal)
 {
-    double eps = 0.04; // accounts for sonic points, may have to alter
+    double eps = 0.2; // accounts for sonic points, may have to alter
 
     Prim Qv = unpackQ(QR, gamma);
     Eigen::Vector2d t(-normal.y(), + normal.x());
@@ -236,12 +236,15 @@ Eigen::Vector4d computeFaceFlux(
     Eigen::Vector4d AQL = computeDissipLeft(QL, gamma, normal);
     Eigen::Vector4d AQR = computeDissipRight(QR, gamma, normal);
 
-    AQL *= mask;
-    AQR *= mask;
 
+    Eigen::Vector4d Fc = 0.5*(FL + FR);
+    Eigen::Vector4d D  = 0.5*(AQR - AQL);
+    Eigen::Vector4d Dmask = mask * D;
+
+    return Fc - Dmask;
 
     // Symmetric flux split
-    return 0.5*(FL + FR) - 0.5 * (AQR - AQL);
+   // return 0.5*(FL + FR) - 0.5 * mask * (AQR - AQL);
 }
 
 } // namespace StegerWarming

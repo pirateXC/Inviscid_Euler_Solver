@@ -190,10 +190,10 @@ int main() {
 
                 //std::cout << "Residual update..\n";
                 // residual update
-                res_rho(i,j)    = invV * ( FE(0) - FW(0) + FN(0) - FS(0) );
-                res_rhou(i,j)   = invV * ( FE(1) - FW(1) + FN(1) - FS(1) );
-                res_rhov(i,j)   = invV * ( FE(2) - FW(2) + FN(2) - FS(2) );
-                res_energy(i,j)= invV * ( FE(3) - FW(3) + FN(3) - FS(3) );
+                res_rho(i,j)    = invV*( FE(0) - FW(0) + FN(0) - FS(0) );
+                res_rhou(i,j)   = invV*( FE(1) - FW(1) + FN(1) - FS(1) );
+                res_rhov(i,j)   = invV*( FE(2) - FW(2) + FN(2) - FS(2) );
+                res_energy(i,j) = invV*( FE(3) - FW(3) + FN(3) - FS(3) );                               
 
                 if (i==145 && j==1) {
                     int maskW = xiMask(im_xi, jm_xi), maskE = xiMask(im_xi+1, jm_xi);
@@ -238,10 +238,10 @@ int main() {
               double p = flux.getPressure()(i,j);
               if (!std::isfinite(rho) || rho <= 0.0 || !std::isfinite(p) || p <= 0.0) {
                 std::cerr<<"*** Bad state at ("<<i<<","<<j<<"): rho="<<rho<<" p="<<p<<"\n";
-                std::abort();
+                    std::abort();
               }
             }
-          }
+        }
 
 
         /*

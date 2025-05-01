@@ -139,8 +139,8 @@ void GridHandler::computeCellMetrics() {
     // unit normals
     {
         auto xi_mag = (xArea_Xi.array().square() + yArea_Xi.array().square()).sqrt();
-        xUnitNorm_Xi =  xArea_Xi.array() / xi_mag;
-        yUnitNorm_Xi = -yArea_Xi.array() / xi_mag;
+        xUnitNorm_Xi = xArea_Xi.array() / xi_mag;
+        yUnitNorm_Xi = yArea_Xi.array() / xi_mag;
 
         // ── DEBUG CHECK: any NaNs in xi_mag? ──
         if ((xi_mag.array().isNaN()).any()) {
@@ -151,7 +151,7 @@ void GridHandler::computeCellMetrics() {
 
         auto eta_mag = (xArea_Eta.array().square() + yArea_Eta.array().square()).sqrt();
         xUnitNorm_Eta =  xArea_Eta.array() / eta_mag;
-        yUnitNorm_Eta = -yArea_Eta.array() / eta_mag;
+        yUnitNorm_Eta = yArea_Eta.array() / eta_mag;
 
         // ── DEBUG CHECK: any NaNs in eta_mag? ──
         if ((eta_mag.array().isNaN()).any()) {
