@@ -1,33 +1,61 @@
 #ifndef FLUXSTATE_H
 #define FLUXSTATE_H
+#define EIGEN_STACK_ALLOCATION_LIMIT 0
 #include <Eigen/Dense>
 #include <array>
 
+#include <iostream>
 class FluxState {
 public:
-    enum Conserved{RHO,RHO_U,RHO_V,ENERGY};
-    FluxState(int ni,int nj):ni(ni),nj(nj){for(auto &m:Q)m.setZero(ni,nj);P.setZero(ni,nj);T.setZero(ni,nj);u.setZero(ni,nj);v.setZero(ni,nj);}    
-    void packToQ(double R,double gamma){
-        auto Tm=T.array().max(1e-6), Pm=P.array().max(1e-6);
-        auto rho=Pm/Tm/R;
-        auto rho_u=rho*u.array(), rho_v=rho*v.array();
-        auto e=(Pm/(gamma-1.))+0.5*rho*(u.array().square()+v.array().square());
-        Q[RHO]=rho.matrix(); Q[RHO_U]=rho_u.matrix(); Q[RHO_V]=rho_v.matrix(); Q[ENERGY]=e.matrix();
+    FluxState(int ni,int nj):ni(ni),nj(nj) {
+        for(auto &m:Q)
+            m.setZero(ni-1,nj-1);
+            P.setZero(ni-1,nj-1);
+            T.setZero(ni-1,nj-1);
+            u.setZero(ni-1,nj-1);
+            v.setZero(ni-1,nj-1);
     }
-    void unpackFromQ(double R,double gamma){
-        auto rho_arr=Q[RHO].array().max(1e-8);
-        P=computePressure(R,gamma).array().max(1e-6).matrix();
-        T=computeTemp(R,gamma).array().max(1e-6).matrix();
-        u=(Q[RHO_U].array()/rho_arr).matrix();
-        v=(Q[RHO_V].array()/rho_arr).matrix();
+
+    void packToQ(double R,double gamma) {
+        auto Tm = T.array();
+        auto Pm = P.array();
+        auto rho = Pm/(Tm*R);
+        auto rho_u = rho*u.array();
+        auto rho_v = rho*v.array();
+        auto e = (Pm/(gamma-1.)) + 0.5*rho*(u.array().square()+v.array().square());
+
+        Q[0]=rho.matrix(); 
+        Q[1]=rho_u.matrix(); 
+        Q[2]=rho_v.matrix(); 
+        Q[3]=e.matrix();
     }
-    Eigen::MatrixXd computePressure(double R,double g)const{
-        auto r=Q[RHO].array(), ru=Q[RHO_U].array(), rv=Q[RHO_V].array(), E=Q[ENERGY].array();
-        return ((g-1)*(r*E-0.5*r*((ru/r).square()+(rv/r).square()))).matrix();
+
+    void unpackFromQ(double R,double gamma) {
+        auto rho = Q[0].array();
+
+        P = computePressure(gamma);
+        T = computeTemp(R,gamma);
+        u = (Q[1].array()/rho).matrix();
+        v = (Q[2].array()/rho).matrix();
     }
-    Eigen::MatrixXd computeTemp(double R,double g)const{
-        return (computePressure(R,g).array()/Q[RHO].array()/R).matrix();
+
+    Eigen::MatrixXd computePressure(double gamma) const {
+        const auto rho  = Q[0].array();
+        const auto rhoE = Q[3].array();
+        const auto rhou = Q[1].array();
+        const auto rhov = Q[2].array();
+    
+        const auto kin = 0.5 * (rhou.square() + rhov.square()) / rho;
+        const auto p = (gamma - 1.0) * (rhoE - kin);
+    
+        return p.matrix();
     }
+
+    Eigen::MatrixXd computeTemp(double R, double gamma) const {
+        const auto p  = computePressure(gamma).array();
+        return (p / Q[0].array() / R).matrix();
+    }
+    
     std::array<Eigen::MatrixXd,4>& getQ() { return Q; }
     const std::array<Eigen::MatrixXd,4>& getQ() const { return Q; }
     Eigen::MatrixXd& getPressure() { return P; }

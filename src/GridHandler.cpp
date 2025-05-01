@@ -61,6 +61,11 @@ bool GridHandler::readGridFile(const std::string &filename) {
     // Map into Eigen (column‐major)
     x = Eigen::Map<const Eigen::MatrixXd>(xvals.data(), nx, ny);
     y = Eigen::Map<const Eigen::MatrixXd>(yvals.data(), nx, ny);
+
+    constexpr double Lref = 15e-3; // 15 mm
+    x *= Lref;
+    y *= Lref;
+    
     return true;
 }
 
@@ -93,12 +98,14 @@ void GridHandler::computeCellMetrics() {
     // build ghosts
     haloCell();
 
+    std::cout << "-> Computing cell centers...\n";
     // cell centers
     xCenter = x.block(0,0,nx-1,ny-1)
             + 0.5*(x.block(1,1,nx-1,ny-1) - x.block(0,0,nx-1,ny-1));
     yCenter = y.block(0,0,nx-1,ny-1)
             + 0.5*(y.block(1,1,nx-1,ny-1) - y.block(0,0,nx-1,ny-1));
 
+            std::cout << "-> Computing cell volumes...\n";
     // cell volumes (areas)
     {
         auto A = (x.block(1,1,nx-1,ny-1) - x.block(0,0,nx-1,ny-1)).array();
@@ -108,30 +115,25 @@ void GridHandler::computeCellMetrics() {
         cellVolume = (0.5*(A*B - C*D)).matrix();
     }
 
-    // xi‑face areas: interior faces only
-    {
-        // compute all xi-face segments (difference in j)
-        int R = nx - 1;
-        int C = ny - 1;
-        auto dyXi = y.block(1,1,R,C) - y.block(1,0,R,C);  // size (R x C)
-        auto dxXi = x.block(1,1,R,C) - x.block(1,0,R,C);
-        // extract interior faces (exclude boundary ghosts)
-        xArea_Xi = dyXi.block(1, 0, R-1, C-1);
-        yArea_Xi = dxXi.block(1, 0, R-1, C-1);
-    }
+    // initialize face area matrix sizes
+    xArea_Xi = Eigen::MatrixXd::Zero(nx-2, ny-3);
+    yArea_Xi = Eigen::MatrixXd::Zero(nx-2, ny-3);
+    xArea_Eta = Eigen::MatrixXd::Zero(nx-3, ny-2);
+    yArea_Eta = Eigen::MatrixXd::Zero(nx-3, ny-2);
+
+    std::cout << "-> Computing xi face areas...\n";
+    // xi‑face areas
+    // compute all xi-face segments (difference in j, vertical faces!!!)
+    xArea_Xi =  y.block(1,2, nx-2, ny-3) - y.block(1,1, nx-2, ny-3);
+    yArea_Xi = -(x.block(1,2, nx-2, ny-3) - x.block(1,1, nx-2, ny-3));
+
     std::cout << "xi-face rows: " << xArea_Xi.rows() << " cols: " << xArea_Xi.cols() << "\n";
-    
-    // eta‑face areas: interior faces only
-    {
-        // compute all eta-face segments (difference in i)
-        int R = nx - 1;
-        int C = ny - 1;
-        auto dyEt = y.block(1,1,R,C) - y.block(0,1,R,C);
-        auto dxEt = x.block(1,1,R,C) - x.block(0,1,R,C);
-        // extract interior faces
-        xArea_Eta = dyEt.block(0, 1, R-1, C-1);
-        yArea_Eta = dxEt.block(0, 1, R-1, C-1);
-    }
+    std::cout << "-> Computing eta face areas...\n";
+
+    // eta‑face areas
+    // compute all eta-face segments (difference in i, horizontal faces!!!)
+    xArea_Eta = -(y.block(2,1, nx-3, ny-2) - y.block(1,1, nx-3, ny-2));
+    yArea_Eta =  x.block(2,1, nx-3, ny-2) - x.block(1,1, nx-3, ny-2);
 
     std::cout << "eta-face rows: " << xArea_Eta.rows() << " cols: " << xArea_Eta.cols() << "\n";
     // unit normals
@@ -158,14 +160,19 @@ void GridHandler::computeCellMetrics() {
             std::cerr << "computeCellMetrics: eta_mag OK (no NaNs)\n";
         }
     }
+
+    // cell face lengths
+    xiFaceLength  = ((xArea_Xi.array().square()  + yArea_Xi.array().square()).sqrt()).matrix();
+    etaFaceLength = ((xArea_Eta.array().square() + yArea_Eta.array().square()).sqrt()).matrix();
+
 }
 
 void GridHandler::buildFaceMasks() {
     // face‐array dims
-    int M_xi   = xArea_Xi.rows();   // ni-1
-    int N_xi   = xArea_Xi.cols();   // nj
-    int M_eta  = xArea_Eta.rows();  // ni
-    int N_eta  = xArea_Eta.cols();  // nj-1
+    int M_xi = xArea_Xi.rows();   // ni-3
+    int N_xi = xArea_Xi.cols();   // nj-2
+    int M_eta = xArea_Eta.rows();  // ni-2
+    int N_eta = xArea_Eta.cols();  // nj-3
 
     // start with all faces “on”
     xiMask  = Eigen::ArrayXXi::Ones(M_xi,  N_xi);
@@ -177,7 +184,7 @@ void GridHandler::buildFaceMasks() {
     xiMask.row(M_xi-1).setZero();   // east boundary
 
     // eta-faces: j=0 is SOUTH wall (halo→first_real), j=N_eta-1 is NORTH wall
-    etaMask.col(  0).setZero();     // south boundary
+    etaMask.col(0).setZero();     // south boundary
     etaMask.col(N_eta-1).setZero(); // north boundary
 }
 

@@ -1,6 +1,6 @@
 #ifndef INITIALIZE_H
 #define INITIALIZE_H
-
+#define EIGEN_STACK_ALLOCATION_LIMIT 0
 #include <Eigen/Dense>
 #include "GridHandler.h"
 #include "FluxState.h"
@@ -15,11 +15,15 @@ public:
     // applies the inlet, outlet, and wall BCs
     void applyBoundaryConditions();
 
+    void enforceBoundaryConditions();
+
     // calculates the time step
     void computeTimeStep(double CFL);
     
     // getter method
     const double &getTimeStep() const { return dt; }
+
+    void copyGhostColsToQ();
 
 private:
     GridHandler &grid;

@@ -34,150 +34,174 @@ void Initialize::setInitialConditions() {
     flux.getTemp().block(1, 1, ni-2, nj-2).setConstant(T_inf);
 }
 
-void Initialize::applyBoundaryConditions() {
+void Initialize::applyBoundaryConditions()
+{
+    // build Q everywhere from freestream primitives
+    flux.packToQ(R, gamma);
     setInletConditions();
     setOutletConditions();
+    copyGhostColsToQ();
     setWallConditions();
-    flux.packToQ(R, gamma);
 }
 
+void Initialize::enforceBoundaryConditions()
+{
+    flux.unpackFromQ(R, gamma);   // primitives from new interior Q
+    setInletConditions();         // update ghost col 0
+    setOutletConditions();        // update ghost col ni_c-1
+    copyGhostColsToQ();           // put those two cols back into Q
+    setWallConditions();          // reflect wall, final unpackFromQ
+}
+
+
 void Initialize::setInletConditions() {
-    int nj = grid.getNY();
+    const int nj_c = grid.getNY() - 1;
     auto& P = flux.getPressure();
     auto& T = flux.getTemp();
     auto& u = flux.getVelo_U();
     auto& v = flux.getVelo_V();
 
-    for(int j = 0; j < nj; ++j) {
+    for(int j = 0; j < nj_c; ++j) {
+        /*
         P(0,j) = P_inf;
         T(0,j) = T_inf;
         u(0,j) = u_inf;
         v(0,j) = v_inf;
+        */
+       
+       P(0,j) = P(1,j);
+       T(0,j) = T(1,j);
+       u(0,j) = u(1,j);
+       v(0,j) = v(1,j);
+       
     }
 }
 
 void Initialize::setOutletConditions() {
-    int ni = grid.getNX();
-    int nj = grid.getNY();
+    const int ni_c = grid.getNX() - 1;
+    const int nj_c = grid.getNY() - 1;
     auto& P = flux.getPressure();
     auto& T = flux.getTemp();
     auto& u = flux.getVelo_U();
     auto& v = flux.getVelo_V();
 
-    for(int j = 0; j < nj; ++j) {
-        P(ni-1,j) = P(ni-2,j);
-        T(ni-1,j) = T(ni-2,j);
-        u(ni-1,j) = u(ni-2,j);
-        v(ni-1,j) = v(ni-2,j);
+    for(int j = 0; j < nj_c; ++j) {
+        P(ni_c-1,j) = P(ni_c-2,j);
+        T(ni_c-1,j) = T(ni_c-2,j);
+        u(ni_c-1,j) = u(ni_c-2,j);
+        v(ni_c-1,j) = v(ni_c-2,j);
     }
 }
 
 void Initialize::setWallConditions() {
-    int ni = grid.getNX();
-    int nj = grid.getNY();
-    auto& nx_e = grid.getXUnitNormEta();
-    auto& ny_e = grid.getYUnitNormEta();
+    auto& Q    = flux.getQ();
+    const auto& nx_e = grid.getXUnitNormEta();
+    const auto& ny_e = grid.getYUnitNormEta();
+
+    int nEi = nx_e.rows();
+    int nEj = nx_e.cols();
+    int ni  = Q[0].rows();
+    int nj  = Q[0].cols();
+
+    for(int ie = 0; ie < nEi; ++ie) {
+        int i   = ie + 1;
+        int jG  = 0;
+        int jI  = 1;
+        double nx = nx_e(ie, 0), ny = ny_e(ie, 0);
+        double rho  = Q[0](i,jI), rhou = Q[1](i,jI), rhov = Q[2](i,jI);
+        double d    = rhou*nx + rhov*ny;
+        Q[0](i,jG) = rho;
+        Q[1](i,jG) = rhou - 2.0*d*nx;
+        Q[2](i,jG) = rhov - 2.0*d*ny;
+        Q[3](i,jG) = Q[3](i,jI);
+    }
+
+    int jG_top = nj - 1, jI_top = nj - 2, je = nEj - 1;
+    for(int ie = 0; ie < nEi; ++ie) {
+        int i = ie + 1;
+        double nx = nx_e(ie, je), ny = ny_e(ie, je);
+        double rho  = Q[0](i,jI_top), rhou = Q[1](i,jI_top), rhov = Q[2](i,jI_top);
+        double d    = rhou*nx + rhov*ny;
+        Q[0](i,jG_top) = rho;
+        Q[1](i,jG_top) = rhou - 2.0*d*nx;
+        Q[2](i,jG_top) = rhov - 2.0*d*ny;
+        Q[3](i,jG_top) = Q[3](i,jI_top);
+    }
+
+    flux.unpackFromQ(R, gamma);
+}
+
+
+void Initialize::copyGhostColsToQ()
+{
+    const int ni_c = grid.getNX() - 1;   // last interior column + 1
+    const int nj_c = grid.getNY() - 1;   // last interior row    + 1
+
+    auto& Q = flux.getQ();
     auto& P = flux.getPressure();
     auto& T = flux.getTemp();
     auto& u = flux.getVelo_U();
     auto& v = flux.getVelo_V();
 
-    for(int i = 1; i < ni - 3; ++i) {
-        // bottom wall
-        {
-            double nx = nx_e(i,0);
-            double ny = ny_e(i,0);
-            double u1 = u(i,1);
-            double v1 = v(i,1);
-        
-            u(i,0) = (ny*ny - nx*nx)*u1 - 2*nx*ny*v1;
-            v(i,0) = (nx*nx - ny*ny)*v1 - 2*nx*ny*u1;
-            P(i,0) = P(i,1);
-            T(i,0) = T(i,1);
-        }
+    auto copyCol = [&](int iCol)
+    {
+        /*  j runs 0 … nj_c  (≤ , not <) so the
+            *bottom* and *top* ghost rows are covered         */
+        for (int j = 0; j < nj_c; ++j) {
+            const double rho  = P(iCol,j) / (R * T(iCol,j));
+            const double rhou = rho * u(iCol,j);
+            const double rhov = rho * v(iCol,j);
+            const double rhoE = P(iCol,j)/(gamma-1.0)
+                              + 0.5*rho*(u(iCol,j)*u(iCol,j) + v(iCol,j)*v(iCol,j));
 
-        // top wall
-        {
-            double nx = nx_e(i,nj-3);
-            double ny = ny_e(i,nj-3);
-            double u1 = u(i,nj-2);
-            double v1 = v(i, nj-2);
-
-            u(i,nj-1) = (ny*ny - nx*nx)*u1 - 2*nx*ny*v1;
-            v(i,nj-1) = (nx*nx - ny*ny)*v1 - 2*nx*ny*u1;
-            P(i,nj-1) = P(i,nj-2);
-            T(i,nj-1) = T(i,nj-2);
+            Q[0](iCol,j) = rho;
+            Q[1](iCol,j) = rhou;
+            Q[2](iCol,j) = rhov;
+            Q[3](iCol,j) = rhoE;
         }
-    }
+    };
+
+    copyCol(0);          // inlet ghost column
+    copyCol(ni_c-1);     // outlet ghost column
 }
 
 void Initialize::computeTimeStep(double CFL) {
-    std::cout << "Op_Init_computeTimeStep: start\n";
+    const auto& vol   = grid.getCellVolume();   // (ni-1)×(nj-1)
+    const auto& Sx_i  = grid.getXAreaXi();      // (ni-1)×nj 
+    const auto& Sy_i  = grid.getYAreaXi();
+    const auto& Sx_e  = grid.getXAreaEta();     //  ni ×(nj-1)
+    const auto& Sy_e  = grid.getYAreaEta();
+    const auto& Umat  = flux.getVelo_U();       //  ni × nj
+    const auto& Vmat  = flux.getVelo_V();
+    const auto& Tmat  = flux.getTemp();
 
-    // Fetch grid & field sizes
-    int ni = grid.getNX();
-    int nj = grid.getNY();
-    std::cout << "  ni=" << ni << "  nj=" << nj << "\n";
+    int ni = vol.rows(), nj = vol.cols();
+    double dt_min = std::numeric_limits<double>::infinity();
 
-    // Grab references
-    const auto& u = flux.getVelo_U();        // (ni × nj)
-    const auto& v = flux.getVelo_V();        // (ni × nj)
-    const auto& T = flux.getTemp();          // (ni × nj)
-    const auto& nx_xi  = grid.getXUnitNormXi();   // (ni-2 × nj-3)
-    const auto& ny_xi  = grid.getYUnitNormXi();   // (ni-2 × nj-3)
-    const auto& nx_eta = grid.getXUnitNormEta();  // (ni-3 × nj-2)
-    const auto& ny_eta = grid.getYUnitNormEta();  // (ni-3 × nj-2)
+    for (int i = 0; i <= ni-3; ++i) {
+        for (int j = 0; j <= nj-3; ++j) {
+            int ii = i+1, jj = j+1;
+            double Vi = vol(i, j);
 
-    // Print out all the shapes
-    std::cout << "  u: " << u.rows() << "×" << u.cols()
-              << "  nx_xi: " << nx_xi.rows() << "×" << nx_xi.cols() << "\n";
-    std::cout << "  v: " << v.rows() << "×" << v.cols()
-              << "  ny_xi: " << ny_xi.rows() << "×" << ny_xi.cols() << "\n";
-    std::cout << "  T: " << T.rows() << "×" << T.cols() << "\n";
-    std::cout << "  nx_eta: " << nx_eta.rows() << "×" << nx_eta.cols()
-              << "  ny_eta: " << ny_eta.rows() << "×" << ny_eta.cols() << "\n";
+            // xi‐face
+            double sxW = Sx_i(i,j), syW = Sy_i(i,j);
+            double AfW = std::hypot(sxW, syW);
+            double unW = (sxW*Umat(ii-1,jj) + syW*Vmat(ii-1,jj)) / AfW;
+            double cW  = std::sqrt(gamma * R * Tmat(ii,jj));
+            double term_xi = (std::abs(unW) + cW) * AfW / Vi;
 
-    // Now use those shapes for the blocks
-    int NXI = nx_xi.rows(), NYI = nx_xi.cols();
-    std::cout << "  using xi‑block size: " << NXI << "×" << NYI << "\n";
-    auto uXi  = u.block(1, 1, NXI, NYI).array();
-    auto vXi  = v.block(1, 1, NXI, NYI).array();
+            // eta‐face
+            double sxS = Sx_e(i,j), syS = Sy_e(i,j);
+            double AfS = std::hypot(sxS, syS);
+            double unS = (sxS*Umat(ii,jj-1) + syS*Vmat(ii,jj-1)) / AfS;
+            double term_eta = (std::abs(unS) + cW) * AfS / Vi;
 
-    Eigen::ArrayXXd U_xi = uXi * nx_xi.array()
-                        + vXi * ny_xi.array();
-    std::cout << "  U_xi computed (" 
-              << U_xi.rows() << "×" << U_xi.cols() << ")\n";
-
-    int NXE = nx_eta.rows(), NYE = nx_eta.cols();
-    std::cout << "  using eta‑block size: " << NXE << "×" << NYE << "\n";
-    auto uEt  = u.block(1, 1, NXE, NYE).array();
-    auto vEt  = v.block(1, 1, NXE, NYE).array();
-
-    Eigen::ArrayXXd U_eta = uEt * nx_eta.array()
-                         + vEt * ny_eta.array();
-    std::cout << "  U_eta computed (" 
-              << U_eta.rows() << "×" << U_eta.cols() << ")\n";
-
-    auto T_xi  = T.block(1, 1, NXI, NYI).array();
-    auto T_eta = T.block(1, 1, NXE, NYE).array();
-
-    Eigen::ArrayXXd c_xi  = (gamma * R * T_xi).sqrt();
-    Eigen::ArrayXXd c_eta = (gamma * R * T_eta).sqrt();
-    std::cout << "  c_xi, c_eta computed\n";
-
-    Eigen::ArrayXXd rho_xi  = (U_xi.abs() + c_xi).inverse();
-    Eigen::ArrayXXd rho_eta = (U_eta.abs() + c_eta).inverse();
-    double dt_xi_min  = rho_xi.minCoeff();
-    double dt_eta_min = rho_eta.minCoeff();
-    std::cout << "  dt_xi_min=" << dt_xi_min
-              << "  dt_eta_min=" << dt_eta_min << "\n";
-
-    dt = CFL * std::min(dt_xi_min, dt_eta_min);
-    if(!std::isfinite(dt) || dt<=0){
-        std::cerr<<"Invalid dt in computeTimeStep: "<<dt<<"\n";
-        dt=1e-8;
+            // <<< change: sum, not max >>>
+            double dt_local = CFL / (term_xi + term_eta);
+            dt_min = std::min(dt_min, dt_local);
+        }
     }
-    std::cout << "Op_Init_computeTimeStep: dt=" << dt << "\n";
-    std::cout << "Op_Init_computeTimeStep: end\n";
+
+    dt = dt_min;
 }
 

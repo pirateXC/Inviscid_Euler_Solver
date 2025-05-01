@@ -49,11 +49,9 @@ Eigen::Vector4d computeDissipLeft(
     double eps = 0.04; // accounts for sonic points, may have to alter
 
     Prim Qv = unpackQ(QL, gamma);
-    // make sure normal is unit and build tangent
-    Eigen::Vector2d n = normal.normalized();
-    Eigen::Vector2d t(-n.y(), +n.x());
+    Eigen::Vector2d t(-normal.y(), + normal.x());
 
-    double un = Qv.u*n.x() + Qv.v*n.y();
+    double un = Qv.u*normal.x() + Qv.v*normal.y();
 
     // Characteristic speeds
     double lam1 = un - Qv.a, lam2 = un,
@@ -74,8 +72,8 @@ Eigen::Vector4d computeDissipLeft(
     // Left‐eigenvectors (rows ℓ_i of L)
     double denom = 2.0 * Qv.a * Qv.a;
     double L1_0 = ((gamma-1.0)*Qv.ek + Qv.a*un)/denom;
-    double L1_1 = ((1.0-gamma)*Qv.u   - Qv.a*n.x())/denom;
-    double L1_2 = ((1.0-gamma)*Qv.v   - Qv.a*n.y())/denom;
+    double L1_1 = ((1.0-gamma)*Qv.u - Qv.a*normal.x())/denom;
+    double L1_2 = ((1.0-gamma)*Qv.v - Qv.a*normal.y())/denom;
     double L1_3 = (gamma - 1.0)/denom;
 
     double L2_0 = (Qv.a*Qv.a - (gamma-1.0)*Qv.ek)/(Qv.a*Qv.a);
@@ -84,8 +82,8 @@ Eigen::Vector4d computeDissipLeft(
     double L2_3 = (1.0 - gamma)/(Qv.a*Qv.a);
 
     double L3_0 = ((gamma-1.0)*Qv.ek - Qv.a*un)/denom;
-    double L3_1 = ((1.0-gamma)*Qv.u + Qv.a*n.x())/denom;
-    double L3_2 = ((1.0-gamma)*Qv.v + Qv.a*n.y())/denom;
+    double L3_1 = ((1.0-gamma)*Qv.u + Qv.a*normal.x())/denom;
+    double L3_2 = ((1.0-gamma)*Qv.v + Qv.a*normal.y())/denom;
     double L3_3 = (gamma - 1.0)/denom;
 
     // shear‐mode in rotated frame (no singularities)
@@ -110,8 +108,8 @@ Eigen::Vector4d computeDissipLeft(
     // Right‐eigenvectors (columns r_i of R)
     Eigen::Vector4d r1, r2, r3, r4;
     r1 << 1.0,
-          (un - Qv.a)*n.x(),
-          (un - Qv.a)*n.y(),
+          (un - Qv.a)*normal.x(),
+          (un - Qv.a)*normal.y(),
           Qv.ho - Qv.a*un;
 
     r2 << 1.0,
@@ -120,8 +118,8 @@ Eigen::Vector4d computeDissipLeft(
           Qv.ek;
 
     r3 << 1.0,
-          (un + Qv.a)*n.x(),
-          (un + Qv.a)*n.y(),
+          (un + Qv.a)*normal.x(),
+          (un + Qv.a)*normal.y(),
           Qv.ho + Qv.a*un;
 
     // shear‐mode in rotated frame
@@ -141,11 +139,9 @@ Eigen::Vector4d computeDissipRight(
     double eps = 0.04; // accounts for sonic points, may have to alter
 
     Prim Qv = unpackQ(QR, gamma);
-    // make sure normal is unit and build tangent
-    Eigen::Vector2d n = normal.normalized();
-    Eigen::Vector2d t(-n.y(), +n.x());
+    Eigen::Vector2d t(-normal.y(), + normal.x());
 
-    double un = Qv.u*n.x() + Qv.v*n.y();
+    double un = Qv.u*normal.x() + Qv.v*normal.y();
 
     // Characteristic speeds
     double lam1 = un - Qv.a, lam2 = un,
@@ -166,8 +162,8 @@ Eigen::Vector4d computeDissipRight(
     // Left‐eigenvectors (rows ℓ_i of L)
     double denom = 2.0 * Qv.a * Qv.a;
     double L1_0 = ((gamma-1.0)*Qv.ek + Qv.a*un)/denom;
-    double L1_1 = ((1.0-gamma)*Qv.u   - Qv.a*n.x())/denom;
-    double L1_2 = ((1.0-gamma)*Qv.v   - Qv.a*n.y())/denom;
+    double L1_1 = ((1.0-gamma)*Qv.u - Qv.a*normal.x())/denom;
+    double L1_2 = ((1.0-gamma)*Qv.v - Qv.a*normal.y())/denom;
     double L1_3 = (gamma - 1.0)/denom;
 
     double L2_0 = (Qv.a*Qv.a - (gamma-1.0)*Qv.ek)/(Qv.a*Qv.a);
@@ -176,8 +172,8 @@ Eigen::Vector4d computeDissipRight(
     double L2_3 = (1.0 - gamma)/(Qv.a*Qv.a);
 
     double L3_0 = ((gamma-1.0)*Qv.ek - Qv.a*un)/denom;
-    double L3_1 = ((1.0-gamma)*Qv.u + Qv.a*n.x())/denom;
-    double L3_2 = ((1.0-gamma)*Qv.v + Qv.a*n.y())/denom;
+    double L3_1 = ((1.0-gamma)*Qv.u + Qv.a*normal.x())/denom;
+    double L3_2 = ((1.0-gamma)*Qv.v + Qv.a*normal.y())/denom;
     double L3_3 = (gamma - 1.0)/denom;
 
     // shear‐mode in rotated frame (no singularities)
@@ -202,8 +198,8 @@ Eigen::Vector4d computeDissipRight(
     // Right‐eigenvectors (columns r_i of R)
     Eigen::Vector4d r1, r2, r3, r4;
     r1 << 1.0,
-          (un - Qv.a)*n.x(),
-          (un - Qv.a)*n.y(),
+          (un - Qv.a)*normal.x(),
+          (un - Qv.a)*normal.y(),
           Qv.ho - Qv.a*un;
 
     r2 << 1.0,
@@ -212,8 +208,8 @@ Eigen::Vector4d computeDissipRight(
           Qv.ek;
 
     r3 << 1.0,
-          (un + Qv.a)*n.x(),
-          (un + Qv.a)*n.y(),
+          (un + Qv.a)*normal.x(),
+          (un + Qv.a)*normal.y(),
           Qv.ho + Qv.a*un;
 
     // shear‐mode in rotated frame
@@ -240,8 +236,12 @@ Eigen::Vector4d computeFaceFlux(
     Eigen::Vector4d AQL = computeDissipLeft(QL, gamma, normal);
     Eigen::Vector4d AQR = computeDissipRight(QR, gamma, normal);
 
+    AQL *= mask;
+    AQR *= mask;
+
+
     // Symmetric flux split
-    return 0.5 * (FL + FR) - 0.5 * mask * (AQL + AQR);
+    return 0.5*(FL + FR) - 0.5 * (AQR - AQL);
 }
 
 } // namespace StegerWarming

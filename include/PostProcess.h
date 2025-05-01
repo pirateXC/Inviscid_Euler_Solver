@@ -1,6 +1,6 @@
 #ifndef POSTPROCESS_H
 #define POSTPROCESS_H
-
+#define EIGEN_STACK_ALLOCATION_LIMIT 0
 #include <string>
 #include <Eigen/Dense>
 #include "GridHandler.h"

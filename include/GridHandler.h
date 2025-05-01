@@ -1,6 +1,6 @@
 #ifndef GRIDHANDLER_H
 #define GRIDHANDLER_H
-
+#define EIGEN_STACK_ALLOCATION_LIMIT 0
 #include <Eigen/Dense>
 #include <string>
 
@@ -40,6 +40,8 @@ public:
     const Eigen::MatrixXd &getYUnitNormEta() const { return yUnitNorm_Eta; }
     const Eigen::ArrayXXi& getXiMask()  const { return xiMask; }
     const Eigen::ArrayXXi& getEtaMask() const { return etaMask; }
+    const Eigen::MatrixXd &getXiFaceLength()  const { return xiFaceLength; }
+    const Eigen::MatrixXd &getEtaFaceLength() const { return etaFaceLength; }
     
 private:
     int nx, ny; // total grid points for i and j component
@@ -58,6 +60,8 @@ private:
     Eigen::MatrixXd yUnitNorm_Xi; // unit for for i-component in xi direction
     Eigen::ArrayXXi xiMask;   // (ni-1 × nj) xi-face mask
     Eigen::ArrayXXi etaMask;  // (ni × nj-1) eta-face mask
+    Eigen::MatrixXd xiFaceLength;
+    Eigen::MatrixXd etaFaceLength;
 };
 
 #endif  // COMPUTATIONALGRID_H

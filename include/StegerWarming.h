@@ -1,6 +1,6 @@
 #ifndef STEGER_WARMING_H
 #define STEGER_WARMING_H
-
+#define EIGEN_STACK_ALLOCATION_LIMIT 0
 #include <Eigen/Dense>
 
 namespace StegerWarming {
