@@ -202,7 +202,6 @@ void Initialize::computeTimeStep(double CFL) {
             double U_n_e = (sx_e*Umat(ic,jc) + sy_e*Vmat(ic,jc)) / A_e;
             double term_eta = (std::abs(U_n_e) + c) * std::sqrt((sx_e/Vcell)*(sx_e/Vcell) + (sy_e/Vcell)*(sy_e/Vcell));
 
-            // MATLAB version uses max(term_xi, term_eta) in denominator
             double dt_local = CFL / std::max(term_xi, term_eta);
 
             dt_min = std::min(dt_min, dt_local);
