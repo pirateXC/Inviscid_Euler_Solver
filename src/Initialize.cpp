@@ -46,11 +46,11 @@ void Initialize::applyBoundaryConditions()
 
 void Initialize::enforceBoundaryConditions()
 {
-    flux.unpackFromQ(R, gamma);   // primitives from new interior Q
-    setInletConditions();         // update ghost col 0
-    setOutletConditions();        // update ghost col ni_c-1
-    copyGhostColsToQ();           // put those two cols back into Q
-    setWallConditions();          // reflect wall, final unpackFromQ
+    flux.unpackFromQ(R, gamma); // primitives from new interior Q
+    setInletConditions(); // update ghost col 0
+    setOutletConditions(); // update ghost col ni_c-1
+    copyGhostColsToQ(); // put those two cols back into Q
+    setWallConditions(); // reflect wall, final unpackFromQ
 }
 
 
@@ -165,50 +165,43 @@ void Initialize::copyGhostColsToQ()
 
 
 void Initialize::computeTimeStep(double CFL) {
-    // grab all the metrics  
-    const auto& vol   = grid.getCellVolume();   // (ni-1)×(nj-1)
-    const auto& Sx_i  = grid.getXAreaXi();      // (ni-1)×nj 
-    const auto& Sy_i  = grid.getYAreaXi();      // (ni-1)×nj
-    const auto& Sx_e  = grid.getXAreaEta();     // ni×(nj-1)
-    const auto& Sy_e  = grid.getYAreaEta();     // ni×(nj-1)
-    const auto& Umat  = flux.getVelo_U();       // ni×nj
-    const auto& Vmat  = flux.getVelo_V();       // ni×nj
-    const auto& Tmat  = flux.getTemp();         // ni×nj
+    const auto& V = grid.getCellVolume(); // (ni−1)×(nj−1)
+    const auto& nxXi = grid.getXUnitNormXi(); // (ni−2)×(nj−3)
+    const auto& nyXi = grid.getYUnitNormXi(); // (ni−2)×(nj−3)
+    const auto& xiLen = grid.getXiFaceLength(); // (ni−2)×(nj−3)
+    const auto& nxEta = grid.getXUnitNormEta(); // (ni−3)×(nj−2)
+    const auto& nyEta = grid.getYUnitNormEta(); // (ni−3)×(nj−2)
+    const auto& etaLen = grid.getEtaFaceLength(); // (ni−3)×(nj−2)
+    const auto& Umat = flux.getVelo_U(); // ni_full×nj
+    const auto& Vmat = flux.getVelo_V(); // ni×nj
+    const auto& Tmat = flux.getTemp(); // ni×nj
 
-    int ni = vol.rows();
-    int nj = vol.cols();
+    int nc_i = grid.getNX() - 1; // = ni−1
+    int nc_j = grid.getNY() - 1; // = nj−1
+
     double dt_min = std::numeric_limits<double>::infinity();
 
-    // Loop over cell-centers (skip halos)
-    for (int i = 0; i < ni-1; ++i) {
-        for (int j = 0; j < nj-1; ++j) {
-            // map to flux indices
-            int ic = i+1, jc = j+1;
-            double Vcell = vol(i,j);
+    for (int i = 0; i < nc_i - 2; ++i) {
+        for (int j = 0; j < nc_j - 2; ++j) {
+            int ic = i + 1, jc = j + 1;
+            double Vcell = V(i, j);
+            double c = std::sqrt(gamma * R * Tmat(ic, jc));
 
-            // local speed of sound at cell center
-            double c = std::sqrt(gamma * R * Tmat(ic,jc));
+            // xi‐face
+            double Un_xi = nxXi(i, j)*Umat(ic, jc) + nyXi(i, j)*Vmat(ic, jc);
+            double term_xi = (std::abs(Un_xi) + c) * xiLen(i, j) / Vcell;
 
-            // Xi-face contribution (west face of cell)
-            double sx_i = Sx_i(i,j), sy_i = Sy_i(i,j);
-            double A_i  = std::hypot(sx_i, sy_i);
-            double U_n_i = (sx_i*Umat(ic,jc) + sy_i*Vmat(ic,jc)) / A_i;
-            // exactly: term_xi = (|U_n|+c)*sqrt((Sx/V)^2+(Sy/V)^2)
-            double term_xi = (std::abs(U_n_i) + c) * std::sqrt((sx_i/Vcell)*(sx_i/Vcell) + (sy_i/Vcell)*(sy_i/Vcell));
-
-            // Eta-face contribution (south face of cell)
-            double sx_e = Sx_e(ic,j-1), sy_e = Sy_e(ic,j-1);
-            double A_e  = std::hypot(sx_e, sy_e);
-            double U_n_e = (sx_e*Umat(ic,jc) + sy_e*Vmat(ic,jc)) / A_e;
-            double term_eta = (std::abs(U_n_e) + c) * std::sqrt((sx_e/Vcell)*(sx_e/Vcell) + (sy_e/Vcell)*(sy_e/Vcell));
+            // eta‐face
+            double Un_eta = nxEta(i, j)*Umat(ic, jc) + nyEta(i, j)*Vmat(ic, jc);
+            double term_eta = (std::abs(Un_eta) + c) * etaLen(i, j) / Vcell;
 
             double dt_local = CFL / std::max(term_xi, term_eta);
-
             dt_min = std::min(dt_min, dt_local);
         }
     }
 
     dt = dt_min;
 }
+
 
 

@@ -218,7 +218,6 @@ int main() {
         // compute dt and update
         init.computeTimeStep(CFL);
         double dt = init.getTimeStep();
-
         if (std::isnan(dt)) {
             std::cerr << "*** NaN in dt! ***\n";
             return 1;
@@ -234,15 +233,20 @@ int main() {
         for (int i = 1; i < ni-1; ++i) {
             for (int j = 1; j < nj-1; ++j) {
               double rho = Q[0](i,j);
-              // compute pressure p = (gamma-1)*(rho*E - ρ·ek) or fetch from flux.getPressure()
               double p = flux.getPressure()(i,j);
+              double u = flux.getVelo_U()(i,j);
+              double v = flux.getVelo_V()(i,j);
+              double t = flux.getTemp()(i,j);
               if (!std::isfinite(rho) || rho <= 0.0 || !std::isfinite(p) || p <= 0.0) {
-                std::cerr<<"*** Bad state at ("<<i<<","<<j<<"): rho="<<rho<<" p="<<p<<"\n";
-                    std::abort();
+                std::cerr<<"*** Bad state at ("<<i<<","<<j<<"): rho="<<rho<<" p="<<p<<" u="<<u<<" v="<<v<<" t="<<t<<"\n";
               }
+              //std::abort();
             }
         }
 
+        if (iter == 1) {
+            std::abort();
+        }
 
         /*
         if (++iter % 100 == 0) {
